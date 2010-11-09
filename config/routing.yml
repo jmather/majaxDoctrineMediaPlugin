@@ -1,0 +1,60 @@
+majax_media_file_show:
+  url: /media/show/:uuid/:name
+  class: sfDoctrineRoute
+  options: { model: majaxMediaFileInfo, type: object }
+  param: { module: majaxMediaModule, action: show }
+  requirements:
+    name: .*
+
+majax_media_file:
+  url: /media/view/:id/:filename
+  class: sfDoctrineRoute
+  options: { model: majaxMediaFileInfo, type: object }
+  param: { module: majaxMediaModule, action: show }
+  requirements:
+    id: \d+
+    filename: .*
+
+majax_media_fullfile:
+  url: /media/view/:filenameid
+  class: sfRoute
+  param: { module: majaxMediaModule, action: show }
+  requirements:
+    filenameid: .*
+
+photo:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                majaxMediaPhoto
+    module:               majaxMediaPhotos
+    prefix_path:          /photos
+    column:               id
+    with_wildcard_routes: true
+
+gallery:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                majaxMediaGallery
+    module:               majaxMediaGalleries
+    prefix_path:          /galleries
+    column:               id
+    with_wildcard_routes: true
+
+video:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                majaxMediaVideo
+    module:               majaxMediaVideos
+    prefix_path:          /videos
+    column:               id
+    with_wildcard_routes: true
+
+audio:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                majaxMediaAudio
+    module:               majaxMediaAudios
+    prefix_path:          /audios
+    column:               id
+    with_wildcard_routes: true
+

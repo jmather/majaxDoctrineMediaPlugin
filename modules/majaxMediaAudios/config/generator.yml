@@ -1,0 +1,35 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           majaxMediaAudio
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          audio
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+    css: none
+
+    config:
+      actions: ~
+      fields:
+        publishable: { label: Approved?, help: Is this audio cleared for publishing? }
+        publish_on: { help: When can we publish this audio? }
+        publish_until: { help: "If we should make this audio unavailable, when?" }
+        areas_list: { label: Publish To }
+        content: { label: Description }
+      list:
+        title: Audio Files
+        fields:
+          is_published: { renderer: ['dcmsTemplateHelper', 'showBoolean'] }
+        display: [=name, is_published, publishable, publish_on, publish_until]
+        sort: [publish_on, desc]
+      filter:  ~
+      form:    ~
+      edit:
+        title: Edit Audio File
+      new:     
+        title: Add Audio File
+

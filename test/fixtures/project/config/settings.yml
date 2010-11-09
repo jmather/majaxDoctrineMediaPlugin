@@ -1,0 +1,2 @@
+all:
+  enabled_modules: [majaxMediaModule, majaxMediaAdminModule, majaxMediaGalleryAdminModule]

@@ -1,0 +1,34 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           majaxMediaVideo
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          video
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+    css: none
+
+    config:
+      actions: ~
+      fields:
+        publishable: { label: Approved?, help: Is this video cleared for publishing? }
+        publish_on: { help: When can we publish this video? }
+        publish_until: { help: "If we should make this video unavailable, when?" }
+        areas_list: { label: Publish To }
+        content: { label: Description }
+      list:
+        title: List Videos
+        fields:
+          is_published: { renderer: ['dcmsTemplateHelper', 'showBoolean'] }
+        display: [=name, is_published, publishable, publish_on, publish_until]
+      filter:  ~
+      form:    ~
+      edit:
+        title: Edit Video
+      new:     
+        title: Add Video
+

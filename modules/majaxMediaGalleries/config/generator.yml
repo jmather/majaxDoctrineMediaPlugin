@@ -1,0 +1,39 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           majaxMediaGallery
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          gallery
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+    css: none
+
+    config:
+      actions: ~
+      fields:
+        areas_list: { label: Publish To }
+        publishable: { label: Approved?, help: Is this gallery cleared for publishing? }
+      list:
+        title: List Galleries
+        fields:
+          is_published: { renderer: ['dcmsTemplateHelper', 'showBoolean'] }
+        display: [ =name, is_published, publishable, publish_on, publish_until ]
+        object_actions:
+          sort:
+          _edit:
+          _delete:
+      filter:  ~
+      form:    ~
+      edit:
+        title: Edit Gallery
+        actions:
+          _delete:
+          _list:
+          sort:
+          _save:
+      new:
+        title: Add Gallery

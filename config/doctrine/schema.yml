@@ -1,0 +1,171 @@
+majaxMediaFileInfo:
+  tableName: majax_media_file_info
+  actAs:
+    Timestampable:
+  columns:
+    name: { type: string(255), notnull: true }
+    uuid: { type: string(40), notnull: true }
+    size: { type: integer }
+    mime: { type: string(255) }
+    meta_store: { type: clob }
+    is_cached: { type: boolean }
+    file_data_id: { type: integer }
+  relations:
+    FileData:
+      class: majaxMediaFileData
+      local: file_data_id
+      foreignAlias: FileInfo
+      foreignType: one
+      type: one
+      onDelete: CASCADE
+
+majaxMediaFileData:
+  tableName: majax_media_file_data
+  columns:
+    binary_data: { type: blob }
+
+majaxMediaPhoto:
+  tableName: majax_media_photos
+  actAs:
+    Timestampable:
+    AccountableTemplate:
+  columns:
+    name: { type: string(255), notnull: true }
+    image_file_id: { type: integer }
+    content: { type: clob }
+    content_html: { type: clob }
+    taken_on: { type: date }
+  relations:
+    PhotoFile:
+      class: majaxMediaFileInfo
+      local: image_file_id
+      foreignAlias: Photo
+      foreignType: one
+      type: one
+      onDelete: SET NULL
+
+majaxMediaAudio:
+  tableName: majax_media_audios
+  actAs:
+    AccountableTemplate:
+    Timestampable:
+  columns:
+    name: { type: string(255), notnull: true }
+    audio_file_id: { type: integer }
+    image_file_id: { type: integer }
+    content: { type: clob }
+    content_html: { type: clob }
+    transcript: { type: clob }
+    transcript_html: { type: clob }
+    recorded_on: { type: date }
+  relations:
+    AudioFile:
+      class: majaxMediaFileInfo
+      local: audio_file_id
+      foreignAlias: Audio
+      foreignType: one
+      type: one
+      onDelete: SET NULL
+    PhotoFile:
+      class: majaxMediaFileInfo
+      local: image_file_id
+      foreignAlias: AudioPhoto
+      foreignType: one
+      type: one
+      onDelete: SET NULL
+
+majaxMediaVideo:
+  tableName: majax_media_videos
+  actAs:
+    AccountableTemplate:
+    Timestampable:
+  columns:
+    name: { type: string(255), notnull: true }
+    video_file_id: { type: integer }
+    image_file_id: { type: integer }
+    content: { type: clob }
+    content_html: { type: clob }
+    transcript: { type: clob }
+    transcript_html: { type: clob }
+    recorded_on: { type: date }
+  relations:
+    VideoFile:
+      class: majaxMediaFileInfo
+      local: video_file_id
+      foreignAlias: Video
+      foreignType: one
+      type: one
+      onDelete: SET NULL
+    PhotoFile:
+      class: majaxMediaFileInfo
+      local: image_file_id
+      foreignAlias: VideoPhoto
+      foreignType: one
+      type: one
+      onDelete: SET NULL
+
+majaxMediaGallery:
+  tableName: majax_media_galleries
+  actAs:
+    Timestampable:
+    AccountableTemplate:
+  columns:
+    name: { type: string(255), notnull: true }
+    content: { type: clob }
+    content_html: { type: clob }
+  relations:
+    Media:
+      class: majaxMediaRegistryEntry
+      local: gallery_id
+      foreign: media_id
+      foreignAlias: Galleries
+      onDelete: CASCADE
+      refClass: majaxMediaGalleryItem
+      alias: Media
+
+majaxMediaGalleryItem:
+  tableName: majax_media_gallery_items
+  columns:
+    gallery_id: { type: integer, primary: true }
+    media_id: { type: integer, primary: true }
+    position: { type: integer }
+
+majaxMediaRegistryEntry:
+  tableName: majax_media_registry
+  actAs:
+    Timestampable:
+  columns:
+    uuid: { type: string(40), notnull: true }
+    video_media: { type: integer }
+    audio_media: { type: integer }
+    photo_media: { type: integer }
+    gallery_media: { type: integer }
+  relations:
+    Audio:
+      local: audio_media
+      class: majaxMediaAudio
+      foreignAlias: MediaRegistryEntry
+      type: one
+      foreignType: one
+      onDelete: CASCADE
+    Video:
+      local: video_media
+      class: majaxMediaVideo
+      foreignAlias: MediaRegistryEntry
+      type: one
+      foreignType: one
+      onDelete: CASCADE
+    Photo:
+      local: photo_media
+      class: majaxMediaPhoto
+      foreignAlias: MediaRegistryEntry
+      type: one
+      foreignType: one
+      onDelete: CASCADE
+    Gallery:
+      local: gallery_media
+      class: majaxMediaGallery
+      foreignAlias: MediaRegistryEntry
+      type: one
+      foreignType: one
+      onDelete: CASCADE

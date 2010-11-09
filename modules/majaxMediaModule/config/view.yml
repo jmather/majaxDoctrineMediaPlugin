@@ -1,0 +1,7 @@
+showSuccess:
+  has_layout: false
+viewSuccess:
+  has_layout: false
+downloadSuccess:
+  has_layout: false
+
