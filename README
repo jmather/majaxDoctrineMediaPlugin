@@ -8,6 +8,16 @@ There are three main things to know:
 
 Now on to the good stuff:
 
+Set your path to FFMPEG:
+
+In your config/app.yml:
+
+all:
+# ... snip ...
+  majaxMedia:
+    ffmpeg_path: /usr/local/bin/ffmpeg
+
+
 Enable the modules in your settings.yml:
 
 majaxMediaAdminModule
@@ -85,7 +95,7 @@ It automatically picks up if it needs to show a player for video/audio content, 
 
 TODO:
 
-Make it understand when you don't have ffmpeg install / make ffmpeg configurable
+Make it understand when you don't have ffmpeg install
 Add in the finished gallery support
 Build a better selection feature for attaching media items and (naturally) items to galleries.
 I'm sure there's something that could be done to bring getid3 into php 5.3, but for now i'll just fix it on an as needed basis.

@@ -261,7 +261,7 @@ abstract class majaxMediaWrapperManager
 		$args[] = '-s';
 		$args[] = $new_width.'x'.$new_height;
 
-		$ffmpeg = sfConfig::get('app_paths_ffmpeg', '/usr/bin/ffmpeg');
+		$ffmpeg = sfConfig::get('app_majaxMedia_ffmpeg_path', '/usr/bin/ffmpeg');
 		// now we need to figure out the cropping/padding
 
 
