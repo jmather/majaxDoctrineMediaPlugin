@@ -78,7 +78,7 @@ Now, for the best part, using this.
 
 In your view:
 
-<?php use_helpers('majaxMedia'); ?>
+<?php use_helper('majaxMedia'); ?>
 
 <?php echo majaxMedia($your_object->MediaItem)->width(400)->aspect_ratio('16:9')->crop_method('center'); ?>
 
