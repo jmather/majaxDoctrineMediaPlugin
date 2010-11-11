@@ -108,4 +108,121 @@ class majaxMediaWrapperObject extends majaxMediaWrapperManager
 	{
 		return true;
 	}
+
+        public function __toString()
+        {
+		if ($this->getType() == 'Gallery')
+			return $this->galleryToString();
+                return parent::__toString();
+        }
+
+        public function galleryToString()
+        {
+                $context = sfContext::getInstance();
+                $context->getResponse()->addJavascript('/js/swfobject.js');
+                $id = 'gallery_'.md5(time().microtime(true).'majaxMedia'.rand());
+                $this->set('controller_height', 25);
+                $gal = $this->obj->getObject();
+                if (count($gal->Media) == 0)
+                {
+                        $cont = 'No items assigned to gallery.';
+                        return $cont;
+                }
+                $fi = new majaxMediaWrapperObject($gal->Media[0]);
+                $fi->set('width', $this->get('width'));
+                $fi->set('height', $this->get('height'));
+                $fi->set('crop_method', $this->get('crop_method'));
+                $fi->set('aspect_ratio', $this->get('aspect_ratio'));
+                $fi->set('controller_height', $this->get('controller_height'));
+                switch($fi->getType())
+                {
+                        case 'Photo':
+                                $nw = $fi->getPhotoWidth();
+                                $nh = $fi->getPhotoHeight();
+                                $vp = $fi->photoToString(true, true);
+                                $ip = $fi->photoToString(true, true);
+                                break;
+                        case 'Audio':
+                                $nw = $fi->getPhotoWidth();
+                                $nh = $fi->getPhotoHeight();
+                                $vp = $fi->audioToString(true);
+                                $ip = $fi->photoToString(true);
+                                break;
+                        case 'Video':
+                                $nw = $fi->getVideoWidth();
+                                $nh = $fi->getVideoHeight();
+                                $vp = $fi->videoToString(true);
+                                $ip = $fi->photoToString(true);
+                                break;
+                }
+
+                $context = sfContext::getInstance();
+                $context->getConfiguration()->loadHelpers(array('Url'));
+                $width = $this->get('width', 400);
+                $height = $this->get('controller_height');
+                $height += $this->getRatioHeight($width, null, $nw, $nh, $this->get('aspect_ratio'));
+                $uri = 'gallery/list?id='.$gal->PartialUuid().'&width='.$width.'&height='.($height - $this->get('controller_height'));
+                $uri .= '&aspect_ratio='.str_replace(':', 'x', $this->get('aspect_ratio', '16:9')).'&crop_method='.$this->get('crop_method', 'fit');
+                $url = url_for($uri);
+                $length = $this->getLength();
+                $cont = '<div class="player" style="width: '.$width.'px; height: '.$height.'px; background-image: url('.$ip.'); background-repeat: no-repeat; padding-top: '.($height - $this->get('controller_height')).'px;" id="'.$id.'_display">Flash is required to view this content.</div>';
+                $cont .= '<script type="text/javascript">';
+                $cont .= $this->getGalleryJWPlayerJSBlock($id, $vp, $width, $height, $length, $ip, $url);
+                $cont .= '</script>';
+                return $cont;
+        }
+        protected function getGalleryJWPlayerJSBlock($id, $file_src, $width, $height, $length = null, $photo_src = null, $playlist_path)
+        {
+                $playlist_size = $this->get('playlist_size', 180);
+                $playlist_position = $this->get('playlist_position', 'bottom');
+                $playlist_enabled = $this->get('playlist_enabled', true);
+                $real_height = ($playlist_enabled && ($playlist_position == 'bottom' || $playlist_position == 'top')) ? $playlist_size + $height : $height;
+                $real_width = ($playlist_enabled && ($playlist_position == 'left' || $playlist_position == 'right')) ? $playlist_size + $width : $width;
+
+
+                $jscont = '//<![CDATA[
+
+(function(){
+  var flashvars = {
+    backcolor: \'111111\',
+    frontcolor: \'cccccc\',
+    lightcolor: \'66cc00\',
+    repeat: \'list\'';
+
+
+                if ($playlist_enabled)
+                        $jscont .= '
+    ,playlistsize: '.$playlist_size.'
+    ,playlist: \''.$playlist_position.'\'
+    ,playlistfile: \''.$playlist_path.'\'';
+
+                $jscont .= '
+  };
+  var params = {
+    wmode: \'transparent\',
+    allowfullscreen: \'true\',
+    allownetworking: \'all\',
+    allowscriptaccess: \'always\'
+  };
+  var attrs = {
+    id: \''.$id.'\',
+    name: \''.$id.'\'
+  };
+
+  swfobject.embedSWF(
+    \'/majaxDoctrineMediaPlugin/flash/player.swf\',
+    \''.$id.'_display\',
+    '.$real_width.',
+    '.$real_height.',
+    \'9\',
+    \'/majaxDoctrineMediaPlugin/flash/expressInstall.swf\',
+    flashvars,
+    params,
+    attrs
+  );
+  //players[\''.$id.'\'] = document.getElementById(\''.$id.'\');
+})();
+//]]>';
+                return $jscont;
+        }
 }
