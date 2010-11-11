@@ -69,29 +69,3 @@ class majaxMediaWrapperPath extends majaxMediaWrapperManager
 }
 
 */
-
-class majaxMediaWrapperImage extends sfImage
-{
-}
-
-if (!function_exists('mime_content_type'))
-{
-    function mime_content_type($file, $method = 0)
-    {
-        if ($method == 0)
-        {
-            ob_start();
-            system('/usr/bin/file -i -b ' . realpath($file));
-            $type = ob_get_clean();
-
-            $parts = explode(';', $type);
-
-            return trim($parts[0]);
-        }
-        else if ($method == 1)
-        {
-            // another method here
-        }
-    }
-}
-
