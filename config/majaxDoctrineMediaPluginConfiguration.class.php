@@ -23,6 +23,7 @@ class majaxDoctrineMediaPluginConfiguration extends sfPluginConfiguration
     $modules[] = 'majaxMediaAudios';
     $modules[] = 'majaxMediaVideos';
     $modules[] = 'majaxMediaGalleries';
+    $modules[] = 'majaxMediaGalleryModule';
     $modules[] = 'majaxMediaAdminModule';
     $modules[] = 'majaxMediaGalleryAdminModule';
     sfConfig::set('sf_enabled_modules', $modules);

@@ -100,8 +100,6 @@ class majaxMediaAdminModuleActions extends BasemajaxMediaAdminModuleActions
     $o = $obj->getObject(true);
     $d['name'] = $o->name;
     $d['type'] = $obj->type;
-    $d['last_updated_by'] = ($o->LastUpdatedBy) ? $o->LastUpdatedBy->__toString() : '';
-    $d['created_by'] = ($o->CreatedBy) ? $o->CreatedBy->__toString() : '';
     $d['created_at'] = date('m/d/y g:ia', strtotime($obj->created_at));
     $d['updated_at'] = date('m/d/y g:ia', strtotime($obj->updated_at));
     return $d;

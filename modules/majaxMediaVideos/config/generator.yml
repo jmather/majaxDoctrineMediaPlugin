@@ -24,7 +24,7 @@ generator:
         title: List Videos
         fields:
           is_published: { renderer: ['dcmsTemplateHelper', 'showBoolean'] }
-        display: [=name, is_published, publishable, publish_on, publish_until]
+        display: [=name, created_at, updated_at]
       filter:  ~
       form:    ~
       edit:

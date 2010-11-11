@@ -22,10 +22,6 @@ abstract class PluginmajaxMediaRegistryEntry extends BasemajaxMediaRegistryEntry
     if ($this->photo_media > 0)
     {
       $q = Doctrine_Query::create()->from('majaxMediaPhoto m');
-      if ($deep)
-      {
-        $q->leftJoin('m.CreatedBy cb')->leftJoin('m.LastUpdatedBy lub');
-      }
       $q->where('m.id = ?', $this->photo_media);
       $m = $q->fetchOne();
       $this->Photo = $m;
@@ -34,10 +30,6 @@ abstract class PluginmajaxMediaRegistryEntry extends BasemajaxMediaRegistryEntry
     if ($this->video_media > 0)
     {
       $q = Doctrine_Query::create()->from('majaxMediaVideo m');
-      if ($deep)
-      {
-        $q->leftJoin('m.CreatedBy cb')->leftJoin('m.LastUpdatedBy lub');
-      }
       $q->where('m.id = ?', $this->video_media);
       $m = $q->fetchOne();
       $this->Video = $m;
@@ -46,10 +38,6 @@ abstract class PluginmajaxMediaRegistryEntry extends BasemajaxMediaRegistryEntry
     if ($this->audio_media > 0)
     {
       $q = Doctrine_Query::create()->from('majaxMediaAudio m');
-      if ($deep)
-      {
-        $q->leftJoin('m.CreatedBy cb')->leftJoin('m.LastUpdatedBy lub');
-      }
       $q->where('m.id = ?', $this->audio_media);
       $m = $q->fetchOne();
       $this->Audio = $m;
@@ -58,10 +46,6 @@ abstract class PluginmajaxMediaRegistryEntry extends BasemajaxMediaRegistryEntry
     if ($this->gallery_media > 0)
     {
       $q = Doctrine_Query::create()->from('majaxMediaGallery g');
-      if ($deep)
-      {
-        $q->leftJoin('g.CreatedBy cb')->leftJoin('g.LastUpdatedBy lub');
-      }
       $q->where('g.id = ?', $this->gallery_media);
       $m = $q->fetchOne();
       $this->Gallery = $m;
@@ -70,19 +54,19 @@ abstract class PluginmajaxMediaRegistryEntry extends BasemajaxMediaRegistryEntry
   }
   public function getType()
   {
-    if ($this->photo_media instanceof majaxMediaPhoto || $this->photo_media > 0)
+    if ($this->photo_media > 0)
     {
       return 'Photo';
     }
-    if ($this->video_media instanceof majaxMediaVideo || $this->video_media > 0)
+    if ($this->video_media > 0)
     {
       return 'Video';
     }
-    if ($this->audio_media instanceof majaxMediaAudio || $this->audio_media > 0)
+    if ($this->audio_media > 0)
     {
       return 'Audio';
     }
-    if ($this->gallery_media instanceof majaxMediaGallery || $this->gallery_media > 0)
+    if ($this->gallery_media > 0)
     {
       return 'Gallery';
     }

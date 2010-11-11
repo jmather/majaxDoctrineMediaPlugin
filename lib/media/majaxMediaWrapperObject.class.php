@@ -111,8 +111,12 @@ class majaxMediaWrapperObject extends majaxMediaWrapperManager
 
         public function __toString()
         {
-		if ($this->getType() == 'Gallery')
-			return $this->galleryToString();
+		try {
+			if ($this->getType() == 'Gallery')
+				return $this->galleryToString();
+		} catch (Exception $e) {
+			return $e->__toString();
+		}
                 return parent::__toString();
         }
 
@@ -161,8 +165,10 @@ class majaxMediaWrapperObject extends majaxMediaWrapperManager
                 $width = $this->get('width', 400);
                 $height = $this->get('controller_height');
                 $height += $this->getRatioHeight($width, null, $nw, $nh, $this->get('aspect_ratio'));
-                $uri = 'gallery/list?id='.$gal->PartialUuid().'&width='.$width.'&height='.($height - $this->get('controller_height'));
+		$checksum = md5($gal->id.sfConfig::get('sf_csrf_secret'));
+                $uri = 'majaxMediaGalleryModule/list?checksum='.$checksum.'&id='.$gal->id.'&width='.$width.'&height='.($height - $this->get('controller_height'));
                 $uri .= '&aspect_ratio='.str_replace(':', 'x', $this->get('aspect_ratio', '16:9')).'&crop_method='.$this->get('crop_method', 'fit');
+		$uri .= '&sf_format=xml';
                 $url = url_for($uri);
                 $length = $this->getLength();
                 $cont = '<div class="player" style="width: '.$width.'px; height: '.$height.'px; background-image: url('.$ip.'); background-repeat: no-repeat; padding-top: '.($height - $this->get('controller_height')).'px;" id="'.$id.'_display">Flash is required to view this content.</div>';

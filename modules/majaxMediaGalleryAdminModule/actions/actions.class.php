@@ -108,8 +108,6 @@ class majaxMediaGalleryAdminModuleActions extends BasemajaxMediaGalleryAdminModu
     $d = array();
     $d['id'] = $obj->id;
     $d['name'] = $obj->name;
-    $d['last_updated_by'] = $obj->LastUpdatedBy->__toString();
-    $d['created_by'] = $obj->CreatedBy->__toString();
     $d['created_at'] = date('m/d/y g:ia', strtotime($obj->created_at));
     $d['updated_at'] = date('m/d/y g:ia', strtotime($obj->updated_at));
     return $d;

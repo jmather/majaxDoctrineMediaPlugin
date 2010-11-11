@@ -8,9 +8,7 @@
                 <cell><?php echo $obj['id']; ?></cell>
                 <cell><?php echo $obj['name']; ?></cell>
                 <cell><?php echo $obj['type']; ?></cell>
-                <cell><?php echo $obj['created_by']; ?></cell>
                 <cell><?php echo $obj['created_at']; ?></cell>
-                <cell><?php echo $obj['last_updated_by']; ?></cell>
                 <cell><?php echo $obj['updated_at']; ?></cell>
         </row>
 <?php endforeach; ?>

@@ -167,13 +167,12 @@
 						sortable: false
 					},
 					{
-						'name': 'CreatedBy',
-						sortable: false,
-						'index': 'CreatedBy'
-					},
-					{
 						'name': 'CreatedOn',
 						'index': 'created_at'
+					},
+					{
+						'name': 'UpdatedOn',
+						'index': 'updated_at'
 					}
 				],
 				"rowNum":10,

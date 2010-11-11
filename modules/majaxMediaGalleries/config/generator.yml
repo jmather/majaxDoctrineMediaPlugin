@@ -21,7 +21,7 @@ generator:
         title: List Galleries
         fields:
           is_published: { renderer: ['dcmsTemplateHelper', 'showBoolean'] }
-        display: [ =name, is_published, publishable, publish_on, publish_until ]
+        display: [ =name, created_at, updated_at ]
         object_actions:
           sort:
           _edit:

@@ -1,3 +1,9 @@
+majax_gallery_playlist:
+  url: /gallery_playlist/:id/:width/:height/:aspect_ratio/:crop_method/:checksum.:sf_format
+  params: { module: majaxMediaGalleryModule, action: list, height: null, aspect_ratio: '16:9', crop_method: 'center' }
+  requirements:
+    sf_format: (?:xml|json)
+
 majax_media_file_show:
   url: /media/show/:uuid/:name
   class: sfDoctrineRoute

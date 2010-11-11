@@ -28,7 +28,6 @@ majaxMediaPhoto:
   tableName: majax_media_photos
   actAs:
     Timestampable:
-    AccountableTemplate:
   columns:
     name: { type: string(255), notnull: true }
     image_file_id: { type: integer }
@@ -47,7 +46,6 @@ majaxMediaPhoto:
 majaxMediaAudio:
   tableName: majax_media_audios
   actAs:
-    AccountableTemplate:
     Timestampable:
   columns:
     name: { type: string(255), notnull: true }
@@ -77,7 +75,6 @@ majaxMediaAudio:
 majaxMediaVideo:
   tableName: majax_media_videos
   actAs:
-    AccountableTemplate:
     Timestampable:
   columns:
     name: { type: string(255), notnull: true }
@@ -108,7 +105,6 @@ majaxMediaGallery:
   tableName: majax_media_galleries
   actAs:
     Timestampable:
-    AccountableTemplate:
   columns:
     name: { type: string(255), notnull: true }
     content: { type: clob }
