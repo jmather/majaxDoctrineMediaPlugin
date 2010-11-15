@@ -104,6 +104,23 @@ class majaxMediaWrapperObject extends majaxMediaWrapperManager
 		return $this->obj->getObject()->VideoFile->getHeight();
 	}
 
+	public function getVideoSha1()
+	{
+		return $this->obj->getObject()->VideoFile->getSha1();
+	}
+
+	public function getAudioSha1()
+	{
+		return $this->obj->getObject()->AudioFile->getSha1();
+	}
+
+	public function getPhotoSha1()
+	{
+		return $this->obj->getObject()->PhotoFile->getSha1();
+	}
+
+
+
 	protected function isMedia()
 	{
 		return true;

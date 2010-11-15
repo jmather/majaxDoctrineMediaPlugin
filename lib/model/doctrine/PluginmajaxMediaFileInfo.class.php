@@ -116,6 +116,7 @@ abstract class PluginmajaxMediaFileInfo extends BasemajaxMediaFileInfo
     $this->setMeta('height', $height);
     $this->setMeta('width', $width);
     $this->setMeta('length', $length);
+    $this->setMeta('sha1', sha1_file($file));
     $this->FileData->unlinkFilePath();
   }
   protected function cacheAudioData()
@@ -126,6 +127,7 @@ abstract class PluginmajaxMediaFileInfo extends BasemajaxMediaFileInfo
     $getid3->Analyze($file);
     $length = $getid3->info['playtime_seconds'];
     $this->setMeta('length', $length);
+    $this->setMeta('sha1', sha1_file($file));
     $this->FileData->unlinkFilePath();
   }
   protected function cacheImageData()
@@ -134,7 +136,39 @@ abstract class PluginmajaxMediaFileInfo extends BasemajaxMediaFileInfo
     $data = getimagesize($file);
     $this->setMeta('width', $data[0]);
     $this->setMeta('height', $data[1]);
+    $this->setMeta('sha1', sha1_file($file));
     $this->FileData->unlinkFilePath();
+  }
+  public function getSha1()
+  {
+    if ($this->isVideo())
+    {
+      if ($this->getMeta('sha1', null) == null)
+      {
+        $this->cacheVideoData();
+        $this->save();
+      }
+      return $this->getMeta('sha1');
+    }
+    if ($this->isImage())
+    {
+      if ($this->getMeta('sha1', null) == null)
+      {
+        $this->cacheImageData();
+        $this->save();
+      }
+      return $this->getMeta('sha1');
+    }
+    if ($this->isAudio())
+    {
+      if ($this->getMeta('sha1', null) == null)
+      {
+        $this->cacheAudioData();
+        $this->save();
+      }
+      return $this->getMeta('sha1');
+    }
+    return null;
   }
   public function getHeight()
   {

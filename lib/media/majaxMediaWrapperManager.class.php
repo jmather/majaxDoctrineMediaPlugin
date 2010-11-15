@@ -79,14 +79,14 @@ abstract class majaxMediaWrapperManager
 
 	public function videoToString($path_only = false)
 	{
-		$data = $this->getVideoData();
 		$name = $this->getVideoName();
-		$sha1 = sha1($data);
+		$sha1 = $this->getVideoSha1();
 		$path = self::sha1ToPath($sha1);
 		$full_path = sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$name;
 		if (!file_exists(sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$name))
 		{
 			self::ensurePath($path, sfConfig::get('majax_media_dir'));
+			$data = $this->getVideoData();
 			file_put_contents($full_path, $data);
 		}
 
@@ -314,14 +314,14 @@ abstract class majaxMediaWrapperManager
 
 	public function audioToString($path_only = false)
 	{
-		$data = $this->getAudioData();
 		$name = $this->getAudioName();
-		$sha1 = sha1($data);
+		$sha1 = $this->getAudioSha1();
 		$path = self::sha1ToPath($sha1);
 		$full_path = sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$name;
 		if (!file_exists(sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$name))
 		{
 			self::ensurePath($path, sfConfig::get('majax_media_dir'));
+			$data = $this->getAudioData();
 			file_put_contents($full_path, $data);
 		}
 
@@ -354,14 +354,14 @@ abstract class majaxMediaWrapperManager
 
 	public function photoToString($path_only = false)
 	{
-		$data = $this->getPhotoData();
 		$name = $this->getPhotoName();
-		$sha1 = sha1($data);
+		$sha1 = $this->getPhotoSha1();
 		$path = self::sha1ToPath($sha1);
 		$full_path = sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$name;
 		if (!file_exists(sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$name))
 		{
 			self::ensurePath($path, sfConfig::get('majax_media_dir'));
+			$data = $this->getPhotoData();
 			file_put_contents($full_path, $data);
 		}
 
@@ -585,15 +585,18 @@ abstract class majaxMediaWrapperManager
 	abstract public function getPhotoSize();
 	abstract public function getPhotoMime();
 	abstract public function getPhotoData();
+	abstract public function getPhotoSha1();
 	abstract public function getVideoName();
 	abstract public function getVideoSize();
 	abstract public function getVideoMime();
 	abstract public function getVideoData();
+	abstract public function getVideoSha1();
 	abstract public function getVideoLength();
 	abstract public function getAudioName();
 	abstract public function getAudioSize();
 	abstract public function getAudioMime();
 	abstract public function getAudioData();
+	abstract public function getAudioSha1();
 	abstract public function getAudioLength();
 	abstract public function getPhotoWidth();
 	abstract public function getPhotoHeight();
