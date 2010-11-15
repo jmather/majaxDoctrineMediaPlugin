@@ -269,7 +269,14 @@ abstract class majaxMediaWrapperManager
 		$args[] = sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$new_partial_path;
 
 
-		if (!file_exists(sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$new_partial_path))
+		if ($ffmpeg == false || !file_exists($ffmpeg))
+		{
+			trigger_error('FFMPEG Not installed. Video source will not be resized', E_WARNING);
+			$new_partial_path = $path.DIRECTORY_SEPARATOR.$name;
+		}
+
+
+		if (($ffmpeg != false && file_exists($ffmpeg)) && !file_exists(sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$new_partial_path))
 		{
 			foreach ($args as $i => $arg)
 				$args[$i] = escapeshellarg ($arg);
