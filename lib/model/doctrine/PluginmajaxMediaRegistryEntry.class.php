@@ -21,35 +21,47 @@ abstract class PluginmajaxMediaRegistryEntry extends BasemajaxMediaRegistryEntry
   {
     if ($this->photo_media > 0)
     {
-      $q = Doctrine_Query::create()->from('majaxMediaPhoto m');
-      $q->where('m.id = ?', $this->photo_media);
-      $m = $q->fetchOne();
-      $this->Photo = $m;
-      return $this->Photo;
+      if ($this->_get('Photo') == null)
+      {
+        $q = Doctrine_Query::create()->from('majaxMediaPhoto m');
+        $q->where('m.id = ?', $this->photo_media);
+        $m = $q->fetchOne();
+        $this->_set('Photo', $m);
+      }
+      return $this->_get('Photo');
     }
     if ($this->video_media > 0)
     {
-      $q = Doctrine_Query::create()->from('majaxMediaVideo m');
-      $q->where('m.id = ?', $this->video_media);
-      $m = $q->fetchOne();
-      $this->Video = $m;
-      return $this->Video;
+      if ($this->_get('Video') == null)
+      {
+        $q = Doctrine_Query::create()->from('majaxMediaVideo m');
+        $q->where('m.id = ?', $this->video_media);
+        $m = $q->fetchOne();
+        $this->_set('Video', $m);
+      }
+      return $this->_get('Video');
     }
     if ($this->audio_media > 0)
     {
-      $q = Doctrine_Query::create()->from('majaxMediaAudio m');
-      $q->where('m.id = ?', $this->audio_media);
-      $m = $q->fetchOne();
-      $this->Audio = $m;
-      return $this->Audio;
+      if ($this->_get('Audio') == null)
+      {
+        $q = Doctrine_Query::create()->from('majaxMediaAudio m');
+        $q->where('m.id = ?', $this->audio_media);
+        $m = $q->fetchOne();
+        $this->_set('Audio', $m);
+      }
+      return $this->_get('Audio');
     }
     if ($this->gallery_media > 0)
     {
-      $q = Doctrine_Query::create()->from('majaxMediaGallery g');
-      $q->where('g.id = ?', $this->gallery_media);
-      $m = $q->fetchOne();
-      $this->Gallery = $m;
-      return $this->Gallery;
+      if ($this->_get('Gallery') == null)
+      {
+        $q = Doctrine_Query::create()->from('majaxMediaGallery g');
+        $q->where('g.id = ?', $this->gallery_media);
+        $m = $q->fetchOne();
+        $this->_set('Gallery', $m);
+      }
+      return $this->_get('Gallery');
     }
   }
   public function getType()
