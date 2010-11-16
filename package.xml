@@ -1,51 +1,254 @@
-<?xml version="1.0" encoding="##ENCODING##"?>
-<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.4.1" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
   <name>majaxDoctrineMediaPlugin</name>
   <channel>plugins.symfony-project.org</channel>
   <summary>A system to enable easy management of photos, videos, and audio clips within Symfony</summary>
   <description>A system to enable easy management of photos, videos, and audio clips within Symfony</description>
-  <lead>
-    <name>JMather</name>
-    <user>JMather</user>
-    <email>jmather@itsmajax.com</email>
-    <active>yes</active>
-  </lead>
-  <date>2010-11-16</date>
-  <version>
-    <release>0.9</release>
-    <api>0.9</api>
-  </version>
-  <stability>
-    <release>beta</release>
-    <api>beta</api>
-  </stability>
-  <license uri="http://www.symfony-project.org/license">MIT license</license>
-  <notes>-</notes>
-  <contents>
-  </contents>
-  <dependencies>
-    <required>
-      <php>
-        <min>5.2.4</min>
-      </php>
-      <pearinstaller>
-        <min>1.4.1</min>
-      </pearinstaller>
-      <package>
-        <name>symfony</name>
-        <channel>pear.symfony-project.com</channel>
-        <min>1.2.0</min>
-        <max>1.3.0</max>
-        <exclude>1.3.0</exclude>
-      </package>
-      <package>
-        <name>majaxJqueryPlugin</name>
-        <channel>plugins.symfony-project.com</channel>
-        <min>1.0</min>
-        <max>1.0</max>
-      </package>
-    </required>
-  </dependencies>
-  <phprelease></phprelease>
-  <changelog></changelog>
+ <lead>
+  <name>JMather</name>
+  <user>JMather</user>
+  <email>jmather@itsmajax.com</email>
+  <active>yes</active>
+ </lead>
+ <date>2010-11-16</date>
+ <time>14:39:23</time>
+ <version>
+  <release>0.5</release>
+  <api>0.5</api>
+ </version>
+ <stability>
+  <release>alpha</release>
+  <api>alpha</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
+ <notes>
+Initial public release
+ </notes>
+ <contents>
+  <dir baseinstalldir="/dev/null" name="/">
+   <file baseinstalldir="/dev/null" md5sum="6dafc0382da29123818bad9c540c8eca" name="config/app.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="77c4d5bbfba72f885cd09179effc7063" name="config/majaxDoctrineMediaPluginConfiguration.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="2b46c8c59ef1153243c879cbbd35dd13" name="config/routing.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="d7dee60f91d7246c041311307e48d25e" name="config/doctrine/schema.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="cfc4f4369f6082c4032709a7f05fa2ae" name="lib/majaxMediaToolbox.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="fdc77bcb242b3a679dee7bd9818f27ec" name="lib/filter/doctrine/PluginmajaxMediaAudioFormFilter.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="3891250678ce99a0222ee4df1f75c613" name="lib/filter/doctrine/PluginmajaxMediaFileDataFormFilter.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="84b0b0d9633e068cc4d790d90019ec0a" name="lib/filter/doctrine/PluginmajaxMediaFileInfoFormFilter.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="1c112fbcfc4b17bfbc3f59c4389205bb" name="lib/filter/doctrine/PluginmajaxMediaGalleryFormFilter.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="b745b0a00e937f77e0dbc8abf7683c8f" name="lib/filter/doctrine/PluginmajaxMediaGalleryItemFormFilter.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="ebcbecc2ddd63f5ce5f013cf26752e4d" name="lib/filter/doctrine/PluginmajaxMediaPhotoFormFilter.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="7acbab04e0eb58a6d1ddc902721112b7" name="lib/filter/doctrine/PluginmajaxMediaRegistryEntryFormFilter.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="91e90b0db6eeea4215363ce4f6db274b" name="lib/filter/doctrine/PluginmajaxMediaVideoFormFilter.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="d64a1875952e20217396befd95249ac8" name="lib/form/doctrine/majaxMediaRegistryEntryEmbeddedForm.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="c16657bfc510a735c1a4f96d884ca7ac" name="lib/form/doctrine/PluginmajaxMediaAudioForm.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="808dbfd585450254a9e328964140e813" name="lib/form/doctrine/PluginmajaxMediaFileDataForm.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="6863bdf9e4b6ecb3d401b60b6fae1be3" name="lib/form/doctrine/PluginmajaxMediaFileInfoForm.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="114063e30828d02fdd1eeb230cea4006" name="lib/form/doctrine/PluginmajaxMediaGalleryForm.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="9573d97b6bbeafa70131a56e7d647b2f" name="lib/form/doctrine/PluginmajaxMediaGalleryItemForm.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="1314822d278af1f1d8c609304f8f7308" name="lib/form/doctrine/PluginmajaxMediaPhotoForm.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="851ac8f3ca5c48a060d0a48964ea654e" name="lib/form/doctrine/PluginmajaxMediaRegistryEntryForm.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="8e8bda1c6dd61ed9bdb803c0ba8b3737" name="lib/form/doctrine/PluginmajaxMediaVideoForm.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="39631e383e0559acc3ac0d9ab803f180" name="lib/helper/majaxMediaHelper.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="688f6148e64bac36e7be300b0c10c0df" name="lib/listener/majaxMediaGalleryListener.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="df9dca08b45152255eecd80f7cf103fb" name="lib/media/majaxMediaWrapperFileInfo.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="a015c9f946331e0e6563b3c27a34ffed" name="lib/media/majaxMediaWrapperImage.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="51e6e037528de19b88b91e87d161b4c7" name="lib/media/majaxMediaWrapperManager.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="6f66a67f99c8252f41a96668c80264a4" name="lib/media/majaxMediaWrapperObject.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="a66da2f3cf3fc3a1b2dc92e719ae1d3d" name="lib/media/majaxMediaWrapperPath.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="de489a9a9682165a386509cdf2ec5318" name="lib/model/doctrine/PluginmajaxMediaAudio.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="dae5e1c42f169c4da3e97a23a10de30f" name="lib/model/doctrine/PluginmajaxMediaAudioTable.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="2664d06a342fa247713159c6edc96054" name="lib/model/doctrine/PluginmajaxMediaFileData.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="316a2ec8a0c87a1f6aff7b95b0a2c783" name="lib/model/doctrine/PluginmajaxMediaFileDataTable.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="3933b9ed159f53c5e92471268f412500" name="lib/model/doctrine/PluginmajaxMediaFileInfo.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="18b4c6d649b6f393390624294b2af7ef" name="lib/model/doctrine/PluginmajaxMediaFileInfoTable.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="626f6688e4ce462dfaa7c02ac1420a01" name="lib/model/doctrine/PluginmajaxMediaGallery.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="1d71df10109ab5b54895096d82c5782f" name="lib/model/doctrine/PluginmajaxMediaGalleryItem.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="5c20f399f62c1dfc7cd2807ce3271d5e" name="lib/model/doctrine/PluginmajaxMediaGalleryItemTable.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="d1f68f35faf510cd8beeafb64f26439d" name="lib/model/doctrine/PluginmajaxMediaGalleryTable.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="8b3d416322bdf5cdd39e8bbb3e865781" name="lib/model/doctrine/PluginmajaxMediaPhoto.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="94adc96491f1e0819531cbc5921fdf92" name="lib/model/doctrine/PluginmajaxMediaPhotoTable.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="a7bfe2727db9c6cbf617aa659d9d1e4d" name="lib/model/doctrine/PluginmajaxMediaRegistryEntry.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="bfa25cffc7d54337c5d4d7e3e2143abf" name="lib/model/doctrine/PluginmajaxMediaRegistryEntryTable.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="6aa08f46ab32cdeadaab148ebe52ba3f" name="lib/model/doctrine/PluginmajaxMediaVideo.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="2828cf319ccae657e330fdfbe80f0c2e" name="lib/model/doctrine/PluginmajaxMediaVideoTable.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="3c92d7f0718106ccc0b12e1ffa979c16" name="lib/validator/majaxMediaValidatedFile.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="c906c08648aae322733c53ab3b1a5c3f" name="lib/widget/majaxMediaWidgetFormGallery.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="f13469b6bc9cfaa2f15fd8f328df4e76" name="lib/widget/majaxMediaWidgetFormInputFile.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="e461e6231a22c18e12e162e5b726c573" name="lib/widget/majaxMediaWidgetFormMedia.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="f5989b2e59820074ebfd0b5d0e114005" name="modules/majaxMediaAdminModule/actions/actions.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="ce98e13991d1f6b0aae16b998c49b438" name="modules/majaxMediaAdminModule/config/security.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="acff2dc3f127bf4039d3770409db9dc9" name="modules/majaxMediaAdminModule/config/view.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="d66044d9ec421b9c3ee30f140119ee74" name="modules/majaxMediaAdminModule/lib/BasemajaxMediaAdminModuleActions.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="e18b9d4e538b585209c51d834aa0e194" name="modules/majaxMediaAdminModule/templates/listSuccess.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="2e89e233fb2909284898fba6a2206fe5" name="modules/majaxMediaAudios/actions/actions.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="b62da27f908d5709a5d927bc47ab8290" name="modules/majaxMediaAudios/config/generator.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="14502cd862c16c7bf00e6f89416faa03" name="modules/majaxMediaAudios/lib/majaxMediaAudiosGeneratorConfiguration.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="54684c334b2a761d4f43f6f89f454790" name="modules/majaxMediaAudios/lib/majaxMediaAudiosGeneratorHelper.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="706dfd08c719415fc8b333c214f2cb42" name="modules/majaxMediaGalleries/actions/actions.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="74487049146e8470963c2fb28c5bfb7c" name="modules/majaxMediaGalleries/config/generator.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="762f12067860b065b62fb7c96e42694e" name="modules/majaxMediaGalleries/lib/majaxMediaGalleriesGeneratorConfiguration.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="8176d56d200f7aa10932f17eca6f606e" name="modules/majaxMediaGalleries/lib/majaxMediaGalleriesGeneratorHelper.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="a61eb59b39d79d6292d993e213fb2760" name="modules/majaxMediaGalleries/templates/ListSortSuccess.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="1abcf9fc47017b33467740436f30b092" name="modules/majaxMediaGalleries/templates/_listSort.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="654b00acc58c32b723d4dc6403b91521" name="modules/majaxMediaGalleryAdminModule/actions/actions.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="ce98e13991d1f6b0aae16b998c49b438" name="modules/majaxMediaGalleryAdminModule/config/security.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="0e58f1ed5a21950369024ba60bc56f7e" name="modules/majaxMediaGalleryAdminModule/config/view.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="7aa41e619c00db260fa9239c37b2cd8c" name="modules/majaxMediaGalleryAdminModule/lib/BasemajaxMediaGalleryAdminModuleActions.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="84ba760739085f4e5ed42ba383ff9edd" name="modules/majaxMediaGalleryAdminModule/templates/listSuccess.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="c086bb2107e5e117c11c732950ca950d" name="modules/majaxMediaGalleryModule/actions/actions.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="a7cb03860a77a9211cc06ef9e94a6a8f" name="modules/majaxMediaGalleryModule/lib/BasemajaxMediaGalleryModuleActions.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="5892c564cd420c20b9eb800e66970f1b" name="modules/majaxMediaGalleryModule/templates/listSuccess.xml.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="060249b30d25ef6e0182a4f5430b6552" name="modules/majaxMediaModule/actions/actions.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="e3c10c14efe67ae820ee3340757c8a0e" name="modules/majaxMediaModule/config/view.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="d935f144328b8f0ee5ecf9bb3fe679cc" name="modules/majaxMediaModule/lib/BasemajaxMediaModuleActions.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="97efcb493209f27afb30c730ed08b747" name="modules/majaxMediaModule/templates/showSuccess.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="9a2ce4a2bcacca1aaa12222bdb7965b8" name="modules/majaxMediaModule/templates/viewSuccess.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="879078da5ea9861fea9bf1367958a054" name="modules/majaxMediaPhotos/actions/actions.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="d38e45b833cd00da2fb133185d89d94c" name="modules/majaxMediaPhotos/config/generator.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="96415dae9860bb6524b631799bf3a4b8" name="modules/majaxMediaPhotos/lib/majaxMediaPhotosGeneratorConfiguration.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="bf7ac9599aaad56e2e1bec4db608f9c2" name="modules/majaxMediaPhotos/lib/majaxMediaPhotosGeneratorHelper.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="40ea08186e8225b61363314ccefd3e42" name="modules/majaxMediaVideos/actions/actions.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="788ad7a49b8aead66fb81eca8c642101" name="modules/majaxMediaVideos/config/generator.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="cbf092f7d1ee433f7a87c544001d02da" name="modules/majaxMediaVideos/lib/majaxMediaVideosGeneratorConfiguration.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="583c32aa1040019a8601f26eb4e49509" name="modules/majaxMediaVideos/lib/majaxMediaVideosGeneratorHelper.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="9ac2c832a5888e6dd59b69a2060b91c4" name="test/bin/prove.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="0963e0bacd4d78c17718f96420244aa8" name="test/bootstrap/functional.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="a9615f5a4ffe7567275765d65433e615" name="test/bootstrap/unit.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="ec0244c82ba8f52899e48b4e473f78e8" name="test/fixtures/project/symfony" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="f41593e40a97733e17f41b71a139bec8" name="test/fixtures/project/apps/frontend/config/app.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="a57e05bc507e8b528e19b8c40d9c0095" name="test/fixtures/project/apps/frontend/config/cache.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="a88ede767c3029a8a089b6cefc0ec057" name="test/fixtures/project/apps/frontend/config/factories.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="7e83763cc5fc6e227c2c5e7e5facf9d5" name="test/fixtures/project/apps/frontend/config/filters.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="1b1e5eb069c9708079653452d6b5c559" name="test/fixtures/project/apps/frontend/config/frontendConfiguration.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="25108de3ae9921c47ae2f4897e0fb75b" name="test/fixtures/project/apps/frontend/config/routing.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="43e0ff3a33ac86478b3f9a769a848bfb" name="test/fixtures/project/apps/frontend/config/security.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="441d36be88e8a33c408cac2e7d237693" name="test/fixtures/project/apps/frontend/config/settings.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="286ac00a00fb38da71776405238fa152" name="test/fixtures/project/apps/frontend/config/view.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="215548048bbbdd100411afc00252a797" name="test/fixtures/project/apps/frontend/lib/myUser.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="d837c335564e5079f50bdfe2cd93a6e6" name="test/fixtures/project/apps/frontend/templates/layout.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="05a1f194ecd402e286d49e62af4a847f" name="test/fixtures/project/config/ProjectConfiguration.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="e92cbb54e33fbbce0b06f9b36eaa6e7e" name="test/fixtures/project/config/properties.ini" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="78ae708496b5f45951a083f26704d03d" name="test/fixtures/project/config/rsync_exclude.txt" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="d7433a74a96de560108a82e53548cadb" name="test/fixtures/project/config/settings.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="d1477bd2dcd946041a7b7f948a2aa81d" name="test/fixtures/project/data/fixtures/fixtures.yml" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="9571dce5025587f89468f63e1af20c5e" name="test/fixtures/project/lib/form/BaseForm.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="9351bf99d8167cd9b73119625341e637" name="test/fixtures/project/test/bootstrap/functional.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="ef14875d3a428204d066f5a4cea1a659" name="test/fixtures/project/test/bootstrap/unit.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="58358960364e26d020c98d05aa8f27ad" name="test/fixtures/project/web/robots.txt" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="test/fixtures/project/web/css/main.css" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="9975d9e0e8447d2b9edd12beda943d37" name="test/functional/majaxMediaAdminModuleActionsTest.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="9975d9e0e8447d2b9edd12beda943d37" name="test/functional/majaxMediaGalleryAdminModuleActionsTest.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="9975d9e0e8447d2b9edd12beda943d37" name="test/functional/majaxMediaGalleryModuleActionsTest.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="9975d9e0e8447d2b9edd12beda943d37" name="test/functional/majaxMediaModuleActionsTest.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="ebf10477d37688a47ed0442c30cf0215" name="vendor/getid3/extension.cache.dbm.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="595b019d0b2f5f62527a4cc0523db92b" name="vendor/getid3/extension.cache.mysql.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="9a27ab9709bf43a2751206e95a880cda" name="vendor/getid3/getid3.lib.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="c2c4e15b08cd083c0b856e37753ce18c" name="vendor/getid3/getid3.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="80215366807714fdc702f71d900096d1" name="vendor/getid3/module.archive.gzip.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="b5d7c8a7114b02e1461053076892674d" name="vendor/getid3/module.archive.rar.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="702398d8cd9f8cc022d912cceeb3469a" name="vendor/getid3/module.archive.szip.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="838bc9fa2978d2a71e3575a2c1bbe255" name="vendor/getid3/module.archive.tar.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="5164466852f54a9af67fa8266b1cafaa" name="vendor/getid3/module.archive.zip.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="064f5f8a37748ba0cd4700c60685a978" name="vendor/getid3/module.audio-video.asf.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="056b35a88c44ce9caa7327161262dbc7" name="vendor/getid3/module.audio-video.bink.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="1cd5ec197792c2b7eb8259b64f921471" name="vendor/getid3/module.audio-video.flv.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="6702bbd0c316f1ff602f7fd82d187495" name="vendor/getid3/module.audio-video.matroska.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="21e1759829bb359cd6cfd341a66d4360" name="vendor/getid3/module.audio-video.mpeg.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="4d87d87b9f3555802a710742caabdbca" name="vendor/getid3/module.audio-video.nsv.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="30605f82361b5340852c9ee2f9db409d" name="vendor/getid3/module.audio-video.quicktime.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="8a318c76ac72e95159a210add0aa90ac" name="vendor/getid3/module.audio-video.real.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="17e5582129e10d6e5f61cc068d2c9bba" name="vendor/getid3/module.audio-video.riff.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="21a3fff8ad17d8dd2ecf13798618a075" name="vendor/getid3/module.audio-video.swf.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="aed8d998647681929cbd3bdf10a558ad" name="vendor/getid3/module.audio.aac.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="20a8c9eb5c73f81931b6817d4d7bf91d" name="vendor/getid3/module.audio.ac3.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="ebc40ba90d9ea64d7d4e9d832af303e2" name="vendor/getid3/module.audio.au.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="9f3640167a69312f7f64e8fc598f5e89" name="vendor/getid3/module.audio.avr.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="1af4325782256c43729c1d84cc3b494f" name="vendor/getid3/module.audio.bonk.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="4b8b9fd0f43673b0c36915c6ee55b6b9" name="vendor/getid3/module.audio.dss.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="2604c964d3a5ef3673b7245d7f8c3606" name="vendor/getid3/module.audio.dts.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="da9f3865df9919165373d6084a971973" name="vendor/getid3/module.audio.flac.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="fed2fb84b1f2739185a57b11286ecd98" name="vendor/getid3/module.audio.la.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="2a71d9c58f5834511fa4130da7df96d8" name="vendor/getid3/module.audio.lpac.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="3dd76055e748d3f55a8b17ba9dbc48bf" name="vendor/getid3/module.audio.midi.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="25b709b773fc4225e7eb21366469a5f1" name="vendor/getid3/module.audio.mod.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="4af24e14d5bc84bfd4183bcc5a17eeae" name="vendor/getid3/module.audio.monkey.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="623fc73e7e112a8e29e66fe7463f191b" name="vendor/getid3/module.audio.mp3.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="af10046f51d1f2c26aa99f84425f2341" name="vendor/getid3/module.audio.mpc.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="15ac51ccdb15e84ade96c412993f6637" name="vendor/getid3/module.audio.ogg.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="5b723e3ac39da0d312ca4eb35335e95e" name="vendor/getid3/module.audio.optimfrog.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="897a2eeaba82479c855ac7f135e8824a" name="vendor/getid3/module.audio.rkau.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="100ee020b544a187e94e9075205b7eb9" name="vendor/getid3/module.audio.shorten.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="8bc89f95dd33199d7ca0215bf5937ddb" name="vendor/getid3/module.audio.tta.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="2a9deac956c7e0e82c86454f35a2cd61" name="vendor/getid3/module.audio.voc.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="32ffa2a853cf39299d331ec92df699b9" name="vendor/getid3/module.audio.vqf.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="9709af4f2e11d4dac9503dc664c747c6" name="vendor/getid3/module.audio.wavpack.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="5d435aa4a86bf0c2a55c5f9d97fdf344" name="vendor/getid3/module.graphic.bmp.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="ecc4c00249c67036ca1f728a46675d91" name="vendor/getid3/module.graphic.gif.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="0ec99fabf8f98e8a2c7ed69b243ae289" name="vendor/getid3/module.graphic.jpg.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="82c456ae06803634ef702df1b588aa1e" name="vendor/getid3/module.graphic.pcd.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="fcc7231b3a864a00cf385d83512b1465" name="vendor/getid3/module.graphic.png.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="4e52b9d52c06f144f34be34c5079b928" name="vendor/getid3/module.graphic.svg.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="f80a97983216f0a9c76ee6b2a56f37fa" name="vendor/getid3/module.graphic.tiff.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="e155c1b99ad0a76f829d7afbff48d474" name="vendor/getid3/module.misc.doc.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="88a10d7202d4c28710062901d86e833a" name="vendor/getid3/module.misc.exe.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="b69f42df92841d06c420e4686f8dad95" name="vendor/getid3/module.misc.iso.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="e155c1b99ad0a76f829d7afbff48d474" name="vendor/getid3/module.misc.msoffice.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="8bdc1bd8be7eec97f19246d8a098a380" name="vendor/getid3/module.misc.par2.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="ea338841622e469e263783135b1de220" name="vendor/getid3/module.misc.pdf.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="b2fe17364ec85fa4fb05a9796f985360" name="vendor/getid3/module.tag.apetag.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="69733007e30bde273331924d190ef635" name="vendor/getid3/module.tag.id3v1.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="aae6dd231d389e700cdf1a884187444c" name="vendor/getid3/module.tag.id3v2.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="612e5ef66fbadf022ca9a748132d9ebc" name="vendor/getid3/module.tag.lyrics3.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="3fb50c207a82187ddf30f6f9a149aa17" name="vendor/getid3/write.apetag.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="4c5ad161d008c9219e9691d1bcbc634a" name="vendor/getid3/write.id3v1.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="80af5548b5ff5333d61d8883b8a763d5" name="vendor/getid3/write.id3v2.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="e2b4ddffda9ddf1c8734a751423e3b94" name="vendor/getid3/write.lyrics3.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="4fee904cfb874747ba3cc23c42b90abd" name="vendor/getid3/write.metaflac.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="eaaf237ae589a98e223b28777123229c" name="vendor/getid3/write.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="5043f5fdac2cd6240227fdfee1e24617" name="vendor/getid3/write.real.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="36ced0f0902603e1ce0601ad7c95f39e" name="vendor/getid3/write.vorbiscomment.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="f6317f91c940580b60bb720feb9c4e4a" name="web/css/ui.jqgrid.css" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="204f4711f899c1aa766791daafc7a552" name="web/flash/expressInstall.swf" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="8a66413a5646245b23bfc26207fa330e" name="web/flash/license.txt" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="871b04f5173390640497989b5eae416c" name="web/flash/player.swf" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="bd188761c59a445345715905f7f389b9" name="web/js/grid.locale-en.js" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="de401da5e17e55965e6b3c92ce54f377" name="web/js/jquery.jqGrid.min.js" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="7f85105d55a456c910fd91c8174e769e" name="web/js/jquery.majax.gallery.js" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="42da1790087ffde82ad494d0e1f6322f" name="web/js/jquery.majax.media.js" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="892a543f3abb54e8ec1ada55be3b0649" name="web/js/swfobject.js" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="LICENSE" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="9acfc59bb52934fe5160c98a157a2a9f" name="README" role="data" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>0.5</release>
+    <api>0.5</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2010-11-16</date>
+   <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
+   <notes>
+Initial public release
+   </notes>
+  </release>
+ </changelog>
 </package>
