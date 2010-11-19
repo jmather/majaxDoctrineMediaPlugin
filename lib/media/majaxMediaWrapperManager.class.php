@@ -87,7 +87,11 @@ abstract class majaxMediaWrapperManager
 		{
 			self::ensurePath($path, sfConfig::get('majax_media_dir'));
 			$data = $this->getVideoData();
-			file_put_contents($full_path, $data);
+			if (majaxMediaToolbox::getFileLock($full_path))
+			{
+				file_put_contents($full_path, $data);
+				majaxMediaToolbox::removeFileLock($full_path);
+			}
 		}
 
 		if ($this->get('width') !== null || $this->get('height') !== null)
@@ -282,6 +286,10 @@ abstract class majaxMediaWrapperManager
 				$args[$i] = escapeshellarg ($arg);
 		
 			//echo($ffmpeg.' '.join(' ', $args));
+			while (majaxMediaToolbox::hasFileLock($full_path))
+			{
+				usleep(500);
+			}
 			exec ($ffmpeg . " " . join (" ", $args));
 		}
 
