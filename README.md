@@ -1,10 +1,12 @@
 This is the first working edition of my media plugin for symfony.
 
-There are three main things to know:
+There a few things to know:
 
 1. This module relies on majaxJqueryPlugin (or an equal plugin that provides up-to-date jquery)
 2. This module relies on sfImageTransformPlugin for it's photo management.
-3. **If you use it on a commercial site, you will need a commercial license of JWPlayer, or another player.**
+3. This	module relies on majaxMarkdownPlugin
+4. This	module relies on sfCKEditorPlugin
+5. **If you use it on a commercial site, you will need a commercial license of JWPlayer, or another player.**
 
 Now on to the good stuff:
 
