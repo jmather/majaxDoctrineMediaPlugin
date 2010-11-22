@@ -13,8 +13,8 @@
  <date>2010-11-22</date>
  <time>11:19:54</time>
  <version>
-  <release>0.6.1</release>
-  <api>0.6.1</api>
+  <release>0.6.2</release>
+  <api>0.6.2</api>
  </version>
  <stability>
   <release>alpha</release>
@@ -296,6 +296,21 @@ Added concurrency subsystem
    <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
    <notes>
 Added sfImageTransformPlugin dependancy to package.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.6.2</release>
+    <api>0.6.2</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2010-11-22</date>
+   <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
+   <notes>
+Added the rest of the dependancies (sfCKEditor, majaxMarkdown)
    </notes>
   </release>
  </changelog>
