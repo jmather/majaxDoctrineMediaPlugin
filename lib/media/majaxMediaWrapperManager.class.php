@@ -269,8 +269,8 @@ abstract class majaxMediaWrapperManager
 		// now we need to figure out the cropping/padding
 
 
-
-		$args[] = sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$new_partial_path;
+		$new_full_path = sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$new_partial_path;
+		$args[] = $new_full_path;
 
 
 		if ($ffmpeg == false || !file_exists($ffmpeg))
@@ -280,17 +280,26 @@ abstract class majaxMediaWrapperManager
 		}
 
 
-		if (($ffmpeg != false && file_exists($ffmpeg)) && !file_exists(sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$new_partial_path))
+		if (($ffmpeg != false && file_exists($ffmpeg)) && !file_exists($new_full_path))
 		{
 			foreach ($args as $i => $arg)
 				$args[$i] = escapeshellarg ($arg);
 		
 			//echo($ffmpeg.' '.join(' ', $args));
-			while (majaxMediaToolbox::hasFileLock($full_path))
+			$count = 0;
+			while (majaxMediaToolbox::hasFileLock($full_path) && !majaxMediaToolbox::hasFileLock($new_full_path))
 			{
 				usleep(500);
+				$count++;
+				if ($count == 10)
+					break;
 			}
-			exec ($ffmpeg . " " . join (" ", $args));
+
+			if (!majaxMediaToolbox::hasFileLock($full_path) && majaxMediaToolbox::getFileLock($new_full_path))
+			{
+				exec ($ffmpeg . " " . join (" ", $args));
+				majaxMediaToolbox::removeFileLock($new_full_path);
+			}
 		}
 
 
@@ -329,8 +338,12 @@ abstract class majaxMediaWrapperManager
 		if (!file_exists(sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$name))
 		{
 			self::ensurePath($path, sfConfig::get('majax_media_dir'));
-			$data = $this->getAudioData();
-			file_put_contents($full_path, $data);
+			if (majaxMediaToolbox::getFileLock($full_path))
+			{
+				$data = $this->getAudioData();
+				file_put_contents($full_path, $data);
+				majaxMediaToolbox::removeFileLock($full_path);
+			}
 		}
 
 		$new_partial_path = '/'.sfConfig::get('majax_media_dir_name').'/'.$path.'/'.$name;
@@ -369,8 +382,12 @@ abstract class majaxMediaWrapperManager
 		if (!file_exists(sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$name))
 		{
 			self::ensurePath($path, sfConfig::get('majax_media_dir'));
-			$data = $this->getPhotoData();
-			file_put_contents($full_path, $data);
+			if (majaxMediaToolbox::getFileLock($full_path))
+			{
+				$data = $this->getPhotoData();
+				file_put_contents($full_path, $data);
+				majaxMediaToolbox::removeFileLock($full_path);
+			}
 		}
 
 		if ($this->get('width') !== null || $this->get('height') !== null)
@@ -391,13 +408,15 @@ abstract class majaxMediaWrapperManager
 		$new_filename = $new_width.'x'.$new_height;
 		$new_filename .= '_'.$this->get('crop_method', 'fit').'_'.$name;
 		$new_partial_path = $path.DIRECTORY_SEPARATOR.$new_filename;
+		$new_full_path = sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$new_partial_path;
 
 		try {
-		if (!file_exists(sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$new_partial_path))
+		if (!file_exists($new_full_path) && majaxMediaToolbox::getFileLock($new_full_path))
 		{
 			$image = new sfImage($full_path, $this->getPhotoMime());
 			$image->thumbnail($new_width, $new_height, $this->crop_method());
 			$image->saveAs(sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$new_partial_path);
+			majaxMediaToolbox::removeFileLock($new_full_path);
 		} } catch (Exception $e) {
 			echo $e;
 		}

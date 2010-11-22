@@ -17,7 +17,6 @@ class majaxMediaToolbox
 			$limit = time() - $elapse;
 			if ($mtime > $limit)
 				return true;
-			static::removeFileLock($file);
 			return false;
 		}
 		return false;
