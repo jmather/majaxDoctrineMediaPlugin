@@ -249,6 +249,19 @@ Added concurrency subsystem
     <max>2.0.0</max>
     <exclude>2.0.0</exclude>
    </package>
+   <package>
+    <name>majaxMarkdownPlugin</name>
+    <channel>plugins.symfony-project.org</channel>
+    <min>1.0.0</min>
+    <max>2.0.0</max>
+    <exclude>2.0.0</exclude>
+   </package>
+   <package>
+    <name>sfCKEditor</name>
+    <channel>plugins.symfony-project.org</channel>
+    <min>0.1.2</min>
+    <max>0.1.2</max>
+   </package>
   </required>
  </dependencies>
  <phprelease />
