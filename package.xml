@@ -13,8 +13,8 @@
  <date>2010-11-22</date>
  <time>11:19:54</time>
  <version>
-  <release>0.6.2</release>
-  <api>0.6.2</api>
+  <release>0.6.3</release>
+  <api>0.6.3</api>
  </version>
  <stability>
   <release>alpha</release>
@@ -324,6 +324,21 @@ Added sfImageTransformPlugin dependancy to package.
    <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
    <notes>
 Added the rest of the dependancies (sfCKEditor, majaxMarkdown)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.6.3</release>
+    <api>0.6.3</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2010-11-23</date>
+   <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
+   <notes>
+Fixed a bug in the concurrency helper, and made a tweak to prevent thumbnails from being built from a partial master image.
    </notes>
   </release>
  </changelog>
