@@ -411,7 +411,7 @@ abstract class majaxMediaWrapperManager
 		$new_full_path = sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$new_partial_path;
 
 		try {
-		if (!file_exists($new_full_path) && majaxMediaToolbox::getFileLock($new_full_path))
+		if (!file_exists($new_full_path) && majaxMediaToolbox::getFileLock($new_full_path) && !majaxMediaToolbox::hasFileLock($full_path))
 		{
 			$image = new sfImage($full_path, $this->getPhotoMime());
 			$image->thumbnail($new_width, $new_height, $this->crop_method());
