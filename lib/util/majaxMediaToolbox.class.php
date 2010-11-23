@@ -28,6 +28,7 @@ class majaxMediaToolbox
 		if (static::hasFileLock($file))
 			return false;
 		touch($lock);
+		return true;
 	}
 
 	public static function removeFileLock($file)
