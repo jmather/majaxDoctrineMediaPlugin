@@ -37,7 +37,7 @@ class majaxMediaAdminModuleActions extends BasemajaxMediaAdminModuleActions
     $this->getResponse()->addHttpMeta('content-type', 'text/xml');
 
 
-    $type = $request->getParameter('media_type', null);
+    $type = strtolower($request->getParameter('type', null));
     $limit = $request->getParameter('limit', 10);
     $page = $request->getParameter('page', 1);
     $offset = ($page - 1) * $limit;
@@ -56,6 +56,31 @@ class majaxMediaAdminModuleActions extends BasemajaxMediaAdminModuleActions
         $media_items_query->addWhere('video_media > 0');
         $media_items_query->leftJoin('mre.Video m');
         break;
+      case 'gallery':
+        $media_items_query->addWhere('gallery_media > 0');
+        $media_items_query->leftJoin('mre.Gallery m');
+        break;
+      default:
+        $media_items_query->leftJoin('mre.Gallery g');
+        $media_items_query->leftJoin('mre.Video v');
+        $media_items_query->leftJoin('mre.Audio a');
+        $media_items_query->leftJoin('mre.Photo p');
+    }
+
+    $filter = trim($request->getParameter('filter', ''));
+    if ($filter != '')
+    {
+      $fl = strlen($filter);
+      if ($type == 'all')
+      {
+        $str = 'LEFT(a.name, '.$fl.') = ? OR ';
+        $str .= 'LEFT(v.name, '.$fl.') = ? OR ';
+        $str .= 'LEFT(p.name, '.$fl.') = ? OR ';
+        $str .= 'LEFT(g.name, '.$fl.') = ?';
+        $media_items_query->andWhere($str, array($filter, $filter, $filter, $filter));
+      } else {
+        $media_items_query->andWhere('LEFT(m.name, '.$fl.') = ?', $filter);
+      }
     }
 
     $sidx = $request->getParameter('sidx');

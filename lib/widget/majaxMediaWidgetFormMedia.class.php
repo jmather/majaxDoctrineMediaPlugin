@@ -16,24 +16,26 @@ class majaxMediaWidgetFormMedia extends sfWidgetFormInput
     $sfContext = sfContext::getInstance();
     $resp = $sfContext->getResponse();
     $resp->addJavascript('/majaxDoctrineMediaPlugin/js/grid.locale-en.js');
-    $resp->addJavascript('/majaxDoctrineMediaPlugin/js/jquery.majax.media.js');
     $resp->addJavascript('/majaxDoctrineMediaPlugin/js/jquery.jqGrid.min.js');
     $resp->addStylesheet('/majaxDoctrineMediaPlugin/css/ui.jqgrid.css');
+    $resp->addJavascript('/majaxDoctrineMediaPlugin/js/jquery.majax.media.js');
 
-/*    if ($value > 0)
-    {
-      $media = Doctrine_Query::create()->from('majaxMediaRegistryEntry mre')->where('id = ?', $value)->fetchOne();
-      $object = $media->object;
-    } else {
-      $object = '';
-    }
-*/
+    $sfContext->getConfiguration()->loadHelpers(array('Url'));
+
     $id = $this->generateId($name);
+
+    $fetch_url = url_for('majaxMediaAdminModule/list?sf_format=xml');
+    $lookup_url = url_for('majaxMediaAdminModule/lookup');
+
     $out = $this->renderTag('input', array_merge(array('type' => 'text', 'name' => $name, 'value' => $value), $attributes));
     $out .= '<script type="text/javascript">
 (function($){
   $(function(){
-    $(\'#'.$id.'\').majaxmediaselector();
+    var opts = {
+      lookup_url: \''.$lookup_url.'\',
+      fetch_url: \''.$fetch_url.'\',
+    };
+    $(\'#'.$id.'\').majaxmediaselector(opts);
   });
 })(jQuery);
 </script>
