@@ -1,6 +1,4 @@
 (function($) {
-	var url_base = '/admin/majaxMediaAdminModule/list';
-	var fetch_url_base = '/admin/majaxMediaAdminModule/lookup';
 	$.widget('ui.majaxmediaselector', {
 		version : '1.0.0',
 		eventPrefix : 'majaxmediaselector',
