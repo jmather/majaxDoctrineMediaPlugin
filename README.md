@@ -97,7 +97,7 @@ It automatically picks up if it needs to show a player for video/audio content, 
 
 #TODO:
 
-1. Build a better selection feature for attaching media items and (naturally) items to galleries.
+1. Build a better selection feature for attaching items to galleries.
 2. I'm sure there's something that could be done to bring getid3 into php 5.3, but for now i'll just fix it on an as needed basis.
 3. Make a rendering system for the player so players can be more easily swapped out
 
