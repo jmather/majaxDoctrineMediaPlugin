@@ -69,6 +69,14 @@ class majaxMediaGalleryAdminModuleActions extends BasemajaxMediaGalleryAdminModu
     if (count($exclude) > 0)
       $query->where('g.id NOT IN ('.implode(',', $exclude).')');
 
+    $filter = trim($request->getParameter('filter', ''));
+    if ($filter != '')
+    {
+      $fl = strlen($filter);
+      $query->andWhere('LEFT(g.name, '.$fl.') = ?', $filter);
+    }
+
+
     $sidx = $request->getParameter('sidx');
     $sord = $request->getParameter('sord');
     $sort = 'g.id DESC';

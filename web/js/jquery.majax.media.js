@@ -21,9 +21,9 @@
 			grid_options: {
 				"datatype":"xml",
 				"colModel": [
-					{ "name":"ID", "index":"id", "editable":false, "sorttype":"number", "key":true, width: 10 },
-					{ "name":"Name", "index":"name", "editable":false, sortable: false },
-					{ "name":"Type", "index":"Type", "editable":false, sortable: false, width: 50 },
+					{ "name":"ID", "index":"id", "key":true, hidden: true },
+					{ "name":"Name", "index":"name", sortable: false },
+					{ "name":"Type", "index":"Type", sortable: false, width: 50 },
 					{ 'name': 'CreatedOn', 'index': 'created_at' },
 					{ 'name': 'UpdatedOn', 'index': 'updated_at' }
 				],

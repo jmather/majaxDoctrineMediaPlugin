@@ -20,7 +20,13 @@ class majaxMediaWidgetFormGallery extends sfWidgetFormDoctrineChoice
     $resp->addJavascript('/majaxDoctrineMediaPlugin/js/jquery.majax.gallery.js');
     $resp->addJavascript('/majaxDoctrineMediaPlugin/js/jquery.jqGrid.min.js');
     $resp->addStylesheet('/majaxDoctrineMediaPlugin/css/ui.jqgrid.css');
+
     $id = $this->generateId($name);
+
+    $fetch_url = url_for('majaxMediaGalleryAdminModule/list?sf_format=xml', true);
+    $lookup_url = url_for('majaxMediaGalleryAdminModule/lookupMany', true);
+    $exclude = ($this->getOption('exclude')) ? $this->getOption('exclude') : false;
+
 
     $out = '';
     $out .= '<div id="'.$id.'_values">';
@@ -30,26 +36,20 @@ class majaxMediaWidgetFormGallery extends sfWidgetFormDoctrineChoice
     }
     $out .= '</div>';
     $out .= '<div id="'.$id.'">Loading...</div>';
-    if ($this->getOption('exclude'))
-    {
-      $out .= '<script type="text/javascript">
+    $out .= '<script type="text/javascript">
 (function($){
   $(function(){
-    $(\'#'.$id.'\').majaxgalleryselector({name: \''.$name.'\', exclude: \''.$this->getOption('exclude').'\'});
-  });
-})(jQuery);
-</script>
-';
-    } else {
-      $out .= '<script type="text/javascript">
-(function($){
-  $(function(){
-    $(\'#'.$id.'\').majaxgalleryselector({name: \''.$name.'\'});
-  });
-})(jQuery);
-</script>
-';
+    var opts = {
+      name: \''.$name.'\',
+      exclude: '.var_export($exclude, true).',
+      fetch_url: \''.$fetch_url.'\',
+      lookup_url: \''.$lookup_url.'\'
     }
+    $(\'#'.$id.'\').majaxgalleryselector(opts);
+  });
+})(jQuery);
+</script>
+';
     return $out;
   }
 }

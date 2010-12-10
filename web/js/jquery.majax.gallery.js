@@ -8,6 +8,9 @@
 		options : {
 			name: null,
 			defaultTab: 'all',
+			timeout: null,
+			fetch_url: false,
+			lookup_url: false,
 			exclude: false,
 			dialog_options : {
 				autoOpen: false,
@@ -19,6 +22,28 @@
 				closeOnEscape: true,
 				modal: true,
 				width: 700
+			},
+			grid_options: {
+				"datatype":"xml",
+				"colModel":
+				[
+					{ "name":"ID", "index":"id", "key":true, "hidden": true},
+					{ "name":"Name", "index":"name" },
+					{ 'name': 'CreatedOn', 'index': 'created_at', hidden: true },
+					{ 'name': 'UpdatedOn', 'index': 'updated_at', width: 80}
+				],
+				"rowNum":10,
+				"autowidth":true,
+				"rowList":[10,20,30],
+				"sortname": "ID",
+				viewrecords: true,
+				sortorder: "desc"
+			},
+			pager_options : {
+				add: false,
+				edit: false,
+				del: false,
+				search: false
 			},
 			open_dialog : function(id) {
 				$('#'+id+'_gallery_dialog').dialog('open');
@@ -34,19 +59,6 @@
 				$('#'+id).val(value);
 				$('#'+id+'_display').val(type+': '+name);
 				$('#'+id).majaxgalleryselector('close_dialog');
-			},
-			fetch_value : function(id, val) {
-				var tfCallback = function(id) {
-					return function(resp) {
-						if (resp['status'] == 'valid')
-						{
-							$('#'+id).majaxgalleryselector('select_value', resp['id'], resp['name'], resp['type']);
-						} else {
-							$('#'+id).majaxgalleryselector('clear_value');
-						}
-					}
-				}
-				$.post(fetch_url_base, { value: val }, tfCallback(id), 'json');
 			}
 		},
 		_create: function() {
@@ -82,7 +94,7 @@
 			var d = {};
 			for(var i = 0; i < this.values.length; i++)
 				d['values['+i+']'] = this.values[i];
-			$.post(fetch_many_url_base, d, tfInitTags(id), 'json');
+			$.post(this.options.lookup_url, d, tfInitTags(id), 'json');
 
 			return this;
 		},
@@ -147,42 +159,10 @@
 				return this;
 			}
 
-			var grid_opts = {
-				"url": url_base,
-				"postData": postdata,
-				"datatype":"xml",
-				"colModel": [
-					{
-						"name":"ID",
-						"index":"id",
-						"editable":false,
-						"sorttype":"number",
-						"key":true,
-						width: 10
-					},
-					{
-						"name":"Name",
-						"index":"name",
-						"editable":false,
-						sortable: false
-					},
-					{
-						'name': 'CreatedOn',
-						'index': 'created_at'
-					},
-					{
-						'name': 'UpdatedOn',
-						'index': 'updated_at'
-					}
-				],
-				"rowNum":10,
-				"autowidth":true,
-				"rowList":[10,20,30],
-				"pager":"#"+id+"_pager",
-				"sortname": "ID",
-				viewrecords: true,
-				sortorder: "desc"
-			};
+			var grid_opts = this.options.grid_options;
+			grid_opts['url'] = this.options.fetch_url;
+			grid_opts['postData'] = postdata;
+			grid_opts['pager'] = '#'+id+'_pager';
 
 			var tfDblClick = function(widget_id) {
 				return function(id) {
@@ -199,30 +179,50 @@
 
 			grid_opts['ondblClickRow'] = tfDblClick(id);
 
-			var pager_opts = { add: false, edit: false, del: false, search: false };
+			var pager_opts = this.options.pager_options;
 
 
-			$('#'+id+'_gallery_dialog_content').append('<p style="font-size: .8em; text-align: center;">Double-click to select a gallery.</p><table id="'+id+'_grid"></table><div id="'+id+'_pager"></div>');
-			$('#'+id+'_grid').jqGrid(grid_opts).navGrid('#'+id+'_pager', pager_opts).navButtonAdd('#'+id+'_pager', {
-				caption: 'Search',
-				buttonicon: 'ui-icon-search',
-				onClickButton: tfSearchClick(id),
-				position: 'last'
-			});
-			
+			$('#'+id+'_gallery_dialog_content').append('<p style="font-size: .8em; text-align: center;">Double-click to select a gallery.</p>');
+
+			var table = '<table width="100%"><thead><tr>';
+			table += '<th style="text-align: left;">Filter: <input type="text" id="'+id+'_media_filter" /></th>';
+			table += '</tr></thead></table>';
+			table += '<table id="'+id+'_grid"></table><div id="'+id+'_pager"></div>';
+
+			$('#'+id+'_gallery_dialog_content').append(table);
+
+			$('#'+id+'_grid').jqGrid(grid_opts).navGrid('#'+id+'_pager', pager_opts);
+
+			var tFunc = function(obj) {
+				return function() {
+					obj.update_grid_filters();
+				}
+			}
+
+			$('#'+id+'_media_filter').keydown(tFunc(this));
 
 			this.options['grid_initialized'] = true;
 
 			return this;
 		},
-		open_search : function()
+		update_grid_filters: function()
 		{
-			var id = this.options['id'];
-			var search_grid_opts = {
-				multipleSearch: true
-			};
+			var tFunc = function(obj) {
+				return function() {
+					obj.update_grid();
+				}
+			}
 
-			$('#'+id+'_grid').jqGrid().searchGrid( search_grid_opts );
+			if (this.options.timeout)
+				clearTimeout(this.options.timeout);
+			this.options.timeout = setTimeout(tFunc(this), 500);
+		},
+		update_grid: function()
+		{
+			var filter = $('#'+this.options.id+'_media_filter').val();
+
+			var url = this.options['fetch_url']+'?filter='+filter;
+			$('#'+this.options.id+'_grid').jqGrid('setGridParam', { url: url, page: 1}).trigger('reloadGrid');
 		},
 		close_dialog : function()
 		{
