@@ -10,11 +10,11 @@
   <email>jmather@itsmajax.com</email>
   <active>yes</active>
  </lead>
- <date>2010-12-09</date>
- <time>11:50:48</time>
+ <date>2010-12-10</date>
+ <time>15:29:27</time>
  <version>
-  <release>0.6.4</release>
-  <api>0.6.4</api>
+  <release>0.6.5</release>
+  <api>0.6.5</api>
  </version>
  <stability>
   <release>alpha</release>
@@ -73,7 +73,7 @@ Added concurrency subsystem
    <file baseinstalldir="/dev/null" md5sum="2828cf319ccae657e330fdfbe80f0c2e" name="lib/model/doctrine/PluginmajaxMediaVideoTable.class.php" role="php" />
    <file baseinstalldir="/dev/null" md5sum="9d0cf3cf47639f2c8b78fad2e33dae8d" name="lib/util/majaxMediaToolbox.class.php" role="php" />
    <file baseinstalldir="/dev/null" md5sum="3c92d7f0718106ccc0b12e1ffa979c16" name="lib/validator/majaxMediaValidatedFile.class.php" role="php" />
-   <file baseinstalldir="/dev/null" md5sum="c906c08648aae322733c53ab3b1a5c3f" name="lib/widget/majaxMediaWidgetFormGallery.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="451f60fae6c222cf41171120639ac36b" name="lib/widget/majaxMediaWidgetFormGallery.class.php" role="php" />
    <file baseinstalldir="/dev/null" md5sum="f13469b6bc9cfaa2f15fd8f328df4e76" name="lib/widget/majaxMediaWidgetFormInputFile.class.php" role="php" />
    <file baseinstalldir="/dev/null" md5sum="cd603142787688607a27cff89beef731" name="lib/widget/majaxMediaWidgetFormMedia.class.php" role="php" />
    <file baseinstalldir="/dev/null" md5sum="d30107b8793c3db5cf1ccf06d6009055" name="modules/majaxMediaAdminModule/actions/actions.class.php" role="php" />
@@ -92,11 +92,11 @@ Added concurrency subsystem
    <file baseinstalldir="/dev/null" md5sum="8176d56d200f7aa10932f17eca6f606e" name="modules/majaxMediaGalleries/lib/majaxMediaGalleriesGeneratorHelper.class.php" role="php" />
    <file baseinstalldir="/dev/null" md5sum="a61eb59b39d79d6292d993e213fb2760" name="modules/majaxMediaGalleries/templates/ListSortSuccess.php" role="php" />
    <file baseinstalldir="/dev/null" md5sum="1abcf9fc47017b33467740436f30b092" name="modules/majaxMediaGalleries/templates/_listSort.php" role="php" />
-   <file baseinstalldir="/dev/null" md5sum="654b00acc58c32b723d4dc6403b91521" name="modules/majaxMediaGalleryAdminModule/actions/actions.class.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="f829b4988c15f034cb0c6fea782d04d7" name="modules/majaxMediaGalleryAdminModule/actions/actions.class.php" role="php" />
    <file baseinstalldir="/dev/null" md5sum="ce98e13991d1f6b0aae16b998c49b438" name="modules/majaxMediaGalleryAdminModule/config/security.yml" role="data" />
    <file baseinstalldir="/dev/null" md5sum="0e58f1ed5a21950369024ba60bc56f7e" name="modules/majaxMediaGalleryAdminModule/config/view.yml" role="data" />
    <file baseinstalldir="/dev/null" md5sum="7aa41e619c00db260fa9239c37b2cd8c" name="modules/majaxMediaGalleryAdminModule/lib/BasemajaxMediaGalleryAdminModuleActions.class.php" role="php" />
-   <file baseinstalldir="/dev/null" md5sum="84ba760739085f4e5ed42ba383ff9edd" name="modules/majaxMediaGalleryAdminModule/templates/listSuccess.php" role="php" />
+   <file baseinstalldir="/dev/null" md5sum="84ba760739085f4e5ed42ba383ff9edd" name="modules/majaxMediaGalleryAdminModule/templates/listSuccess.xml.php" role="php" />
    <file baseinstalldir="/dev/null" md5sum="c086bb2107e5e117c11c732950ca950d" name="modules/majaxMediaGalleryModule/actions/actions.class.php" role="php" />
    <file baseinstalldir="/dev/null" md5sum="a7cb03860a77a9211cc06ef9e94a6a8f" name="modules/majaxMediaGalleryModule/lib/BasemajaxMediaGalleryModuleActions.class.php" role="php" />
    <file baseinstalldir="/dev/null" md5sum="5892c564cd420c20b9eb800e66970f1b" name="modules/majaxMediaGalleryModule/templates/listSuccess.xml.php" role="php" />
@@ -215,11 +215,12 @@ Added concurrency subsystem
    <file baseinstalldir="/dev/null" md5sum="871b04f5173390640497989b5eae416c" name="web/flash/player.swf" role="data" />
    <file baseinstalldir="/dev/null" md5sum="bd188761c59a445345715905f7f389b9" name="web/js/grid.locale-en.js" role="data" />
    <file baseinstalldir="/dev/null" md5sum="de401da5e17e55965e6b3c92ce54f377" name="web/js/jquery.jqGrid.min.js" role="data" />
-   <file baseinstalldir="/dev/null" md5sum="7f85105d55a456c910fd91c8174e769e" name="web/js/jquery.majax.gallery.js" role="data" />
-   <file baseinstalldir="/dev/null" md5sum="2bfd1dd9d071fc619c91c78ecf765e57" name="web/js/jquery.majax.media.js" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="b9fbe4cf265bbc17992409d6d32bd172" name="web/js/jquery.majax.gallery.js" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="a5d3e10d79789c489b9fae7ae7d9476d" name="web/js/jquery.majax.media.js" role="data" />
    <file baseinstalldir="/dev/null" md5sum="892a543f3abb54e8ec1ada55be3b0649" name="web/js/swfobject.js" role="data" />
    <file baseinstalldir="/dev/null" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="LICENSE" role="data" />
-   <file baseinstalldir="/dev/null" md5sum="44369ad3891eaf9f6c81fb5f5c0c903d" name="README" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="1fdaabd215d98127070f8c1fffb52690" name="README" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="44369ad3891eaf9f6c81fb5f5c0c903d" name="README.md" role="data" />
   </dir>
  </contents>
  <dependencies>
@@ -355,6 +356,21 @@ Fixed a bug in the concurrency helper, and made a tweak to prevent thumbnails fr
    <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
    <notes>
 Added concurrency subsystem
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.6.6</release>
+    <api>0.6.6</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2010-12-10</date>
+   <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
+   <notes>
+Revamped the widgets for selecting media items both to attach to other objects and for attaching to galleries.
    </notes>
   </release>
  </changelog>
