@@ -219,8 +219,7 @@ Added concurrency subsystem
    <file baseinstalldir="/dev/null" md5sum="a5d3e10d79789c489b9fae7ae7d9476d" name="web/js/jquery.majax.media.js" role="data" />
    <file baseinstalldir="/dev/null" md5sum="892a543f3abb54e8ec1ada55be3b0649" name="web/js/swfobject.js" role="data" />
    <file baseinstalldir="/dev/null" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="LICENSE" role="data" />
-   <file baseinstalldir="/dev/null" md5sum="1fdaabd215d98127070f8c1fffb52690" name="README" role="data" />
-   <file baseinstalldir="/dev/null" md5sum="44369ad3891eaf9f6c81fb5f5c0c903d" name="README.md" role="data" />
+   <file baseinstalldir="/dev/null" md5sum="44369ad3891eaf9f6c81fb5f5c0c903d" name="README" role="data" />
   </dir>
  </contents>
  <dependencies>
@@ -360,8 +359,8 @@ Added concurrency subsystem
   </release>
   <release>
    <version>
-    <release>0.6.6</release>
-    <api>0.6.6</api>
+    <release>0.6.5</release>
+    <api>0.6.5</api>
    </version>
    <stability>
     <release>alpha</release>
