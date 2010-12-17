@@ -313,24 +313,7 @@ abstract class majaxMediaWrapperManager
 
 		$render_class = sfConfig::get('app_majaxMedia_video_render', 'majaxMediaVideoRender');
 		$render = new $render_class();
-		return $render->render($this);
-
-		$context = sfContext::getInstance();
-		$context->getResponse()->addJavascript('/majaxDoctrineMediaPlugin/js/swfobject.js');
-		$id = 'video_'.md5(time().microtime(true).'majax'.rand());
-		$cont = $this->getFlashRequiredBlock($id);
-		$width = $this->get('width', 400);
-		$height = $this->get('controller_height'); 
-		$height += $this->getRatioHeight($width, null, $this->getPhotoWidth(), $this->getPhotoHeight(), $this->get('aspect_ratio'));
-		$length = $this->getLength();
-		if ($this->isMedia())
-		{
-			$jscont = $this->getPlayerJSBlock($id, $new_partial_path, $width, $height, $length, $this->photoToString(true));
-		} else {
-			$jscont = $this->getPlayerJSBlock($id, $new_partial_path, $width, $height, $length);
-		}
-		$cont .= '<script type="text/javascript">'.$jscont.'</script>';
-		return $cont;
+		return $render->render($this, $new_partial_path);
 	}
 
 	public function audioToString($path_only = false)
@@ -358,28 +341,7 @@ abstract class majaxMediaWrapperManager
 
 		$render_class =	sfConfig::get('app_majaxMedia_audio_render', 'majaxMediaAudioRender');
 		$render	= new $render_class();
-		return $render->render($this);
-
-
-		$context = sfContext::getInstance();
-		$context->getResponse()->addJavascript('/majaxDoctrineMediaPlugin/js/swfobject.js');
-		$id = 'audio_'.md5(time().microtime(true).'majax'.rand());
-		$cont = $this->getFlashRequiredBlock($id);
-		$width = $this->get('width', 400);
-		$height = $this->get('controller_height');
-		if ($this->isMedia())
-		{
-			$height += $this->getRatioHeight($width, null, $this->getPhotoWidth(), $this->getPhotoHeight(), $this->get('aspect_ratio'));
-		}
-		$length = $this->getLength();
-		if ($this->isMedia())
-		{
-			$jscont = $this->getPlayerJSBlock($id, $new_partial_path, $width, $height, $length, $this->photoToString(true));
-		} else {
-			$jscont = $this->getPlayerJSBlock($id, $new_partial_path, $width, $height, $length);
-		}
-		$cont .= '<script type="text/javascript">'.$jscont.'</script>';
-		return $cont;
+		return $render->render($this, $new_partial_path);
 	}
 
 	public function photoToString($path_only = false)
@@ -611,7 +573,7 @@ abstract class majaxMediaWrapperManager
 		return $r[1];
 	}
 
-	protected function isMedia()
+	public function isMedia()
 	{
 		return false;
 	}

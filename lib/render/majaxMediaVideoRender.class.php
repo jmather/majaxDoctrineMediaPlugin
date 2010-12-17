@@ -2,7 +2,7 @@
 
 class majaxMediaVideoRender extends majaxMediaRender
 {
-	public function render($media_object)
+	public function render($media_object, $render_path)
 	{
 		$context = sfContext::getInstance();
 		$context->getResponse()->addJavascript('/majaxDoctrineMediaPlugin/js/swfobject.js');
@@ -14,9 +14,9 @@ class majaxMediaVideoRender extends majaxMediaRender
 		$length = $media_object->getLength();
 		if ($media_object->isMedia())
 		{
-			$jscont = $this->getPlayerJSBlock($id, $new_partial_path, $width, $height, $length, $media_object->photoToString(true));
+			$jscont = $this->getPlayerJSBlock($id, $render_path, $width, $height, $length, $media_object->photoToString(true));
 		} else {
-			$jscont = $this->getPlayerJSBlock($id, $new_partial_path, $width, $height, $length);
+			$jscont = $this->getPlayerJSBlock($id, $render_path, $width, $height, $length);
 		}
 		$cont .= '<script type="text/javascript">'.$jscont.'</script>';
 		return $cont;

@@ -1,7 +1,7 @@
 <?php
 class majaxMediaAudioRender extends majaxMediaRender
 {
-	function render($media_object)
+	function render($media_object, $render_path)
 	{
 		$context = sfContext::getInstance();
 		$context->getResponse()->addJavascript('/majaxDoctrineMediaPlugin/js/swfobject.js');
@@ -16,9 +16,9 @@ class majaxMediaAudioRender extends majaxMediaRender
 		$length = $media_object->getLength();
 		if ($media_object->isMedia())
 		{
-			$jscont = $this->getPlayerJSBlock($id, $new_partial_path, $width, $height, $length, $media_object->photoToString(true));
+			$jscont = $this->getPlayerJSBlock($id, $render_path, $width, $height, $length, $media_object->photoToString(true));
 		} else {
-			$jscont = $this->getPlayerJSBlock($id, $new_partial_path, $width, $height, $length);
+			$jscont = $this->getPlayerJSBlock($id, $render_path, $width, $height, $length);
 		}
 		$cont .= '<script type="text/javascript">'.$jscont.'</script>';
 		return $cont;

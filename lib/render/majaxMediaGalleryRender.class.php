@@ -8,7 +8,7 @@ class majaxMediaGalleryRender extends majaxMediaRender
 		$context->getResponse()->addJavascript('/js/swfobject.js');
 		$id = 'gallery_'.md5(time().microtime(true).'majaxMedia'.rand());
 		$media_object->set('controller_height', 25);
-		$gal = $media_object->obj->getObject();
+		$gal = $media_object->getObject()->getObject();
 
 		if (count($gal->Media) == 0)
 		{
