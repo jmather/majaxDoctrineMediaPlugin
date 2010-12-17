@@ -1,7 +1,4 @@
 (function($) {
-	var url_base = '/admin/majaxMediaGalleryAdminModule/list';
-	var fetch_url_base = '/admin/majaxMediaGalleryAdminModule/lookup';
-	var fetch_many_url_base = '/admin/majaxMediaGalleryAdminModule/lookupMany';
 	$.widget('ui.majaxgalleryselector', {
 		version : '1.0.0',
 		eventPrefix : 'majaxgalleryselector',
