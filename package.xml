@@ -10,19 +10,19 @@
   <email>jmather@itsmajax.com</email>
   <active>yes</active>
  </lead>
- <date>2010-12-10</date>
- <time>15:29:27</time>
+ <date>2010-12-17</date>
+ <time>10:05:00</time>
  <version>
-  <release>0.6.5</release>
-  <api>0.6.5</api>
+  <release>0.7.0</release>
+  <api>0.7.0</api>
  </version>
  <stability>
-  <release>alpha</release>
-  <api>alpha</api>
+  <release>beta</release>
+  <api>beta</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
  <notes>
-Added concurrency subsystem
+ Added renderer classes for Audio, Video, and Gallery content. Moved to beta.
  </notes>
  <contents>
   <dir baseinstalldir="/dev/null" name="/">
@@ -370,6 +370,21 @@ Added concurrency subsystem
    <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
    <notes>
 Revamped the widgets for selecting media items both to attach to other objects and for attaching to galleries.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.7.0</release>
+    <api>0.7.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2010-12-17</date>
+   <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
+   <notes>
+Added renderer classes for Audio, Video, and Gallery content. Moved to beta.
    </notes>
   </release>
  </changelog>

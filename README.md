@@ -95,7 +95,18 @@ or
 It automatically picks up if it needs to show a player for video/audio content, and adds in extra height to compensate for the lack of a control bar on photos.
 
 
+##Custom Renderers
+
+If you don't like how something is displayed... change it!
+    
+Look at lib/render/majaxMedia<TYPE>Render.class.php
+ 
+Build your own class, then simply set your renderer in it's place...
+
+    sfConfig::set('app_majaxMedia_video_render', 'myVideoRender');
+
+
 #TODO:
 
-1. Make a rendering system for the player so players can be more easily swapped out
+Finish the plugin nature of things by allowing the gallery renderer to also control the output from the gallery module...
 
