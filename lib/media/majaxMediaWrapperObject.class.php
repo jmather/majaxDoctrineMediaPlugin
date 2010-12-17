@@ -139,6 +139,11 @@ class majaxMediaWrapperObject extends majaxMediaWrapperManager
 
         public function galleryToString()
         {
+		$render_class =	sfConfig::get('app_majaxMedia_gallery_render', 'majaxMediaGalleryRender');
+		$render	= new $render_class();
+		return $render->render($this);
+
+
                 $context = sfContext::getInstance();
                 $context->getResponse()->addJavascript('/js/swfobject.js');
                 $id = 'gallery_'.md5(time().microtime(true).'majaxMedia'.rand());

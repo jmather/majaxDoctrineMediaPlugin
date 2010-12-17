@@ -1,3 +1,6 @@
 all:
   majaxMedia:
     ffmpeg_path: /usr/local/bin/ffmpeg
+    video_render: majaxMediaVideoRender
+    audio_render: majaxMediaAudioRender
+    gallery_render: majaxMediaGalleryRender

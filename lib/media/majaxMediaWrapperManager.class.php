@@ -311,6 +311,10 @@ abstract class majaxMediaWrapperManager
 			return $new_partial_path;
 
 
+		$render_class = sfConfig::get('app_majaxMedia_video_render', 'majaxMediaVideoRender');
+		$render = new $render_class();
+		return $render->render($this);
+
 		$context = sfContext::getInstance();
 		$context->getResponse()->addJavascript('/majaxDoctrineMediaPlugin/js/swfobject.js');
 		$id = 'video_'.md5(time().microtime(true).'majax'.rand());
@@ -350,6 +354,11 @@ abstract class majaxMediaWrapperManager
 
 		if ($path_only)
 			return $new_partial_path;
+
+
+		$render_class =	sfConfig::get('app_majaxMedia_audio_render', 'majaxMediaAudioRender');
+		$render	= new $render_class();
+		return $render->render($this);
 
 
 		$context = sfContext::getInstance();
