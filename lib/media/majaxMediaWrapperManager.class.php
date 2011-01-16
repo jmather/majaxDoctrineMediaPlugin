@@ -344,7 +344,7 @@ abstract class majaxMediaWrapperManager
 		return $render->render($this, $new_partial_path);
 	}
 
-	public function photoToString($path_only = false)
+	public function photoToString($path_only = false, $ignore_type = false)
 	{
 		$name = $this->getPhotoName();
 		$sha1 = $this->getPhotoSha1();
@@ -371,7 +371,7 @@ abstract class majaxMediaWrapperManager
 			$new_height = $this->getPhotoHeight();
 		}
 
-		if ($this->getType() == 'Photo')
+		if ($this->getType() == 'Photo' && $ignore_type == false)
 		{
 			$new_height += $this->get('controller_height');
 		}
