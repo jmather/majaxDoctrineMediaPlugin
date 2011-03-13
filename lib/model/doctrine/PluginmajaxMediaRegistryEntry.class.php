@@ -66,7 +66,7 @@ abstract class PluginmajaxMediaRegistryEntry extends BasemajaxMediaRegistryEntry
   }
   public function getType()
   {
-    if ($this->photo_media > 0)
+    if ($this->photo_media instanceof majaxMediaPhoto || $this->photo_media > 0)
     {
       return 'Photo';
     }

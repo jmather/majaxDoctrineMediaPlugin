@@ -61,8 +61,29 @@ abstract class majaxMediaWrapperManager
 			return $this->get('crop_method', 'fit');
 		$allowed = array('fit', 'scale', 'inflate','deflate', 'left' ,'right', 'top', 'bottom', 'center');
 		if (!in_array($method, $allowed))
-			throw InvalidArgumentException('Crop method "'.$method.'" is invalid. Only fit, scale, inflate, deflate, left, right, top, bottom, or center');
+			throw new InvalidArgumentException('Crop method "'.$method.'" is invalid. Only fit, scale, inflate, deflate, left, right, top, bottom, or center');
 		$this->set('crop_method', $method);
+		return $this;
+	}
+
+	public function attributes($params = null)
+	{
+		if ($params == null)
+			return $this->get('attributes', array());
+		if (!is_array($params))
+			throw new InvalidArgumentException('Attributes must be called with an array or null parameter.');
+
+		$p = $this->get('attributes', array());
+		$this->set('attributes', array_merge($params, $p));
+		return $this;
+	}
+
+	public function ignore_type($value = null)
+	{
+		if ($value == null)
+			return $this->get('ignore_type', false);
+		$v = (intval($value) != 0) ? true : false;
+		$this->set('ignore_type', $v);
 		return $this;
 	}
 
@@ -246,7 +267,7 @@ abstract class majaxMediaWrapperManager
 		return $render->render($this, $new_partial_path);
 	}
 
-	public function photoToString($path_only = false)
+	public function photoToString($path_only = false, $ignore_type = false)
 	{
 		$name = $this->getPhotoName();
 		$sha1 = $this->getPhotoSha1();
@@ -273,12 +294,12 @@ abstract class majaxMediaWrapperManager
 			$new_height = $this->getPhotoHeight();
 		}
 
-		if ($this->getType() == 'Photo')
+		if ($this->getType() == 'Photo' && $ignore_type == false && $this->ignore_type() == false)
 		{
 			$new_height += $this->get('controller_height');
 		}
 
-		$new_filename = $new_width.'x'.$new_height;
+		$new_filename = intval($this->ignore_type()).'_'.$new_width.'x'.$new_height;
 		$new_filename .= '_'.$this->get('crop_method', 'fit').'_'.$name;
 		$new_partial_path = $path.DIRECTORY_SEPARATOR.$new_filename;
 		$new_full_path = sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$new_partial_path;
@@ -295,7 +316,11 @@ abstract class majaxMediaWrapperManager
 		}
 		if ($path_only)
 			return '/'.sfConfig::get('majax_media_dir_name').'/'.$new_partial_path;
-		return '<img src="/'.sfConfig::get('majax_media_dir_name').'/'.$new_partial_path.'" />';
+		$out = '<img src="/'.sfConfig::get('majax_media_dir_name').'/'.$new_partial_path.'"';
+		foreach($this->get('attributes', array()) as $name => $value)
+			$out .= ' '.$name.'="'.$value.'"';
+		$out .= ' />';
+		return $out;
 	}
 
 	/**
