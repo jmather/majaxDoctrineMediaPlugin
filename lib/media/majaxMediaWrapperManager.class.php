@@ -112,119 +112,21 @@ abstract class majaxMediaWrapperManager
 
 		$args = array('-i', $full_path, '-ar', '22050', '-b', '409600');
 
+		$translator_class = sfConfig::get('app_majax_media_video_transformation_builder', 'majaxMediaFFMpegVideoTransformationBuilder');
+		$translator = new $translator_class();
 
 		switch($this->get('crop_method'))
 		{
 			case 'center':
-				$ratio = min($new_height / $this->getVideoHeight(), $new_width / $this->getVideoWidth());
-				$height_check = round($this->getVideoHeight() * $ratio);
-				if ($height_check != $new_height)
-				{
-					$diff = (ceil(abs($new_height - $height_check) / 2) * 2);
-					$diff_split = $diff / 2;
-					$args[] = '-cropright';
-					$args[] = $diff_split;
-					$args[] = '-cropleft';
-					$args[] = $diff_split;
-				}
-				$width_check = round($this->getVideoWidth() * $ratio);
-				if ($width_check != $new_width)
-				{
-					$diff = (ceil(abs($new_width - $width_check) / 2) * 2);
-					$diff_split = $diff / 2;
-					$args[] = '-croptop';
-					$args[] = $diff_split;
-					$args[] = '-cropbottom';
-					$args[] = $diff_split;
-				}
-				break;
-				
 			case 'left':
-				$ratio = min($new_height / $this->getVideoHeight(), $new_width / $this->getVideoWidth());
-				$height_check = round($this->getVideoHeight() * $ratio);
-				if ($height_check != $new_height)
-				{
-					$diff = (ceil(abs($new_height - $height_check) / 2) * 2);
-					$diff_split = $diff / 2;
-					$args[] = '-cropright';
-					$args[] = $diff;
-				}
-				$width_check = round($this->getVideoWidth() * $ratio);
-				if ($width_check != $new_width)
-				{
-					$diff = (ceil(abs($new_width - $width_check) / 2) * 2);
-					$diff_split = $diff / 2;
-					$args[] = '-croptop';
-					$args[] = $diff_split;
-					$args[] = '-cropbottom';
-					$args[] = $diff_split;
-				}
-				break;
-				
 			case 'right':
-				$ratio = min($new_height / $this->getVideoHeight(), $new_width / $this->getVideoWidth());
-				$height_check = round($this->getVideoHeight() * $ratio);
-				if ($height_check != $new_height)
-				{
-					$diff = (ceil(abs($new_height - $height_check) / 2) * 2);
-					$diff_split = $diff / 2;
-					$args[] = '-cropleft';
-					$args[] = $diff;
-				}
-				$width_check = round($this->getVideoWidth() * $ratio);
-				if ($width_check != $new_width)
-				{
-					$diff = (ceil(abs($new_width - $width_check) / 2) * 2);
-					$diff_split = $diff / 2;
-					$args[] = '-croptop';
-					$args[] = $diff_split;
-					$args[] = '-cropbottom';
-					$args[] = $diff_split;
-				}
-				break;
-				
 			case 'top':
-				$ratio = min($new_height / $this->getVideoHeight(), $new_width / $this->getVideoWidth());
-				$height_check = round($this->getVideoHeight() * $ratio);
-				if ($height_check != $new_height)
-				{
-					$diff = (ceil(abs($new_height - $height_check) / 2) * 2);
-					$diff_split = $diff / 2;
-					$args[] = '-cropright';
-					$args[] = $diff_split;
-					$args[] = '-cropleft';
-					$args[] = $diff_split;
-				}
-				$width_check = round($this->getVideoWidth() * $ratio);
-				if ($width_check != $new_width)
-				{
-					$diff = (ceil(abs($new_width - $width_check) / 2) * 2);
-					$diff_split = $diff / 2;
-					$args[] = '-cropbottom';
-					$args[] = $diff;
-				}
-				break;
-				
 			case 'bottom':
-				$ratio = min($new_height / $this->getVideoHeight(), $new_width / $this->getVideoWidth());
-				$height_check = round($this->getVideoHeight() * $ratio);
-				if ($height_check != $new_height)
-				{
-					$diff = (ceil(abs($new_height - $height_check) / 2) * 2);
-					$diff_split = $diff / 2;
-					$args[] = '-cropright';
-					$args[] = $diff_split;
-					$args[] = '-cropleft';
-					$args[] = $diff_split;
-				}
-				$width_check = round($this->getVideoWidth() * $ratio);
-				if ($width_check != $new_width)
-				{
-					$diff = (ceil(abs($new_width - $width_check) / 2) * 2);
-					$diff_split = $diff / 2;
-					$args[] = '-croptop';
-					$args[] = $diff;
-				}
+				$s_w = $this->getVideoWidth();
+				$s_h = $this->getVideoHeight();
+				$c_m = $this->get('crop_method');
+				$new_args = $translator->render($s_w, $s_h, $new_width, $new_height, $c_m);
+				$args = array_merge($args, $new_args);
 				break;
 				
 			case 'fit':

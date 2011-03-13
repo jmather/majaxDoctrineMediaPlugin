@@ -15,7 +15,7 @@ function majaxMedia($reference)
   {
     return new majaxMediaWrapperFileInfo($ref);
   }
-  throw new IllegalArgumentException('Reference was not a majaxMediaRegistryEntry or majaxMediaFileInfo Object');
+  throw new InvalidArgumentException('Reference was not a majaxMediaRegistryEntry or majaxMediaFileInfo Object');
   if (file_exists($ref))
   {
     return $ref;
