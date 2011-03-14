@@ -55,14 +55,18 @@ class majaxMediaFFMpeg
 			}
 		}
 
+	  $src_width = $this->getVideoWidth();
+	  $src_height = $this->getVideoHeight();
+	  $crop_method = $this->get('crop_method');
+	  $aspect_ratio = $this->get('aspect_ratio');
+	  $new_width = $this->get('width');
+	  $new_height = $this->get('height');
+
 		if ($this->get('width') !== null || $this->get('height') !== null)
 		{
-			$dims = $this->getRatioDimensions($this->get('width'), $this->get('height'), $this->getVideoWidth(), $this->getVideoHeight(), $this->get('aspect_ratio'));
-			$new_width = $dims[0];
-			$new_height = $dims[1];
+			list($new_width, $new_height) = $this->getRatioDimensions($src_width, $src_height, $new_width, $new_height, $aspect_ratio);
 		} else {
-			$new_width = $this->getVideoWidth();
-			$new_height = $this->getVideoHeight();
+			list($new_width, $new_height) = array($src_width, $src_height);
 		}
 
 
@@ -74,51 +78,25 @@ class majaxMediaFFMpeg
 		$args = array('-i', $full_path, '-ar', '22050', '-b', '409600');
 
 		$translator_class = sfConfig::get('app_majax_media_video_transformation_builder', 'majaxMediaFFMpegVideoTransformationBuilder');
-		$translator = new $translator_class();
+		$translator_fit_class = sfConfig::get('app_majax_media_video_transformation_fit_builder', 'majaxMediaFFMpegVideoTransformationFitBuilder');
 
-		switch($this->get('crop_method'))
-		{
-			case 'center':
-			case 'left':
-			case 'right':
-			case 'top':
-			case 'bottom':
-				$s_w = $this->getVideoWidth();
-				$s_h = $this->getVideoHeight();
-				$c_m = $this->get('crop_method');
-				$new_args = $translator->render($s_w, $s_h, $new_width, $new_height, $c_m);
-				$args = array_merge($args, $new_args);
-				break;
-				
-			case 'fit':
-				// fit
-				$ratio = min($new_height / $this->getVideoHeight(), $new_width / $this->getVideoWidth());
-				$height_check = round($this->getVideoHeight() * $ratio);
-				if ($height_check != $new_height)
-				{
-					$diff = $new_height - $height_check;
-					$diff_top = floor($diff / 2);
-					$diff_bot = $diff - $diff_top;
-					$new_height = $new_height - abs($diff);
-				}
-				$width_check = round($this->getVideoWidth() * $ratio);
-				if ($width_check != $new_width)
-				{
-					$diff = $new_width - $width_check;
-					$diff_l = floor($diff / 2);
-					$diff_r = $diff - $diff_l;
-					$new_width = $new_width - abs($diff);
-				}
+
+    if ($c_m == 'fit')
+    {
+  		$translator = new $translator_fit_class();
+  		list($new_width, $new_height) = $translator->render($s_w, $s_h, $new_width, $new_height, $c_m);
+  	} else {
+  		$translator = new $translator_class();
+			$new_args = $translator->render($s_w, $s_h, $new_width, $new_height, $c_m);
+			$args = array_merge($args, $new_args);
 		}
-
-
 
 
 		$new_width = (ceil($new_width / 2) * 2);
 		$new_height = (ceil($new_height / 2) * 2);
 
-		$new_filename = $new_width.'x'.$new_height;
-		$new_filename .= '_'.$this->get('crop_method', 'fit').'_'.$new_name;
+    $new_filename = $this->filename_builder->render($new_width, $new_height, $crop_method, $new_name);
+
 		$new_partial_path = $path.DIRECTORY_SEPARATOR.$new_filename;
 
 
@@ -214,4 +192,28 @@ class majaxMediaFFMpeg
 		}
 		return false;
 	}
+  public function getRatioDimensions($source_width = 16, $source_height = 9, $new_width = null, $new_height = null, $aspect_ratio = 'auto')
+  {
+    if ($new_width == null)
+    {
+      if ($aspect_ratio == 'auto')
+      {
+        $new_width = round($new_height * $source_width / $source_height);
+      } else {
+        list($aw, $ah) = explode(':', $aspect_ratio, 2);
+        $new_width = round($new_height * $aw / $ah);
+      }
+    }
+    if ($new_height == null)
+    {
+      if ($aspect_ratio == 'auto')
+      {
+        $new_height = round($new_width * $source_height / $source_width);
+      } else {
+        list($aw, $ah) = explode(':', $aspect_ratio, 2);
+        $new_height = round($new_width * $ah / $aw);
+      }
+    }
+    return array($new_width, $new_height);
+  }
 }

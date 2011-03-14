@@ -23,8 +23,8 @@ class unit_majaxMediaFilenameBuilderTest extends sfPHPUnitBaseTestCase
   public function testPlainFilenameGenerationProvider()
   {
     return array(
-      array('100', '100', 'center', 'gif', '100x100_center.gif'),
-      array('29', '320934', 'fit', 'flv', '29x320934_fit.flv'),
+      array('100', '100', 'center', 'blah.gif', '100x100_center_blah.gif'),
+      array('29', '320934', 'fit', 'blah.flv', '29x320934_fit_blah.flv'),
     );
   }  
 }
