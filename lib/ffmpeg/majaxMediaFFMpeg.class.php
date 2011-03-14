@@ -7,7 +7,8 @@ class majaxMediaFFMpeg
 	protected $filename_builder = null;
 	protected $path_builder = null;
 	protected $cmd_line_builder = null;
-	protected $executer;
+	protected $executer = null;
+	protected $file_helper = null;
 
 	public function __construct()
 	{
@@ -19,6 +20,8 @@ class majaxMediaFFMpeg
 		$this->cmd_line_builder = new $clb_class();
 		$executer_class = sfConfig::get('app_majax_media_executer', 'majaxMediaCommandExecuter');
 		$this->executer = new $executer_class();
+		$file_helper_class = sfConfig::get('app_majax_media_file_helper', 'majaxMediaFileHelper');
+		$this->file_helper = new $file_helper_class();
 	}
 	
 	public function setFilenameBuilder(majaxMediaFilenameBuilder $fnb)
@@ -38,31 +41,26 @@ class majaxMediaFFMpeg
 	{
 	  $this->executor = $e;
 	}
-	public function process(majaxMediaFileInfo $file_info)
+	public function setFileHelper(majaxMediaFileHelper $fh)
+	{
+	  $this->file_helper = $fh;
+	}
+	public function process(majaxMediaFileInfo $file_info, $new_width = null, $new_height = null, $crop_method = 'fit', $aspect_ratio = 16:9')
 	{
 		$name = $file_info->getName();
 		$sha1 = $file_info->getSha1();
 		$path = $this->path_builder->render($sha1);
-		$full_path = sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$name;
-		if (!file_exists(sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$name))
+		$full_path = sfConfig::get('app_majax_media_cache_dir').DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$name;
+		if (!file_exists(sfConfig::get('app_majax_media_cache_dir').DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$name))
 		{
-			$this->ensurePath($path, sfConfig::get('majax_media_dir'));
-			$data = $file_info->getData();
-			if (majaxMediaToolbox::getFileLock($full_path))
-			{
-				file_put_contents($full_path, $data);
-				majaxMediaToolbox::removeFileLock($full_path);
-			}
+			$this->ensurePath($path, sfConfig::get('app_majax_media_cache_dir'));
+		  $this->file_helper->write($full_path, $file_info->getData());
 		}
 
-	  $src_width = $this->getVideoWidth();
-	  $src_height = $this->getVideoHeight();
-	  $crop_method = $this->get('crop_method');
-	  $aspect_ratio = $this->get('aspect_ratio');
-	  $new_width = $this->get('width');
-	  $new_height = $this->get('height');
+	  $src_width = $file_info->getVideoWidth();
+	  $src_height = $file_info->getVideoHeight();
 
-		if ($this->get('width') !== null || $this->get('height') !== null)
+		if ($new_width !== null || $new_height !== null)
 		{
 			list($new_width, $new_height) = $this->getRatioDimensions($src_width, $src_height, $new_width, $new_height, $aspect_ratio);
 		} else {
@@ -70,16 +68,11 @@ class majaxMediaFFMpeg
 		}
 
 
-		$name_bits = explode('.', $name);
-		unset($name_bits[(count($name_bits) - 1)]);
-		$new_name = implode('.', $name_bits).'.flv';
-
-
 		$args = array('-i', $full_path, '-ar', '22050', '-b', '409600');
+
 
 		$translator_class = sfConfig::get('app_majax_media_video_transformation_builder', 'majaxMediaFFMpegVideoTransformationBuilder');
 		$translator_fit_class = sfConfig::get('app_majax_media_video_transformation_fit_builder', 'majaxMediaFFMpegVideoTransformationFitBuilder');
-
 
     if ($c_m == 'fit')
     {
@@ -95,10 +88,9 @@ class majaxMediaFFMpeg
 		$new_width = (ceil($new_width / 2) * 2);
 		$new_height = (ceil($new_height / 2) * 2);
 
-    $new_filename = $this->filename_builder->render($new_width, $new_height, $crop_method, $new_name);
+    $new_filename = $this->filename_builder->render($new_width, $new_height, $crop_method, $name, 'flv');
 
 		$new_partial_path = $path.DIRECTORY_SEPARATOR.$new_filename;
-
 
 
 		// start the transformation code...
@@ -106,11 +98,11 @@ class majaxMediaFFMpeg
 		$args[] = '-s';
 		$args[] = $new_width.'x'.$new_height;
 
-		$ffmpeg = sfConfig::get('app_majaxMedia_ffmpeg_path', '/usr/bin/ffmpeg');
+		$ffmpeg = sfConfig::get('app_majax_media_ffmpeg_path', '/usr/bin/ffmpeg');
 		// now we need to figure out the cropping/padding
 
 
-		$new_full_path = sfConfig::get('majax_media_dir').DIRECTORY_SEPARATOR.$new_partial_path;
+		$new_full_path = sfConfig::get('app_majax_media_cache_dir').DIRECTORY_SEPARATOR.$new_partial_path;
 		$args[] = $new_full_path;
 
 
@@ -128,7 +120,7 @@ class majaxMediaFFMpeg
 		
 			//echo($ffmpeg.' '.join(' ', $args));
 			$count = 0;
-			while (majaxMediaToolbox::hasFileLock($full_path) && !majaxMediaToolbox::hasFileLock($new_full_path))
+			while ($this->file_helper->hasFileLock($full_path, false) || $this->file_helper->hasFileLock($new_full_path, false) == false)
 			{
 				usleep(500);
 				$count++;
@@ -136,12 +128,12 @@ class majaxMediaFFMpeg
 					break;
 			}
 
-			if (!majaxMediaToolbox::hasFileLock($full_path) && majaxMediaToolbox::getFileLock($new_full_path))
+			if (!$this->file_helper->hasFileLock($full_path) && $this->file_helper->getFileLock($new_full_path))
 			{
 			  $this->executor->setExecutable($ffmpeg);
 			  $this->executor->setArguments($args);
 			  $this->executor->execute();
-				majaxMediaToolbox::removeFileLock($new_full_path);
+				$this->file_helper->removeFileLock($new_full_path);
 			}
 		}
 
@@ -159,39 +151,31 @@ class majaxMediaFFMpeg
 		return $render->render($this, $new_partial_path);
 	}
 
-	/**
-	 * @param $sha1
-	 * @return string
-	 */
-	protected function sha1ToPath($sha1)
-	{
-		return wordwrap($sha1, 2, DIRECTORY_SEPARATOR, true);
-	}
+  /**
+   * @param $path (presumed non-existant)
+   * @param $base (presumed existant)
+   * @return void
+   */
 
-	/**
-	 * @param $path (presumed non-existant)
-	 * @param $base (presumed existant)
-	 * @return void
-	 */
+  protected function ensurePath($path, $base = '')
+  {
+    $dirs = explode(DIRECTORY_SEPARATOR, $path);
+    $dir = $base;
+    foreach($dirs as $c_dir)
+    {
+      $dir .= '/'.$c_dir;
+      if (!file_exists($dir))
+      {
+        @mkdir($dir);
+      }
+    }
+    if (file_exists($base.$path) && is_dir($base.$path))
+    {
+      return true;
+    }
+    return false;
+  }
 
-	protected function ensurePath($path, $base = '')
-	{
-		$dirs = explode(DIRECTORY_SEPARATOR, $path);
-		$dir = $base;
-		foreach($dirs as $c_dir)
-		{
-			$dir .= '/'.$c_dir;
-			if (!file_exists($dir))
-			{
-				@mkdir($dir);
-			}
-		}
-		if (file_exists($base.$path) && is_dir($base.$path))
-		{
-			return true;
-		}
-		return false;
-	}
   public function getRatioDimensions($source_width = 16, $source_height = 9, $new_width = null, $new_height = null, $aspect_ratio = 'auto')
   {
     if ($new_width == null)

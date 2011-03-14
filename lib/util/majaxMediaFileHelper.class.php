@@ -5,6 +5,7 @@ class majaxMediaFileHelper
   protected $read_blocking = true;
   protected $read_lock_wait = true;
   protected $write_lock_wait = true;
+  protected $lock_wait_time = 30;
 
   public function __construct($user_settings = array())
   {
@@ -12,67 +13,31 @@ class majaxMediaFileHelper
       'read_blocking' => true,
       'read_lock_wait' => true,
       'write_lock_wait' => true,
+      'lock_wait_time' => 30,
     );
     $settings = array_merge($settings, $user_settings);
     $this->read_blocking = $settings['read_blocking'];
     $this->read_lock_wait = $settings['read_lock_wait'];
     $this->write_lock_wait = $settings['write_lock_wait'];
+    $this->lock_wait_time = $settings['lock_wait_time'];
   }
 
   public function write($file, $contents, $wait = null)
   {
-    if ($this->hasFileLock($file))
-    {
-      $wait = ($wait == null) ? $this->write_lock_wait : $wait;
-
-      if (!$wait)
-      {
-        return false;
-      }
-      $elapse = $this->getFileLockTimeout();
-      $limit = time() + $elapse;
-      while (time() < $limit)
-      {
-        if (!$this->hasFileLock($file))
-        {
-          break;
-        }
-        sleep(1);
-      }
-      if ($this->hasFileLock($file))
-      {
-        return false;
-      }
-    }
-    if (!$this->getFileLock($file))
+    if (!$this->getFileLock($file, $wait))
     {
       return false;
     }
     file_put_contents($file, $contents);
-    $this->removeFileLock();
+    $this->removeFileLock($file);
+    return true;
   }
 
   public function read($file, $wait = null)
   {
-    if ($this->read_blocking && $this->hasFileLock($file))
+    if ($this->read_blocking)
     {
-      $wait = ($wait == null) ? $this->read_lock_wait : $wait;
-
-      if (!$wait)
-      {
-        return false;
-      }
-      $elapse = $this->getFileLockTimeout();
-      $limit = time() + $elapse;
-      while (time() < $limit)
-      {
-        if (!$this->hasFileLock($file))
-        {
-          break;
-        }
-        sleep(1);
-      }
-      if ($this->hasFileLock($file))
+      if ($this->hasFileLock($file, $wait))
       {
         return false;
       }
@@ -80,44 +45,84 @@ class majaxMediaFileHelper
     return file_get_contents($file);
   }
 
-  public static function getLockFile($file)
+  public function getLockFile($file)
   {
     return $file.'.lock';
   }
 
-  public static fucntion getFileLockTimeout()
+  public function getFileLockTimeout()
   {
-    return sfConfig::get('app_majax_media_lockfile_expiration', 30);
+    return $this->lock_wait_time;
   }
 
-  public static function hasFileLock($file)
+  public function hasFileLock($file, $wait = null)
   {
-    $lock = static::getLockFile($file);
+    $wait = ($wait === null) ? $this->write_lock_wait : $wait;
+    $lock = $this->getLockFile($file);
+
     if (file_exists($lock))
     {
       $mtime = filemtime($lock);
-      $elapse = static::getFileLockTimeout();
-      $limit = time() - $elapse;
-      if ($mtime > $limit)
+      $elapse = $this->getFileLockTimeout();
+      $wait_limit = time() + $elapse;
+
+      while($wait === true && time() < $wait_limit)
+      {
+        $limit = time() - $elapse;
+        if ($this->hasFileLock($file, false))
+          $wait = false;
+      }
+      if ($this->hasFileLock($file, $false))
+      {
         return true;
+      }
       unlink($lock);
       return false;
     }
     return false;
   }
 
-  public static function getFileLock($file)
+  public function getFileLock($file, $wait = null)
   {
-    $lock = static::getLockFile($file);
-    if (static::hasFileLock($file))
+    $lock = $this->getLockFile($file);
+
+    if ($this->hasFileLock($file, $wait)
+    {
       return false;
+    }
+
     touch($lock);
     return true;
   }
 
-  public static function removeFileLock($file)
+  public function removeFileLock($file)
   {
-    $lock = static::getLockFile($file);
+    $lock = $this->getLockFile($file);
     unlink($lock);
+  }
+
+  /**
+   * @param $path (presumed non-existant)
+   * @param $base (presumed existant)
+   * @return void
+   */
+
+  protected function ensurePath($path, $base = '')
+  {
+    $dirs = explode(DIRECTORY_SEPARATOR, $path);
+    $dir = $base;
+    foreach($dirs as $c_dir)
+    {
+      $dir .= '/'.$c_dir;
+      if (!file_exists($dir))
+      {
+        @mkdir($dir);
+      }
+    }
+    if (file_exists($base.$path) && is_dir($base.$path))
+    {
+      return true;
+    }
+    return false;
   }
 }
