@@ -19,7 +19,7 @@ class majaxMediaFFMpeg
 		$clb_class = sfConfig::get('app_majax_media_cmd_line_builder', 'majaxMediaFFMpegVideoTransformationBuilder');
 		$this->cmd_line_builder = new $clb_class();
 		$executer_class = sfConfig::get('app_majax_media_executer', 'majaxMediaCommandExecuter');
-		$this->executer = new $executer_class();
+		$this->executer = new $executer_class('');
 		$file_helper_class = sfConfig::get('app_majax_media_file_helper', 'majaxMediaFileHelper');
 		$this->file_helper = new $file_helper_class();
 	}
@@ -45,7 +45,7 @@ class majaxMediaFFMpeg
 	{
 	  $this->file_helper = $fh;
 	}
-	public function process(majaxMediaFileInfo $file_info, $new_width = null, $new_height = null, $crop_method = 'fit', $aspect_ratio = 16:9')
+	public function process(majaxMediaFileInfo $file_info, $new_width = null, $new_height = null, $crop_method = 'fit', $aspect_ratio = '16:9')
 	{
 		$name = $file_info->getName();
 		$sha1 = $file_info->getSha1();

@@ -10,4 +10,9 @@ class unit_majaxMediaFFMpegTest extends sfPHPUnitBaseTestCase
   {
     $this->ffmpeg = new majaxMediaFFMpeg();
   }
+
+  public function test_FFMpegCommandExec()
+  {
+    $this->markTestIncomplete('FFMpeg Test not completed yet.');
+  }
 }

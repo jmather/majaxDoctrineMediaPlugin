@@ -23,15 +23,38 @@ class unit_majaxMediaFFMpegVideoTransformationBuilderTest extends sfPHPUnitBaseT
   {
     return array(
       array(3, 1, 1, 1, 1/3),
-      array(1, 1, 3, 1, 1),
+      array(1, 3, 1, 1, 1/3),
+      array(1, 1, 3, 1, 3),
+      array(1, 1, 1, 3, 3),
       array(200, 100, 10, 10, 0.05),
       array(100, 200, 10, 10, 0.05),
+      array(100, 100, 300, 100, 3),
+    );
+  }
+
+  /**
+   * @dataProvider buildAdjustedSetProvider
+   * @depends testBuildRatio
+   */
+  public function testBuildAdjustedSet($source_width, $source_height, $new_width, $new_height, $result)
+  {
+    $set = $this->builder->buildAdjustedSet($source_width, $source_height, $new_width, $new_height);
+    $this->assertEquals($set, $result);
+  }
+
+  public function buildAdjustedSetProvider()
+  {
+    return array(
+      array(3, 1, 1, 1, array(3, 1)),
+      array(1, 3, 1, 1, array(1, 3)),
+      array(1, 1, 3, 1, array(3, 3)),
+      array(1, 1, 1, 3, array(3, 3)),
     );
   }
 
   /**
    * @dataProvider buildRenderProvider
-   * @depends testBuildRatio
+   * @depends testBuildAdjustedSet
    */
   public function testRender($source_width, $source_height, $new_width, $new_height, $crop_method, $result)
   {
@@ -45,6 +68,12 @@ class unit_majaxMediaFFMpegVideoTransformationBuilderTest extends sfPHPUnitBaseT
       array(1, 1, 3, 1, 'center', array('-croptop', '1', '-cropbottom', '1')),
       array(200, 100, 10, 10, 'center', array('-cropright', '5', '-cropleft', '5')),
       array(100, 200, 10, 10, 'center', array('-croptop', '5', '-cropbottom', '5')),
+      array(3, 1, 1, 1, 'fit', array('-vf', 'pad=1:1:1:0:000000')),
+      array(1, 3, 1, 1, 'fit', array('-vf', 'pad=1:1:0:1:000000')),
+      array(1, 1, 3, 1, 'fit', array('-vf', 'pad=3:1:1:0:000000')),
+      array(1, 1, 1, 3, 'fit', array('-vf', 'pad=3:1:0:1:000000')),
+      array(200, 100, 10, 10, 'fit', array('-vf', 'pad=10:10:3:0:000000')),
+      array(100, 200, 10, 10, 'fit', array('-vf', 'pad=10:10:0:3:000000')),
       array(3, 1, 1, 1, 'top', array('-cropright', '1', '-cropleft', '1')),
       array(1, 1, 3, 1, 'top', array('-cropbottom', '2')),
       array(200, 100, 10, 10, 'top', array('-cropright', '5', '-cropleft', '5')),

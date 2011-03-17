@@ -86,7 +86,7 @@ class majaxMediaFileHelper
   {
     $lock = $this->getLockFile($file);
 
-    if ($this->hasFileLock($file, $wait)
+    if ($this->hasFileLock($file, $wait))
     {
       return false;
     }
