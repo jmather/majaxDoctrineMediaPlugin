@@ -34,24 +34,18 @@ class majaxMediaFFMpegVideoTransformationBuilder
     $ratio_width = $source_width * $ratio;
 
     if ($ratio_height < $new_height) {
-      echo '|1|';
       $ratio_width = $ratio_width * $new_height / $ratio_height;
       $ratio_height = $new_height;
     } elseif ($ratio_width < $new_width) {
-      echo '|2|';
       $ratio_height = $ratio_height * $new_width / $ratio_width;
       $ratio_width = $new_width;
     } elseif ($ratio_height > $new_height) {
-      echo '|3|';
       $ratio_height = $ratio_height * $new_width / $ratio_width;
       $ratio_width = $new_width;
     } elseif ($ratio_width > $new_width) {
-      echo '|4|';
       $ratio_width = $ratio_width * $new_height / $ratio_height;
       $ratio_height = $new_height;
     }
-
-    var_export(array($ratio_width, $ratio_height));
 
     return array($ratio_width, $ratio_height);
   }
@@ -92,33 +86,25 @@ class majaxMediaFFMpegVideoTransformationBuilder
     }
     $args = array();
 
-    
+    $source_ratio = $source_width / $source_height;
+    $new_ratio = $new_width / $new_height;
 
-    if ($source_width > $new_width) {
-      $ratio_height = $new_width * $source_height / $source_width;
-      $diff = (ceil(abs($new_height - $ratio_height) / 2) * 2);
-      $diff_split = $diff / 2;
-      $args[] = '-vf';
-      $args[] = 'pad='.$new_width.':'.$new_height.':0:'.$diff_split.':'.$pad_color;
-    } elseif ($source_height < $new_height) {
-      $ratio_width = $new_height * $source_width / $source_height;
-      $diff = (ceil(abs($new_width - $ratio_width) / 2) * 2);
-      $diff_split = $diff / 2;
-      $args[] = '-vf';
-      $args[] = 'pad='.$new_width.':'.$new_height.':'.$diff_split.':0:'.$pad_color;
-    } elseif ($new_width > $source_width) {
-      echo '{4}';
-      $diff = (ceil(abs($new_width - $ratio_width) / 2) * 2);
-      $diff_split = $diff / 2;
-      $args[] = '-vf';
-      $args[] = 'pad='.$new_width.':'.$new_height.':'.$diff_split.':0:'.$pad_color;
-    } elseif ($new_height > $source_height) {
-      echo '{3}';
-      $diff = (ceil(abs($new_height - $ratio_height) / 2) * 2);
-      $diff_split = $diff / 2;
-      $args[] = '-vf';
-      $args[] = 'pad='.$new_width.':'.$new_height.':0:'.$diff_split.':'.$pad_color;
+    $scale_width = $new_width;
+    $scale_height = $new_height;
+
+    if ($source_ratio > $new_ratio)
+    {
+      $scale_height = ceil($new_width / $source_ratio);
+    } else {
+      $scale_width = ceil($new_height * $source_ratio);
     }
+
+    $offset_x = ceil(abs($new_width - $scale_width) / 2);
+    $offset_y = ceil(abs($new_height - $scale_height) / 2);
+
+    $args[] = '-vf';
+    $args[] = 'pad='.$new_width.':'.$new_height.':'.$offset_x.':'.$offset_y.':'.$pad_color;
+
     return $args;
   }
   public function getLeft($source_width, $source_height, $new_width, $new_height)
