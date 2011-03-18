@@ -13,32 +13,32 @@ require_once dirname(__FILE__).'/../lib/majaxMediaGalleriesGeneratorHelper.class
  */
 class majaxMediaGalleriesActions extends autoMajaxMediaGalleriesActions
 {
-	public function executeListSort($request)
-	{
-		$this->gallery = $this->getRoute()->getObject();
-	}
-	public function executeReorder($request)
-	{
-		sfConfig::set('sf_web_debug', false);
+  public function executeListSort($request)
+  {
+    $this->gallery = $this->getRoute()->getObject();
+  }
+  public function executeReorder($request)
+  {
+    sfConfig::set('sf_web_debug', false);
 
-		$pl = $request->getParameter('payload', '');
+    $pl = $request->getParameter('payload', '');
 
-		$gallery_id = $request->getParameter('id');
+    $gallery_id = $request->getParameter('id');
 
-		if ($pl == '')
-			return sfView::NONE;
+    if ($pl == '')
+      return sfView::NONE;
 
-		$list = explode(',', $pl);
+    $list = explode(',', $pl);
 
-		$q = Doctrine_Query::create()->update('majaxMediaGalleryItem gi');
-		$q->set('position', '?');
-		$q->where('gi.gallery_id = ?');
-		$q->andWhere('gi.media_id = ?');
-		foreach($list as $idx => $id)
-		{
-			$q->execute(array(($idx + 1), $gallery_id, $id));
-		}
-		echo $request->getParameter('payload');
-		return sfView::NONE;
-	}
+    $q = Doctrine_Query::create()->update('majaxMediaGalleryItem gi');
+    $q->set('position', '?');
+    $q->where('gi.gallery_id = ?');
+    $q->andWhere('gi.media_id = ?');
+    foreach($list as $idx => $id)
+    {
+      $q->execute(array(($idx + 1), $gallery_id, $id));
+    }
+    echo $request->getParameter('payload');
+    return sfView::NONE;
+  }
 }

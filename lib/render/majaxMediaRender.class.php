@@ -1,33 +1,33 @@
 <?php
 
 abstract class majaxMediaRender {
-	protected function getFlashRequiredBlock($id)
-	{
-		$cont = '<div id="'.$id.'_display">Flash is required to view this content.</div>';
-		return $cont;
-	}
+  protected function getFlashRequiredBlock($id)
+  {
+    $cont = '<div id="'.$id.'_display">Flash is required to view this content.</div>';
+    return $cont;
+  }
         
-	protected function getPlayerJSBlock($id, $file_src, $width, $height, $length = null, $photo_src = null)
-	{
-		$jscont = '//<![CDATA[
+  protected function getPlayerJSBlock($id, $file_src, $width, $height, $length = null, $photo_src = null)
+  {
+    $jscont = '//<![CDATA[
 
 (function(){
   var flashvars = {';
 
-		if ($photo_src !== null)
-			$jscont .= '
+    if ($photo_src !== null)
+      $jscont .= '
     image: \''.$photo_src.'\',';
 
-		$jscont .= '
+    $jscont .= '
     file: \''.$file_src.'\'';
 
-		if ($length !== null)
-		{
-			$jscont .= ',
+    if ($length !== null)
+    {
+      $jscont .= ',
     duration: \''.$length.'\'';
-		}
+    }
 
-		$jscont .= '
+    $jscont .= '
   };
   var params = {
     wmode: \'transparent\',
@@ -54,6 +54,6 @@ abstract class majaxMediaRender {
   //players[\''.$id.'\'] = document.getElementById(\''.$id.'\');
 })();
 //]]>';
-		return $jscont;
-	}
+    return $jscont;
+  }
 }
