@@ -13,7 +13,7 @@ class majaxMediaToolbox
     if (file_exists($lock))
     {
       $mtime = filemtime($lock);
-      $elapse = sfConfig::get('app_majaxMedia_lockfile_expiration', 30);
+      $elapse = sfConfig::get('app_majax_media_lockfile_expiration', 30);
       $limit = time() - $elapse;
       if ($mtime > $limit)
         return true;

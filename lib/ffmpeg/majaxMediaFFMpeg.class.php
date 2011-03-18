@@ -23,29 +23,33 @@ class majaxMediaFFMpeg
     $file_helper_class = sfConfig::get('app_majax_media_file_helper', 'majaxMediaFileHelper');
     $this->file_helper = new $file_helper_class();
   }
-  
+
   public function setFilenameBuilder(majaxMediaFilenameBuilder $fnb)
   {
     $this->filename_builder = $fnb;
   }
-  
+
   public function setPathBuilder(majaxMediaPathBuilder $pb)
   {
     $this->path_builder = $pb;
   }
+
   public function setCMDLineBuilder(majaxMediaPathBuilder $clb)
   {
     $this->cmd_line_builder = $clb;
   }
+
   public function setExecuter(majaxMediaCommandExecuter $e)
   {
     $this->executor = $e;
   }
+
   public function setFileHelper(majaxMediaFileHelper $fh)
   {
     $this->file_helper = $fh;
   }
-  public function process(majaxMediaFileInfo $file_info, $new_width = null, $new_height = null, $crop_method = 'fit', $aspect_ratio = '16:9')
+
+  public function ensureSourceFileIsCached($file_info)
   {
     $name = $file_info->getName();
     $sha1 = $file_info->getSha1();
@@ -56,10 +60,21 @@ class majaxMediaFFMpeg
       $this->ensurePath($path, sfConfig::get('app_majax_media_cache_dir'));
       $this->file_helper->write($full_path, $file_info->getData());
     }
+  }
 
-    $src_width = $file_info->getVideoWidth();
-    $src_height = $file_info->getVideoHeight();
+  public function process(majaxMediaFileInfo $file_info, $new_width = null, $new_height = null, $crop_method = 'fit', $aspect_ratio = '16:9')
+  {
+    $name = $file_info->getName();
+    $path = $this->path_builder->render($sha1);
+    $full_path = sfConfig::get('app_majax_media_cache_dir').DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$name;
 
+    $this->ensureSourceFileIsCached($file_info);
+
+    $src_width = $file_info->getWidth();
+    $src_height = $file_info->getHeight();
+
+
+    // If width or height is omitted, we need to calculate them.
     if ($new_width !== null || $new_height !== null)
     {
       list($new_width, $new_height) = $this->getRatioDimensions($src_width, $src_height, $new_width, $new_height, $aspect_ratio);
@@ -68,28 +83,26 @@ class majaxMediaFFMpeg
     }
 
 
-    $args = array('-i', $full_path, '-ar', '22050', '-b', '409600');
-
-
-    $translator_class = sfConfig::get('app_majax_media_video_transformation_builder', 'majaxMediaFFMpegVideoTransformationBuilder');
-    $translator_fit_class = sfConfig::get('app_majax_media_video_transformation_fit_builder', 'majaxMediaFFMpegVideoTransformationFitBuilder');
-
-    if ($c_m == 'fit')
-    {
-      $translator = new $translator_fit_class();
-      list($new_width, $new_height) = $translator->render($s_w, $s_h, $new_width, $new_height, $c_m);
-    } else {
-      $translator = new $translator_class();
-      $new_args = $translator->render($s_w, $s_h, $new_width, $new_height, $c_m);
-      $args = array_merge($args, $new_args);
-    }
-
-
+    // FFMpeg likes things to be even.
     $new_width = (ceil($new_width / 2) * 2);
     $new_height = (ceil($new_height / 2) * 2);
 
-    $new_filename = $this->filename_builder->render($new_width, $new_height, $crop_method, $name, 'flv');
 
+    // Every incantation is going to need these.
+    // TODO: Make the audio ratio and bitrate configurable.
+    $args = array('-i', $full_path, '-ar', '22050', '-b', '409600');
+
+
+    // Now let's get our translation commands.
+    $translator_class = sfConfig::get('app_majax_media_video_transformation_builder', 'majaxMediaFFMpegVideoTransformationBuilder');
+
+    $translator = new $translator_class();
+    $new_args = $translator->render($src_width, $src_height, $new_width, $new_height, $crop_method);
+    $args = array_merge($args, $new_args);
+
+
+    // Our file name and partial path
+    $new_filename = $this->filename_builder->render($new_width, $new_height, $crop_method, $name, 'flv');
     $new_partial_path = $path.DIRECTORY_SEPARATOR.$new_filename;
 
 
@@ -98,12 +111,15 @@ class majaxMediaFFMpeg
     $args[] = '-s';
     $args[] = $new_width.'x'.$new_height;
 
-    $ffmpeg = sfConfig::get('app_majax_media_ffmpeg_path', '/usr/bin/ffmpeg');
     // now we need to figure out the cropping/padding
 
 
     $new_full_path = sfConfig::get('app_majax_media_cache_dir').DIRECTORY_SEPARATOR.$new_partial_path;
     $args[] = $new_full_path;
+
+    $this->ensure
+
+    $ffmpeg = sfConfig::get('app_majax_media_ffmpeg_path', '/usr/bin/ffmpeg');
 
 
     if ($ffmpeg == false || !file_exists($ffmpeg))
@@ -115,10 +131,7 @@ class majaxMediaFFMpeg
 
     if (($ffmpeg != false && file_exists($ffmpeg)) && !file_exists($new_full_path))
     {
-      foreach ($args as $i => $arg)
-        $args[$i] = escapeshellarg ($arg);
-    
-      //echo($ffmpeg.' '.join(' ', $args));
+      // Let's make sure we have a lock on our destination file, and that there is no lock on our source file
       $count = 0;
       while ($this->file_helper->hasFileLock($full_path, false) || $this->file_helper->hasFileLock($new_full_path, false) == false)
       {
@@ -146,7 +159,7 @@ class majaxMediaFFMpeg
       return $new_partial_path;
 
 
-    $render_class = sfConfig::get('app_majaxMedia_video_render', 'majaxMediaVideoRender');
+    $render_class = sfConfig::get('app_majax_media_video_render', 'majaxMediaVideoRender');
     $render = new $render_class();
     return $render->render($this, $new_partial_path);
   }

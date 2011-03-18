@@ -142,7 +142,7 @@ class majaxMediaWrapperObject extends majaxMediaWrapperManager
 
         public function galleryToString()
         {
-    $render_class =  sfConfig::get('app_majaxMedia_gallery_render', 'majaxMediaGalleryRender');
+    $render_class =  sfConfig::get('app_majax_media_gallery_render', 'majaxMediaGalleryRender');
     $render  = new $render_class();
     return $render->render($this);
         }

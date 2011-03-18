@@ -188,7 +188,7 @@ abstract class majaxMediaWrapperManager
     $args[] = '-s';
     $args[] = $new_width.'x'.$new_height;
 
-    $ffmpeg = sfConfig::get('app_majaxMedia_ffmpeg_path', '/usr/bin/ffmpeg');
+    $ffmpeg = sfConfig::get('app_majax_media_ffmpeg_path', '/usr/bin/ffmpeg');
     // now we need to figure out the cropping/padding
 
 
@@ -234,7 +234,7 @@ abstract class majaxMediaWrapperManager
       return $new_partial_path;
 
 
-    $render_class = sfConfig::get('app_majaxMedia_video_render', 'majaxMediaVideoRender');
+    $render_class = sfConfig::get('app_majax_media_video_render', 'majaxMediaVideoRender');
     $render = new $render_class();
     return $render->render($this, $new_partial_path);
   }
@@ -262,7 +262,7 @@ abstract class majaxMediaWrapperManager
       return $new_partial_path;
 
 
-    $render_class =  sfConfig::get('app_majaxMedia_audio_render', 'majaxMediaAudioRender');
+    $render_class =  sfConfig::get('app_majax_media_audio_render', 'majaxMediaAudioRender');
     $render  = new $render_class();
     return $render->render($this, $new_partial_path);
   }

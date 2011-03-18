@@ -1,6 +1,7 @@
 all:
-  majaxMedia:
+  majax_media:
     ffmpeg_path: /usr/local/bin/ffmpeg
     video_render: majaxMediaVideoRender
     audio_render: majaxMediaAudioRender
     gallery_render: majaxMediaGalleryRender
+    cache_dir: %SF_WEB_DIR%/media_cache

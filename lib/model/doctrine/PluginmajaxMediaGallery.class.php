@@ -25,7 +25,7 @@ abstract class PluginmajaxMediaGallery extends BasemajaxMediaGallery
   public function setUp()
   {
     parent::setUp();
-    if (sfConfig::get('app_majaxMedia_publishable', false))
+    if (sfConfig::get('app_majax_media_publishable', false))
     {
       $publishabletemplate0 = new PublishableTemplate();
       $this->actAs($publishabletemplate0);

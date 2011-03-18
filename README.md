@@ -103,7 +103,7 @@ Look at lib/render/majaxMedia<TYPE>Render.class.php
  
 Build your own class, then simply set your renderer in it's place...
 
-    sfConfig::set('app_majaxMedia_video_render', 'myVideoRender');
+    sfConfig::set('app_majax_media_video_render', 'myVideoRender');
 
 
 #TODO:

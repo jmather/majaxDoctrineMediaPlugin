@@ -42,7 +42,7 @@ abstract class PluginmajaxMediaPhotoForm extends BasemajaxMediaPhotoForm
       unset($this['content_html']);
     }
 
-    if (sfConfig::get('app_majaxMedia_galleries', true))
+    if (sfConfig::get('app_majax_media_galleries', true))
     {
       $f = new majaxMediaRegistryEntryEmbeddedForm($this->getObject()->MediaRegistryEntry);
       $f->updateDefaultsFromObject();

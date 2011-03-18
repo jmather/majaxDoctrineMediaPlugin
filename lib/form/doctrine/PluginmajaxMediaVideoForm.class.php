@@ -56,7 +56,7 @@ abstract class PluginmajaxMediaVideoForm extends BasemajaxMediaVideoForm
       unset($this['content_html'], $this['transcript_html']);
     }
 
-    if (sfConfig::get('app_majaxMedia_galleries', true))
+    if (sfConfig::get('app_majax_media_galleries', true))
     {
       $f = new majaxMediaRegistryEntryEmbeddedForm($this->getObject()->MediaRegistryEntry);
       $f->updateDefaultsFromObject();
