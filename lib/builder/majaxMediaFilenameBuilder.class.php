@@ -2,14 +2,17 @@
 
 class majaxMediaFilenameBuilder
 {
-  public function render($width, $height, $crop_method, $append, $extension = null)
+  public function render($source_file, $width, $height, $crop_method, $extension = null)
   {
-    $name = $width.'x'.$height.'_'.$crop_method.'_'.$append;
+    $file = basename($source_file);
+    $dir = dirname($source_file);
+
+    $name = $width.'x'.$height.'_'.$crop_method.'_'.$file;
     if ($extension !== null)
     {
       $name = $this->replaceExtension($name, $extension);
     }
-    return $name;
+    return $dir.DIRECTORY_SEPARATOR.$name;
   }
   protected function replaceExtension($name, $extension)
   {

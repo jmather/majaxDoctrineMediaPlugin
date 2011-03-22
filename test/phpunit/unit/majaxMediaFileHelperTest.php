@@ -21,8 +21,8 @@ class unit_majaxMediaFileHelperTest extends sfPHPUnitBaseTestCase
     touch($this->file_lock);
     $write_result = $this->file_helper->write($this->file, 'test');
     $after_time = time();
-    $this->assertEquals($write_result, true);
-    $this->assertNotEquals($before_time, $after_time);
+    $this->assertEquals($write_result, true, '->write returned true');
+    $this->assertNotEquals($before_time, $after_time, '->write waited for lock to release');
     $cont = $this->file_helper->read($this->file);
     $this->assertEquals($cont, 'test');
   }

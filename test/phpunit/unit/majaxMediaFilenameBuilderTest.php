@@ -23,10 +23,10 @@ class unit_majaxMediaFilenameBuilderTest extends sfPHPUnitBaseTestCase
   public function testPlainFilenameGenerationProvider()
   {
     return array(
-      array('100', '100', 'center', 'blah.gif', null, '100x100_center_blah.gif'),
-      array('29', '320934', 'fit', 'blah.flv', null, '29x320934_fit_blah.flv'),
-      array('100', '100', 'center', 'blah.gif', 'jpg', '100x100_center_blah.jpg'),
-      array('29', '320934', 'fit', 'blah.mov', 'flv', '29x320934_fit_blah.flv'),
+      array('/media/blah.gif', '100', '100', 'center', null, '/media/100x100_center_blah.gif'),
+      array('/media2/blah.flv', '29', '320934', 'fit', null, '/media2/29x320934_fit_blah.flv'),
+      array('/media3/blah.gif', '100', '100', 'center', 'jpg', '/media3/100x100_center_blah.jpg'),
+      array('/media4/blah.mov', '29', '320934', 'fit', 'flv', '/media4/29x320934_fit_blah.flv'),
     );
   }  
 }

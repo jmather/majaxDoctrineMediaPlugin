@@ -8,23 +8,42 @@ class unit_majaxMediaPathBuilderTest extends sfPHPUnitBaseTestCase
 
   protected function setUp()
   {
-    $this->builder = new majaxMediaPathBuilder();
+    $this->builder = new majaxMediaPathBuilder('/media');
   }
 
   /**
-   * @dataProvider testPathGenerationProvider
+   * @dataProvider PathGenerationProvider
    */
-  public function testPathGeneration($hash, $result)
+  public function testPathGeneration($file_info, $media_path, $result)
   {
-    $fn = $this->builder->render($hash);
+    $this->builder->setMediaPath($media_path);
+    $fn = $this->builder->render($file_info);
     $this->assertEquals($fn, $result);
   }
 
-  public function testPathGenerationProvider()
+  public function PathGenerationProvider()
   {
+    $file_info_1 = $this->PathGenerationProviderMockBuilder('test.m4v', 'aabb');
+    $file_info_2 = $this->PathGenerationProviderMockBuilder('blah.flv', 'ccdd11');
     return array(
-      array('aabbccdd', '/aa/bb/cc/dd'),
-      array('abcd', '/ab/cd'),
+      array($file_info_1, '/media', '/media/aa/bb/test.m4v'),
+      array($file_info_2, '/media2', '/media2/cc/dd/11/blah.flv'),
     );
-  }  
+  }
+
+  protected function PathGenerationProviderMockBuilder($name, $sha1)
+  {
+    $file_info = $this->getMockBuilder('majaxMediaFileInfo')
+                      ->disableOriginalConstructor()
+                      ->setMethods(array('getName', 'getSha1'))
+                      ->getMock();
+
+    $file_info->expects($this->any())
+                ->method('getName')
+                ->will($this->returnValue($name));
+    $file_info->expects($this->any())
+                ->method('getSha1')
+                ->will($this->returnValue($sha1));
+    return $file_info;
+  }
 }

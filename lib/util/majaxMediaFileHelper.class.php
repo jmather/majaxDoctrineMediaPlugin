@@ -57,6 +57,7 @@ class majaxMediaFileHelper
 
   public function hasFileLock($file, $wait = null)
   {
+    error_log('hasFileLock '.$file.' '.var_export($wait, true));
     $wait = ($wait === null) ? $this->write_lock_wait : $wait;
     $lock = $this->getLockFile($file);
 
@@ -69,15 +70,15 @@ class majaxMediaFileHelper
       while($wait === true && time() < $wait_limit)
       {
         $limit = time() - $elapse;
-        if ($this->hasFileLock($file, false))
+        if (!file_exists($lock))
           $wait = false;
       }
-      if ($this->hasFileLock($file, $false))
+      if (file_exists($lock))
       {
-        return true;
+        return false;
       }
       unlink($lock);
-      return false;
+      return true;
     }
     return false;
   }
@@ -101,24 +102,41 @@ class majaxMediaFileHelper
     unlink($lock);
   }
 
+  public function exists($path)
+  {
+    return file_exists($path);
+  }
+
+  public function is_file($path)
+  {
+    if (file_exists($path) && !is_dir($path))
+      return true;
+    return false;
+  }
+
+  public function is_dir($path)
+  {
+    if (file_exists($path) && is_dir($path))
+      return true;
+    return false;
+  }
+
   /**
-   * @param $path (presumed non-existant)
-   * @param $base (presumed existant)
+   * @param $path
    * @return void
    */
 
-  protected function ensurePath($path, $base = '')
+  protected function ensurePathExists($path)
   {
-    $dirs = explode(DIRECTORY_SEPARATOR, $path);
-    $dir = $base;
-    foreach($dirs as $c_dir)
+    if (file_exists($base.$path) && is_dir($base.$path))
     {
-      $dir .= '/'.$c_dir;
-      if (!file_exists($dir))
-      {
-        @mkdir($dir);
-      }
+      return true;
     }
+
+    $oldumask = umask(0);
+    @mkdir($base.$path, 01777, true);
+    umask($oldumask);
+
     if (file_exists($base.$path) && is_dir($base.$path))
     {
       return true;
