@@ -12,7 +12,7 @@ class unit_majaxMediaFilenameBuilderTest extends sfPHPUnitBaseTestCase
   }
 
   /**
-   * @dataProvider testPlainFilenameGenerationProvider
+   * @dataProvider PlainFilenameGenerationProvider
    */
   public function testPlainFilenameGeneration($width, $height, $crop_method, $name, $extension, $result)
   {
@@ -20,7 +20,7 @@ class unit_majaxMediaFilenameBuilderTest extends sfPHPUnitBaseTestCase
     $this->assertEquals($fn, $result);
   }
 
-  public function testPlainFilenameGenerationProvider()
+  public function PlainFilenameGenerationProvider()
   {
     return array(
       array('/media/blah.gif', '100', '100', 'center', null, '/media/100x100_center_blah.gif'),
