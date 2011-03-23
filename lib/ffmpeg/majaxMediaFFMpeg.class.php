@@ -9,8 +9,9 @@ class majaxMediaFFMpeg
   protected $cmd_line_builder = null;
   protected $executer = null;
   protected $file_helper = null;
+  protected $ffmpeg_path = null;
 
-  public function __construct()
+  public function __construct($ffmpeg_path = null)
   {
     $fb_class = sfConfig::get('app_majax_media_filename_builder', 'majaxMediaFilenameBuilder');
     $this->filename_builder = new $fb_class();
@@ -26,6 +27,13 @@ class majaxMediaFFMpeg
 
     $file_helper_class = sfConfig::get('app_majax_media_file_helper', 'majaxMediaFileHelper');
     $this->file_helper = new $file_helper_class();
+
+    if ($ffmpeg_path == null)
+    {
+      $this->ffmpeg_path = sfConfig::get('app_majax_media_ffmpeg_path', '/usr/local/bin/ffmpeg');
+    } else {
+      $this->ffmpeg_path = $ffmpeg_path;
+    }
   }
 
   public function setFilenameBuilder(majaxMediaFilenameBuilder $fnb)
@@ -138,24 +146,20 @@ class majaxMediaFFMpeg
     $args = array_merge($args, $new_args);
 
 
-    // Our file name and partial path
+    // Our file name and path
     $new_path = $this->filename_builder->render($src_path, $new_width, $new_height, $crop_method, 'flv');
-    $new_partial_path = preg_replace('|^'.preg_quote(sfConfig::get('sf_web_dir')).'|', '', $new_path);
 
     $args[] = $new_path;
 
 
-    $ffmpeg = sfConfig::get('app_majax_media_ffmpeg_path', '/usr/local/bin/ffmpeg');
-
-
-    if ($ffmpeg == false || !$this->file_helper->exists($ffmpeg))
+    if ($this->ffmpeg_path == false || !$this->file_helper->exists($this->ffmpeg_path))
     {
       trigger_error('FFMPEG Not installed. Video source will not be resized', E_USER_WARNING);
-      $new_path = sfConfig::get('app_majax_media_cache_dir').DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$name;
+      $new_path = $src_path;
     }
 
 
-    if (($ffmpeg != false && $this->file_helper->exists($ffmpeg)) && !$this->file_helper->exists($new_path))
+    if (($this->ffmpeg_path != false && $this->file_helper->exists($this->ffmpeg_path)) && !$this->file_helper->exists($new_path))
     {
       // Let's make sure we have a lock on our destination file, and that there is no lock on our source file
       $count = 0;
@@ -169,7 +173,7 @@ class majaxMediaFFMpeg
 
       if (!$this->file_helper->hasFileLock($src_path) && $this->file_helper->getFileLock($new_path))
       {
-        $this->executor->setExecutable($ffmpeg);
+        $this->executor->setExecutable($this->ffmpeg_path);
         $this->executor->setArguments($args);
         $this->executor->execute();
         $this->file_helper->removeFileLock($new_path);
