@@ -56,17 +56,15 @@ class majaxMediaFFMpeg
   public function ensureSourceFileIsCached($file_info)
   {
     $src_path = $this->path_builder->render($file_info);
-    if ($this->file_helper->ensurePathExists($src_path))
-    {
-      $this->file_helper->write($src_path, $file_info->getData());
-    }
+
+    $this->file_helper->write($src_path, $file_info->getData());
+
+    return $src_path;
   }
 
   public function process(majaxMediaFileInfo $file_info, $new_width = null, $new_height = null, $crop_method = 'fit', $aspect_ratio = '16:9')
   {
-    $src_path = $this->path_builder->render($file_info);
-
-    $this->ensureSourceFileIsCached($file_info);
+    $src_path = $this->ensureSourceFileIsCached($file_info);
 
     $src_width = $file_info->getWidth();
     $src_height = $file_info->getHeight();
@@ -142,17 +140,17 @@ class majaxMediaFFMpeg
 
     // Our file name and partial path
     $new_path = $this->filename_builder->render($src_path, $new_width, $new_height, $crop_method, 'flv');
-    $new_partial_path = preg_replace('/^'.preg_quote(sfConfig::get('sf_web_dir')).'/', '', $new_path);
+    $new_partial_path = preg_replace('|^'.preg_quote(sfConfig::get('sf_web_dir')).'|', '', $new_path);
 
     $args[] = $new_path;
 
 
-    $ffmpeg = sfConfig::get('app_majax_media_ffmpeg_path', '/usr/bin/ffmpeg');
+    $ffmpeg = sfConfig::get('app_majax_media_ffmpeg_path', '/usr/local/bin/ffmpeg');
 
 
     if ($ffmpeg == false || !$this->file_helper->exists($ffmpeg))
     {
-      trigger_error('FFMPEG Not installed. Video source will not be resized', E_WARNING);
+      trigger_error('FFMPEG Not installed. Video source will not be resized', E_USER_WARNING);
       $new_path = sfConfig::get('app_majax_media_cache_dir').DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$name;
     }
 
@@ -161,7 +159,7 @@ class majaxMediaFFMpeg
     {
       // Let's make sure we have a lock on our destination file, and that there is no lock on our source file
       $count = 0;
-      while ($this->file_helper->hasFileLock($src_path, false) || $this->file_helper->hasFileLock($new_path, false) == false)
+      while ($this->file_helper->hasFileLock($src_path, false) || $this->file_helper->hasFileLock($new_path, false))
       {
         usleep(500);
         $count++;

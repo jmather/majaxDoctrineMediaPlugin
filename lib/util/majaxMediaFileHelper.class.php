@@ -24,6 +24,9 @@ class majaxMediaFileHelper
 
   public function write($file, $contents, $wait = null)
   {
+    $dir = dirname($file);
+    $this->ensurePathExists($dir);
+
     if (!$this->getFileLock($file, $wait))
     {
       return false;

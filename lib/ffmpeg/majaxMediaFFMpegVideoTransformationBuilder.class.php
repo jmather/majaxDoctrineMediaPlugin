@@ -99,6 +99,11 @@ class majaxMediaFFMpegVideoTransformationBuilder
       $scale_width = ceil($new_height * $source_ratio);
     }
 
+    if ($scale_width == $new_width && $scale_height == $new_height)
+    {
+      return $args;
+    }
+
     $offset_x = ceil(abs($new_width - $scale_width) / 2);
     $offset_y = ceil(abs($new_height - $scale_height) / 2);
 
