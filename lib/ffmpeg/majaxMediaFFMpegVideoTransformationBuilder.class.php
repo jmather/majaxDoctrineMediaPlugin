@@ -7,19 +7,19 @@ class majaxMediaFFMpegVideoTransformationBuilder
   {
     $this->pad_color = $color;
   }
-  public function render($source_width, $source_height, $new_width, $new_height, $crop_method = 'fit', $pad_color = null)
+  public function render($src_width, $src_height, $new_width, $new_height, $crop_method = 'fit', $pad_color = null)
   {
     $method = 'get'.ucwords(strtolower($crop_method));
     if (!is_callable(array($this, $method)))
     {
       throw new InvalidArgumentException($crop_method.' is not a supported Crop Method.');
     }
-    return $this->$method($source_width, $source_height, $new_width, $new_height, $pad_color);
+    return $this->$method($src_width, $src_height, $new_width, $new_height, $pad_color);
   }
-  public function buildRatio($source_width, $source_height, $new_width, $new_height)
+  public function buildRatio($src_width, $src_height, $new_width, $new_height)
   {
-    $scale_down_ratio = min($new_height / $source_height, $new_width / $source_width);
-    $scale_up_ratio = max($new_height / $source_height, $new_width / $source_width);
+    $scale_down_ratio = min($new_height / $src_height, $new_width / $src_width);
+    $scale_up_ratio = max($new_height / $src_height, $new_width / $src_width);
 
     if ($scale_down_ratio < 1)
       return $scale_down_ratio;
@@ -27,11 +27,11 @@ class majaxMediaFFMpegVideoTransformationBuilder
       return $scale_up_ratio;
     return 1;
   }
-  public function buildAdjustedSet($source_width, $source_height, $new_width, $new_height)
+  public function buildAdjustedSet($src_width, $src_height, $new_width, $new_height)
   {
-    $ratio = $this->buildRatio($source_width, $source_height, $new_width, $new_height);
-    $ratio_height = $source_height * $ratio;
-    $ratio_width = $source_width * $ratio;
+    $ratio = $this->buildRatio($src_width, $src_height, $new_width, $new_height);
+    $ratio_height = $src_height * $ratio;
+    $ratio_width = $src_width * $ratio;
 
     if ($ratio_height < $new_height) {
       $ratio_width = $ratio_width * $new_height / $ratio_height;
@@ -50,11 +50,11 @@ class majaxMediaFFMpegVideoTransformationBuilder
     return array($ratio_width, $ratio_height);
   }
 
-  public function getCenter($source_width, $source_height, $new_width, $new_height)
+  public function getCenter($src_width, $src_height, $new_width, $new_height)
   {
     $args = array();
 
-    list($ratio_width, $ratio_height) = $this->buildAdjustedSet($source_width, $source_height, $new_width, $new_height);
+    list($ratio_width, $ratio_height) = $this->buildAdjustedSet($src_width, $src_height, $new_width, $new_height);
 
     if ($ratio_height != $new_height)
     {
@@ -78,7 +78,7 @@ class majaxMediaFFMpegVideoTransformationBuilder
     }
     return $args;
   }
-  public function getFit($source_width, $source_height, $new_width, $new_height, $pad_color)
+  public function getFit($src_width, $src_height, $new_width, $new_height, $pad_color)
   {
     if ($pad_color === null)
     {
@@ -86,17 +86,23 @@ class majaxMediaFFMpegVideoTransformationBuilder
     }
     $args = array();
 
-    $source_ratio = $source_width / $source_height;
-    $new_ratio = $new_width / $new_height;
+    $scale = $new_width / $src_width;
+    if ($src_height * $scale > $new_height)
+      $scale = $new_height / $src_height;
 
-    $scale_width = $new_width;
-    $scale_height = $new_height;
+    $scale_width = $src_width * $scale;
+    $scale_height = $src_height * $scale;
 
-    if ($source_ratio > $new_ratio)
+    if ($scale_width < 1)
     {
-      $scale_height = ceil($new_width / $source_ratio);
-    } else {
-      $scale_width = ceil($new_height * $source_ratio);
+      $scale_height = $scale_height * (1 / $scale_width);
+      $scale_width = 1;
+    }
+
+    if ($scale_height < 1)
+    {
+      $scale_width = $scale_width * (1 / $scale_height);
+      $scale_height = 1;
     }
 
     if ($scale_width == $new_width && $scale_height == $new_height)
@@ -112,11 +118,11 @@ class majaxMediaFFMpegVideoTransformationBuilder
 
     return $args;
   }
-  public function getLeft($source_width, $source_height, $new_width, $new_height)
+  public function getLeft($src_width, $src_height, $new_width, $new_height)
   {
     $args = array();
 
-    list($ratio_width, $ratio_height) = $this->buildAdjustedSet($source_width, $source_height, $new_width, $new_height);
+    list($ratio_width, $ratio_height) = $this->buildAdjustedSet($src_width, $src_height, $new_width, $new_height);
 
     if ($ratio_height != $new_height)
     {
@@ -137,11 +143,11 @@ class majaxMediaFFMpegVideoTransformationBuilder
     }
     return $args;
   }
-  public function getRight($source_width, $source_height, $new_width, $new_height)
+  public function getRight($src_width, $src_height, $new_width, $new_height)
   {
     $args = array();
 
-    list($ratio_width, $ratio_height) = $this->buildAdjustedSet($source_width, $source_height, $new_width, $new_height);
+    list($ratio_width, $ratio_height) = $this->buildAdjustedSet($src_width, $src_height, $new_width, $new_height);
 
     if ($ratio_height != $new_height)
     {
@@ -162,11 +168,11 @@ class majaxMediaFFMpegVideoTransformationBuilder
     }
     return $args;
   }
-  public function getTop($source_width, $source_height, $new_width, $new_height)
+  public function getTop($src_width, $src_height, $new_width, $new_height)
   {
     $args = array();
 
-    list($ratio_width, $ratio_height) = $this->buildAdjustedSet($source_width, $source_height, $new_width, $new_height);
+    list($ratio_width, $ratio_height) = $this->buildAdjustedSet($src_width, $src_height, $new_width, $new_height);
 
     if ($ratio_height != $new_height)
     {
@@ -187,11 +193,11 @@ class majaxMediaFFMpegVideoTransformationBuilder
     }
     return $args;
   }
-  public function getBottom($source_width, $source_height, $new_width, $new_height)
+  public function getBottom($src_width, $src_height, $new_width, $new_height)
   {
     $args = array();
 
-    list($ratio_width, $ratio_height) = $this->buildAdjustedSet($source_width, $source_height, $new_width, $new_height);
+    list($ratio_width, $ratio_height) = $this->buildAdjustedSet($src_width, $src_height, $new_width, $new_height);
 
     if ($ratio_height != $new_height)
     {
@@ -212,4 +218,3 @@ class majaxMediaFFMpegVideoTransformationBuilder
     return $args;
   }
 }
-?>
