@@ -1,38 +1,6 @@
 <?php
 
-require_once dirname(__FILE__).'/../../stub/majaxMediaFileHelperStub.class.php';
-
-class majaxMediaPHPUnitBaseTestCase extends sfPHPUnitBaseTestCase
-{
-  protected function getFileHelper()
-  {
-    return new majaxMediaFileHelperStub();
-  }
-
-  protected function getMockCommandExecuter()
-  {
-    $exec = $this->getMockBuilder('majaxMediaCommandExecuter')
-                  ->setMethods(array('setExecutable', 'setArguments', 'execute'))
-                  ->setConstructorArgs(array(''))
-                  ->getMock();
-
-    $exec->expects($this->any())
-          ->method('setExecutable')
-          ->with($this->anything());
-
-    $exec->expects($this->any())
-          ->method('setArguments')
-          ->with($this->anything());
-
-    $exec->expects($this->any())
-          ->method('execute')
-          ->will($this->returnValue(true));
-
-    return $exec;
-  }
-}
-
-class majaxMediaPHPUnitFileHelper extends majaxMediaFileHelper
+class majaxMediaFileHelperStub extends majaxMediaFileHelper
 {
   public $locks = null;
   public $files = null;
