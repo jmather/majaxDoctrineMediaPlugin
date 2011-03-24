@@ -25,13 +25,18 @@ class majaxMediaWrapperFileInfo extends majaxMediaWrapperManager
   }
 
   public function getPhotoMime()
-  {  
+  {
     return $this->obj->mime;
   }
 
   public function getPhotoData()
   {
     return $this->obj->FileData->binary_data;
+  }
+
+  public function getPhotoFileInfo()
+  {
+    return $this->obj;
   }
 
   public function getAudioName()
@@ -45,7 +50,7 @@ class majaxMediaWrapperFileInfo extends majaxMediaWrapperManager
   }
 
   public function getAudioMime()
-  {  
+  {
     return $this->obj->mime;
   }
 
@@ -59,6 +64,11 @@ class majaxMediaWrapperFileInfo extends majaxMediaWrapperManager
     return $this->obj->getLength();
   }
 
+  public function getAudioFileInfo()
+  {
+    return $this->obj;
+  }
+
   public function getVideoName()
   {
     return $this->obj->name;
@@ -70,7 +80,7 @@ class majaxMediaWrapperFileInfo extends majaxMediaWrapperManager
   }
 
   public function getVideoMime()
-  {  
+  {
     return $this->obj->mime;
   }
 
@@ -82,6 +92,11 @@ class majaxMediaWrapperFileInfo extends majaxMediaWrapperManager
   public function getVideoLength()
   {
     return $this->obj->getLength();
+  }
+
+  public function getVideoFileInfo()
+  {
+    return $this->obj;
   }
 
   public function getPhotoWidth()
