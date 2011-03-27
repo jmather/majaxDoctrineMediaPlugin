@@ -22,12 +22,12 @@ class majaxMediaPathBuilder
     $sha1 = $file_info->getSha1();
 
     $partial_path = $this->getPartialPathFromSHA1($sha1);
-    $path = $this->media_path.$partial_path.'/'.$name;
+    $path = $this->media_path.$partial_path.DIRECTORY_SEPARATOR.$name;
     return $path;
   }
 
   protected function getPartialPathFromSHA1($sha1)
   {
-    return '/'.wordwrap($sha1, 2, '/', true);
+    return DIRECTORY_SEPARATOR.wordwrap($sha1, 2, DIRECTORY_SEPARATOR, true);
   }
 }

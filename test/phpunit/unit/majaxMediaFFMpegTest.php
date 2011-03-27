@@ -22,14 +22,14 @@ class unit_majaxMediaFFMpegTest extends majaxMediaPHPUnitBaseTestCase
 
     $arg_array = array(
       '-i',
-      '/aa/bb/file.mov',
+      DIRECTORY_SEPARATOR.'aa'.DIRECTORY_SEPARATOR.'bb'.DIRECTORY_SEPARATOR.'file.mov',
       '-ar',
       '22050',
       '-b',
       '409600',
       '-s',
       '20x10',
-      '/aa/bb/20x10_fit_file.flv'
+      DIRECTORY_SEPARATOR.'aa'.DIRECTORY_SEPARATOR.'bb'.DIRECTORY_SEPARATOR.'20x10_fit_file.flv'
     );
 
 
@@ -75,10 +75,10 @@ class unit_majaxMediaFFMpegTest extends majaxMediaPHPUnitBaseTestCase
               ->method('getWidth')
               ->will($this->returnValue(200));
 
-    $file = $this->ffmpeg->process($file_info, 20, 10);
+    $file = $this->ffmpeg->process($file_info, 20, 10, 'fit', '16:9');
 
     $this->assertEquals($file_helper->locks, array());
 
-    $this->assertEquals($file, '/aa/bb/20x10_fit_file.flv');
+    $this->assertEquals($file, DIRECTORY_SEPARATOR.'aa'.DIRECTORY_SEPARATOR.'bb'.DIRECTORY_SEPARATOR.'20x10_fit_file.flv');
   }
 }

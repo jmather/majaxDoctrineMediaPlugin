@@ -23,10 +23,10 @@ class unit_majaxMediaFilenameBuilderTest extends sfPHPUnitBaseTestCase
   public function PlainFilenameGenerationProvider()
   {
     return array(
-      array('/media/blah.gif', '100', '100', 'center', null, '/media/100x100_center_blah.gif'),
-      array('/media2/blah.flv', '29', '320934', 'fit', null, '/media2/29x320934_fit_blah.flv'),
-      array('/media3/blah.gif', '100', '100', 'center', 'jpg', '/media3/100x100_center_blah.jpg'),
-      array('/media4/blah.mov', '29', '320934', 'fit', 'flv', '/media4/29x320934_fit_blah.flv'),
+      array(DIRECTORY_SEPARATOR.'media'.DIRECTORY_SEPARATOR.'blah.gif', '100', '100', 'center', null, DIRECTORY_SEPARATOR.'media'.DIRECTORY_SEPARATOR.'100x100_center_blah.gif'),
+      array(DIRECTORY_SEPARATOR.'media2'.DIRECTORY_SEPARATOR.'blah.flv', '29', '320934', 'fit', null, DIRECTORY_SEPARATOR.'media2'.DIRECTORY_SEPARATOR.'29x320934_fit_blah.flv'),
+      array(DIRECTORY_SEPARATOR.'media3'.DIRECTORY_SEPARATOR.'blah.gif', '100', '100', 'center', 'jpg', DIRECTORY_SEPARATOR.'media3'.DIRECTORY_SEPARATOR.'100x100_center_blah.jpg'),
+      array(DIRECTORY_SEPARATOR.'media4'.DIRECTORY_SEPARATOR.'blah.mov', '29', '320934', 'fit', 'flv', DIRECTORY_SEPARATOR.'media4'.DIRECTORY_SEPARATOR.'29x320934_fit_blah.flv'),
     );
   }  
 }

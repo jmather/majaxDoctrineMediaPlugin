@@ -131,16 +131,16 @@ class majaxMediaFileHelper
 
   protected function ensurePathExists($path)
   {
-    if (file_exists($base.$path) && is_dir($base.$path))
+    if (file_exists($path) && is_dir($path))
     {
       return true;
     }
 
     $oldumask = umask(0);
-    @mkdir($base.$path, 01777, true);
+    @mkdir($path, 01777, true);
     umask($oldumask);
 
-    if (file_exists($base.$path) && is_dir($base.$path))
+    if (file_exists($path) && is_dir($path))
     {
       return true;
     }

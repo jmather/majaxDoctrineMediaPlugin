@@ -23,30 +23,49 @@ class unit_majaxMediaCommandExecuterTest extends sfPHPUnitBaseTestCase
   public function test_ExecuterExceptionsWhenItShouldProvider()
   {
     return array(
-      array(__FILE__.'.probably_doesnt_exist', array()),
-      array(__FILE__, array()),
-      array('/bin/echo', ''),
+    array(__FILE__.'.probably_doesnt_exist', array()),
+    array(__FILE__, array()),
+    array('/bin/echo', ''),
     );
   }
 
   /**
-   * @dataProvider test_ExecuterBuildsCorrectlyProvider
+   * @dataProvider ExecuterBuildsCorrectlyProvider
    */
   public function test_ExecuterBuildsCorrectly($exec, $arguments, $result)
   {
-    $this->exec->clearArguments();
-    $this->exec->setExecutable($exec);
-    $this->exec->setArguments($arguments);
-    $this->assertEquals($this->exec->execute(), $result);
+    if (!file_exists($exec))
+    {
+      $this->markTestSkipped($exec.' does not exist, therefor the test will fail.');
+    } else {
+      $this->exec->clearArguments();
+      $this->exec->setExecutable($exec);
+      $this->exec->setArguments($arguments);
+      $this->assertEquals($this->exec->execute(), $result);
+    }
   }
-  public function test_ExecuterBuildsCorrectlyProvider()
+  public function ExecuterBuildsCorrectlyProvider()
   {
-    return array(
-      array('/bin/echo', array(), '/bin/echo'),
-      array('/bin/echo', array('1'), '/bin/echo \'1\''),
-      array('/bin/echo', array('1 1'), '/bin/echo \'1 1\''),
-      array('/bin/echo', array('\''), '/bin/echo \'\'\\\'\'\''),
+    // one for windows, one for linux
+    $execs = array(
+      '*nix' => '/bin/echo',
+      'Windows' => 'C:\\Windows\\Cmd.exe',
     );
+    foreach($execs as $exec)
+    {
+      if (file_exists($exec))
+      {
+        return array(
+          array($exec, array(), $exec),
+          array($exec, array('1'), $exec.' \'1\''),
+          array($exec, array('1 1'), $exec.' \'1 1\''),
+          array($exec, array('\''), $exec.' \'\'\\\'\'\''),
+        );
+      }
+    }
+    
+    // No os that the test supports exists.
+    return array(array('', array(), ''));
   }
 }
 

@@ -26,8 +26,8 @@ class unit_majaxMediaPathBuilderTest extends sfPHPUnitBaseTestCase
     $file_info_1 = $this->PathGenerationProviderMockBuilder('test.m4v', 'aabb');
     $file_info_2 = $this->PathGenerationProviderMockBuilder('blah.flv', 'ccdd11');
     return array(
-      array($file_info_1, '/media', '/media/aa/bb/test.m4v'),
-      array($file_info_2, '/media2', '/media2/cc/dd/11/blah.flv'),
+      array($file_info_1, DIRECTORY_SEPARATOR.'media', DIRECTORY_SEPARATOR.'media'.DIRECTORY_SEPARATOR.'aa'.DIRECTORY_SEPARATOR.'bb'.DIRECTORY_SEPARATOR.'test.m4v'),
+      array($file_info_2, DIRECTORY_SEPARATOR.'media2', DIRECTORY_SEPARATOR.'media2'.DIRECTORY_SEPARATOR.'cc'.DIRECTORY_SEPARATOR.'dd'.DIRECTORY_SEPARATOR.'11'.DIRECTORY_SEPARATOR.'blah.flv'),
     );
   }
 
