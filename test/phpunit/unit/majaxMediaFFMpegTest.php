@@ -1,7 +1,7 @@
 <?php
 
 require_once dirname(__FILE__).'/../../../../../test/phpunit/bootstrap/unit.php';
-require_once dirname(__FILE__).'/../lib/majaxMediaPHPUnitBaseTestCase.class.php';
+require_once dirname(__FILE__).'/../lib/majaxMediaPHPUnitBaseTestCase.php';
 
 class unit_majaxMediaFFMpegTest extends majaxMediaPHPUnitBaseTestCase
 {

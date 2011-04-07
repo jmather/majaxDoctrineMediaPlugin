@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__).'/../../stub/majaxMediaFileHelperStub.class.php';
+require_once dirname(__FILE__).'/../../stub/majaxMediaFileHelperStub.php';
 
 class majaxMediaPHPUnitBaseTestCase extends sfPHPUnitBaseTestCase
 {
