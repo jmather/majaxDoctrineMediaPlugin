@@ -1,6 +1,6 @@
 <?php
 
-class majaxMediaCommandExecuter
+class majaxMediaCommandExecutor
 {
   protected $executable = '';
 

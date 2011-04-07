@@ -9,9 +9,9 @@ class majaxMediaPHPUnitBaseTestCase extends sfPHPUnitBaseTestCase
     return new majaxMediaFileHelperStub();
   }
 
-  protected function getMockCommandExecuter()
+  protected function getMockCommandExecutor()
   {
-    $exec = $this->getMockBuilder('majaxMediaCommandExecuter')
+    $exec = $this->getMockBuilder('majaxMediaCommandExecutor')
                   ->setMethods(array('setExecutable', 'setArguments', 'execute'))
                   ->setConstructorArgs(array(''))
                   ->getMock();

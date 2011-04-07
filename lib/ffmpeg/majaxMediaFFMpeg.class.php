@@ -5,7 +5,7 @@ class majaxMediaFFMpeg extends majaxMediaProcessor
   protected $file_info = null;
 
   protected $cmd_line_builder = null;
-  protected $executer = null;
+  protected $executor = null;
   protected $dimension_calculator = null;
   protected $ffmpeg_path = null;
 
@@ -16,8 +16,8 @@ class majaxMediaFFMpeg extends majaxMediaProcessor
     $clb_class = sfConfig::get('app_majax_media_cmd_line_builder', 'majaxMediaFFMpegVideoTransformationBuilder');
     $this->cmd_line_builder = new $clb_class();
 
-    $executer_class = sfConfig::get('app_majax_media_executer', 'majaxMediaCommandExecuter');
-    $this->executer = new $executer_class('');
+    $executor_class = sfConfig::get('app_majax_media_executer', 'majaxMediaCommandExecutor');
+    $this->executor = new $executor_class('');
 
     $dimension_calculator_class = sfConfig::get('app_majax_media_dimension_calculator', 'majaxMediaDimensionCalculator');
     $this->dimension_calculator = new $dimension_calculator_class();
@@ -35,7 +35,7 @@ class majaxMediaFFMpeg extends majaxMediaProcessor
     $this->cmd_line_builder = $clb;
   }
 
-  public function setExecuter(majaxMediaCommandExecuter $e)
+  public function setExecutor(majaxMediaCommandExecutor $e)
   {
     $this->executor = $e;
   }

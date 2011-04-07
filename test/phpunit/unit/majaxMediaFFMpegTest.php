@@ -14,7 +14,7 @@ class unit_majaxMediaFFMpegTest extends majaxMediaPHPUnitBaseTestCase
 
   public function test_FFMpegCommandExec()
   {
-    $exec = $this->getMockCommandExecuter();
+    $exec = $this->getMockCommandExecutor();
 
     $exec->expects($this->once())
           ->method('setExecutable')
@@ -46,7 +46,7 @@ class unit_majaxMediaFFMpegTest extends majaxMediaPHPUnitBaseTestCase
     // this is so the file helper believes ffmpeg exists...
     $file_helper->write('/usr/local/bin/ffmpeg', 'execute me');
 
-    $this->ffmpeg->setExecuter($exec);
+    $this->ffmpeg->setExecutor($exec);
 
     $this->ffmpeg->setFileHelper($file_helper);
 

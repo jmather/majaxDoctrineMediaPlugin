@@ -60,7 +60,6 @@ class majaxMediaFileHelper
 
   public function hasFileLock($file, $wait = null)
   {
-    error_log('hasFileLock '.$file.' '.var_export($wait, true));
     $wait = ($wait === null) ? $this->write_lock_wait : $wait;
     $lock = $this->getLockFile($file);
 

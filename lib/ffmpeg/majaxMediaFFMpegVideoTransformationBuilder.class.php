@@ -176,7 +176,6 @@ class majaxMediaFFMpegVideoTransformationBuilder
 
     if ($ratio_height != $new_height)
     {
-      error_log('N: '.$new_height.' R: '.$ratio_height);
       $diff = (ceil(abs($new_height - $ratio_height) / 2) * 2);
       $args[] = '-cropbottom';
       $args[] = $diff;
