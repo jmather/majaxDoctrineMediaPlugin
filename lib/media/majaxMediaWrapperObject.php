@@ -1,9 +1,9 @@
-<?php
+12 <?php
 class majaxMediaWrapperObject extends majaxMediaWrapperManager
 {
   protected $obj = null;
 
-  public function __construct($object)
+  public function __construct(majaxMediaFileInfoInterface $object)
   {
     parent::__construct();
     $this->obj = $object;
@@ -25,7 +25,7 @@ class majaxMediaWrapperObject extends majaxMediaWrapperManager
   }
 
   public function getPhotoMime()
-  {  
+  {
     return $this->obj->getObject()->PhotoFile->mime;
   }
 
@@ -50,7 +50,7 @@ class majaxMediaWrapperObject extends majaxMediaWrapperManager
   }
 
   public function getAudioMime()
-  {  
+  {
     return $this->obj->getObject()->AudioFile->mime;
   }
 
@@ -80,7 +80,7 @@ class majaxMediaWrapperObject extends majaxMediaWrapperManager
   }
 
   public function getVideoMime()
-  {  
+  {
     return $this->obj->getObject()->VideoFile->mime;
   }
 
@@ -144,21 +144,21 @@ class majaxMediaWrapperObject extends majaxMediaWrapperManager
     return true;
   }
 
-        public function __toString()
-        {
+  public function __toString()
+  {
     try {
       if ($this->getType() == 'Gallery')
         return $this->galleryToString();
     } catch (Exception $e) {
       return $e->__toString();
     }
-                return parent::__toString();
-        }
+    return parent::__toString();
+  }
 
-        public function galleryToString()
-        {
-    $render_class =  sfConfig::get('app_majax_media_gallery_render', 'majaxMediaGalleryRender');
-    $render  = new $render_class();
+  public function galleryToString()
+  {
+    $render_class = sfConfig::get('app_majax_media_gallery_render', 'majaxMediaGalleryRender');
+    $render = new $render_class();
     return $render->render($this);
-        }
+  }
 }

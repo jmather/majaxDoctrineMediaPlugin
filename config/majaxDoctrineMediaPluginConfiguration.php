@@ -2,7 +2,7 @@
 
 /**
  * majaxDoctrineMediaPlugin configuration.
- * 
+ *
  * @package     majaxDoctrineMediaPlugin
  * @subpackage  config
  * @author      Jacob Mather
@@ -28,29 +28,26 @@ class majaxDoctrineMediaPluginConfiguration extends sfPluginConfiguration
     $modules[] = 'majaxMediaGalleryAdminModule';
     sfConfig::set('sf_enabled_modules', $modules);
     sfConfig::set('majax_media_dir_name', 'media_cache');
-    sfConfig::set('majax_media_dir', sfConfig::get('sf_web_dir').DIRECTORY_SEPARATOR.sfConfig::get('majax_media_dir_name'));
+    sfConfig::set('majax_media_dir', sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . sfConfig::get('majax_media_dir_name'));
   }
 }
 
 // compatability
-if (!function_exists('mime_content_type'))
-{
-    function mime_content_type($file, $method = 0)
-    {
-        if ($method == 0)
-        {
-            ob_start();
-            system('/usr/bin/file -i -b ' . realpath($file));
-            $type = ob_get_clean();
+if (!function_exists('mime_content_type')) {
+  function mime_content_type($file, $method = 0)
+  {
+    if ($method == 0) {
+      ob_start();
+      system('/usr/bin/file -i -b ' . realpath($file));
+      $type = ob_get_clean();
 
-            $parts = explode(';', $type);
+      $parts = explode(';', $type);
 
-            return trim($parts[0]);
-        }
-        else if ($method == 1)
-        {
-            // another method here
-        }
+      return trim($parts[0]);
     }
+    else if ($method == 1) {
+      // another method here
+    }
+  }
 }
 

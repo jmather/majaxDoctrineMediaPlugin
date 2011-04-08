@@ -2,7 +2,7 @@
 
 /**
  * Base actions for the majaxDoctrineMediaPlugin majaxMediaGalleryAdminModule module.
- * 
+ *
  * @package     majaxDoctrineMediaPlugin
  * @subpackage  majaxMediaGalleryAdminModule
  * @author      Jacob Mather

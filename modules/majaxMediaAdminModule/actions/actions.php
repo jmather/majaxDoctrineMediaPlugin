@@ -1,10 +1,10 @@
 <?php
 
-require_once dirname(__FILE__).'/../lib/BasemajaxMediaAdminModuleActions.class.php';
+require_once dirname(__FILE__) . '/../lib/BasemajaxMediaAdminModuleActions.class.php';
 
 /**
  * majaxMediaAdminModule actions.
- * 
+ *
  * @package    majaxDoctrineMediaPlugin
  * @subpackage majaxMediaAdminModule
  * @author     Jacob Mather
@@ -18,8 +18,7 @@ class majaxMediaAdminModuleActions extends BasemajaxMediaAdminModuleActions
     sfConfig::set('sf_web_debug', false);
     $q = Doctrine_Query::create()->from('majaxMediaRegistryEntry mre')->where('mre.id = ?', $request->getParameter('value', null));
     $item = $q->fetchOne();
-    if ($item)
-    {
+    if ($item) {
       $ret = array('status' => 'valid');
       $ret = array_merge($this->objectToArray($item), $ret);
     } else {
@@ -29,6 +28,7 @@ class majaxMediaAdminModuleActions extends BasemajaxMediaAdminModuleActions
     exit(0);
     return sfView::NONE;
   }
+
   public function executeList(sfWebRequest $request)
   {
     sfConfig::set('sf_admin_dash', false);
@@ -42,7 +42,7 @@ class majaxMediaAdminModuleActions extends BasemajaxMediaAdminModuleActions
     $page = $request->getParameter('page', 1);
     $offset = ($page - 1) * $limit;
     $media_items_query = Doctrine_Query::create()->from('majaxMediaRegistryEntry mre');
-    switch($type)
+    switch ($type)
     {
       case 'audio':
         $media_items_query->addWhere('audio_media > 0');
@@ -68,34 +68,32 @@ class majaxMediaAdminModuleActions extends BasemajaxMediaAdminModuleActions
     }
 
     $filter = trim($request->getParameter('filter', ''));
-    if ($filter != '')
-    {
+    if ($filter != '') {
       $fl = strlen($filter);
-      if ($type == 'all')
-      {
-        $str = 'LEFT(a.name, '.$fl.') = ? OR ';
-        $str .= 'LEFT(v.name, '.$fl.') = ? OR ';
-        $str .= 'LEFT(p.name, '.$fl.') = ? OR ';
-        $str .= 'LEFT(g.name, '.$fl.') = ?';
+      if ($type == 'all') {
+        $str = 'LEFT(a.name, ' . $fl . ') = ? OR ';
+        $str .= 'LEFT(v.name, ' . $fl . ') = ? OR ';
+        $str .= 'LEFT(p.name, ' . $fl . ') = ? OR ';
+        $str .= 'LEFT(g.name, ' . $fl . ') = ?';
         $media_items_query->andWhere($str, array($filter, $filter, $filter, $filter));
       } else {
-        $media_items_query->andWhere('LEFT(m.name, '.$fl.') = ?', $filter);
+        $media_items_query->andWhere('LEFT(m.name, ' . $fl . ') = ?', $filter);
       }
     }
 
     $sidx = $request->getParameter('sidx');
     $sord = $request->getParameter('sord');
     $sort = 'mre.id DESC';
-    switch($sidx)
+    switch ($sidx)
     {
       case 'id':
-        $sort = 'mre.id '.$sord;
+        $sort = 'mre.id ' . $sord;
         break;
       case 'updated_at':
-        $sort = 'updated_at '.$sord;
+        $sort = 'updated_at ' . $sord;
         break;
       case 'created_at':
-        $sort = 'created_at '.$sord;
+        $sort = 'created_at ' . $sord;
         break;
     }
     $total = $media_items_query->count();
@@ -104,7 +102,7 @@ class majaxMediaAdminModuleActions extends BasemajaxMediaAdminModuleActions
     $media_items_query->orderby($sort);
     $items = $media_items_query->execute();
     $data = array('objects' => array());
-    foreach($items as $item)
+    foreach ($items as $item)
     {
       $d = $this->objectToArray($item);
       $data['objects'][] = $d;

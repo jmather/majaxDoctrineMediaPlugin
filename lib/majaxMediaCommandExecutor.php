@@ -12,20 +12,29 @@ class majaxMediaCommandExecutor
     $this->setArguments($arguments);
   }
 
+  /**
+   * @throws InvalidArgumentException
+   * @param string $executable
+   * @return void
+   */
   public function setExecutable($executable)
   {
-    if ($executable == false)
-    {
+    if ($executable == false) {
       $this->executable = '';
       return;
     }
     if (!file_exists($executable))
-      throw new InvalidArgumentException('The executable "'.$executable.'" does not exist.');
+      throw new InvalidArgumentException('The executable "' . $executable . '" does not exist.');
     if (!is_executable($executable))
-      throw new InvalidArgumentException('The executable "'.$executable.'" is not, in fact, executable.');
+      throw new InvalidArgumentException('The executable "' . $executable . '" is not, in fact, executable.');
     $this->executable = $executable;
   }
 
+  /**
+   * @throws InvalidArgumentException
+   * @param array $arguments
+   * @return void
+   */
   public function setArguments($arguments)
   {
     if (!is_array($arguments))
@@ -33,6 +42,10 @@ class majaxMediaCommandExecutor
     $this->arguments = array_merge($this->arguments, $arguments);
   }
 
+  /**
+   * @param string $argument
+   * @return void
+   */
   public function setArgument($argument)
   {
     $this->arguments[] = strval($argument);
@@ -47,15 +60,18 @@ class majaxMediaCommandExecutor
   {
     $exe = escapeshellcmd($this->executable);
     $params = array();
-    foreach($this->arguments as $argument)
+    foreach ($this->arguments as $argument)
     {
       $params[] = escapeshellarg($argument);
     }
-    $line = trim($exe.' '.implode(' ', $params));
+    $line = trim($exe . ' ' . implode(' ', $params));
 
     return $line;
   }
 
+  /**
+   * @return string
+   */
   public function execute()
   {
     $line = $this->buildShellCommand();

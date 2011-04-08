@@ -6,12 +6,11 @@ class majaxMediaGalleryRender extends majaxMediaRender
   {
     $context = sfContext::getInstance();
     $context->getResponse()->addJavascript('/js/swfobject.js');
-    $id = 'gallery_'.md5(time().microtime(true).'majaxMedia'.rand());
+    $id = 'gallery_' . md5(time() . microtime(true) . 'majaxMedia' . rand());
     $media_object->set('controller_height', 25);
     $gal = $media_object->getObject()->getObject();
 
-    if (count($gal->Media) == 0)
-    {
+    if (count($gal->Media) == 0) {
       $cont = 'No items assigned to gallery.';
       return $cont;
     }
@@ -22,7 +21,7 @@ class majaxMediaGalleryRender extends majaxMediaRender
     $fi->set('crop_method', $media_object->get('crop_method'));
     $fi->set('aspect_ratio', $media_object->get('aspect_ratio'));
     $fi->set('controller_height', $media_object->get('controller_height'));
-    switch($fi->getType())
+    switch ($fi->getType())
     {
       case 'Photo':
         $nw = $fi->getPhotoWidth();
@@ -49,18 +48,18 @@ class majaxMediaGalleryRender extends majaxMediaRender
     $width = $media_object->get('width', 400);
     $height = $media_object->get('controller_height');
     $height += $media_object->getRatioHeight($width, null, $nw, $nh, $media_object->get('aspect_ratio'));
-    $checksum = md5($gal->id.sfConfig::get('sf_csrf_secret'));
-    $uri = 'majaxMediaGalleryModule/list?checksum='.$checksum.'&id='.$gal->id.'&width='.$width.'&height='.($height - $media_object->get('controller_height'));
-    $uri .= '&aspect_ratio='.str_replace(':', 'x', $media_object->get('aspect_ratio', '16:9')).'&crop_method='.$media_object->get('crop_method', 'fit');
+    $checksum = md5($gal->id . sfConfig::get('sf_csrf_secret'));
+    $uri = 'majaxMediaGalleryModule/list?checksum=' . $checksum . '&id=' . $gal->id . '&width=' . $width . '&height=' . ($height - $media_object->get('controller_height'));
+    $uri .= '&aspect_ratio=' . str_replace(':', 'x', $media_object->get('aspect_ratio', '16:9')) . '&crop_method=' . $media_object->get('crop_method', 'fit');
     $uri .= '&sf_format=xml';
     $url = url_for($uri);
     $length = $media_object->getLength();
-    $cont = '<div class="player" style="width: '.$width.'px; height: '.$height.'px; background-image: url('.$ip.'); background-repeat: no-repeat; padding-top: '.($height - $media_object->get('controller_height')).'px;" id="'.$id.'_display">Flash is required to view this content.</div>';
+    $cont = '<div class="player" style="width: ' . $width . 'px; height: ' . $height . 'px; background-image: url(' . $ip . '); background-repeat: no-repeat; padding-top: ' . ($height - $media_object->get('controller_height')) . 'px;" id="' . $id . '_display">Flash is required to view this content.</div>';
     $cont .= '<script type="text/javascript">';
     $cont .= $this->getGalleryJWPlayerJSBlock($media_object, $id, $vp, $width, $height, $length, $ip, $url);
     $cont .= '</script>';
     return $cont;
-        }
+  }
 
   protected function getGalleryJWPlayerJSBlock($media_object, $id, $file_src, $width, $height, $length = null, $photo_src = null, $playlist_path)
   {
@@ -82,9 +81,9 @@ class majaxMediaGalleryRender extends majaxMediaRender
 
     if ($playlist_enabled)
       $jscont .= '
-    ,playlistsize: '.$playlist_size.'
-    ,playlist: \''.$playlist_position.'\'
-    ,playlistfile: \''.$playlist_path.'\'';
+    ,playlistsize: ' . $playlist_size . '
+    ,playlist: \'' . $playlist_position . '\'
+    ,playlistfile: \'' . $playlist_path . '\'';
 
     $jscont .= '
   };
@@ -95,22 +94,22 @@ class majaxMediaGalleryRender extends majaxMediaRender
     allowscriptaccess: \'always\'
   };
   var attrs = {
-    id: \''.$id.'\',
-    name: \''.$id.'\'
+    id: \'' . $id . '\',
+    name: \'' . $id . '\'
   };
 
   swfobject.embedSWF(
     \'/majaxDoctrineMediaPlugin/flash/player.swf\',
-    \''.$id.'_display\',
-    '.$real_width.',
-    '.$real_height.',
+    \'' . $id . '_display\',
+    ' . $real_width . ',
+    ' . $real_height . ',
     \'9\',
     \'/majaxDoctrineMediaPlugin/flash/expressInstall.swf\',
     flashvars,
     params,
     attrs
   );
-  //players[\''.$id.'\'] = document.getElementById(\''.$id.'\');
+  //players[\'' . $id . '\'] = document.getElementById(\'' . $id . '\');
 })();
 //]]>';
     return $jscont;

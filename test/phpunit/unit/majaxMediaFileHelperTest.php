@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__).'/../../../../../test/phpunit/bootstrap/unit.php';
+require_once dirname(__FILE__) . '/../../../../../test/phpunit/bootstrap/unit.php';
 
 class unit_majaxMediaFileHelperTest extends sfPHPUnitBaseTestCase
 {
@@ -12,7 +12,7 @@ class unit_majaxMediaFileHelperTest extends sfPHPUnitBaseTestCase
   {
     $this->file_helper = new majaxMediaFileHelper(array('lock_wait_time' => 2));
     $this->file = tempnam('/tmp', 'majaxMediaFileHelperTest');
-    $this->file_lock = $this->file.'.lock';
+    $this->file_lock = $this->file . '.lock';
   }
 
   public function test_LockFileWait()

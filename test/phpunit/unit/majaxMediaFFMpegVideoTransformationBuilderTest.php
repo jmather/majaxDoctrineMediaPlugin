@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__).'/../../../../../test/phpunit/bootstrap/unit.php';
+require_once dirname(__FILE__) . '/../../../../../test/phpunit/bootstrap/unit.php';
 
 class unit_majaxMediaFFMpegVideoTransformationBuilderTest extends sfPHPUnitBaseTestCase
 {
@@ -22,8 +22,8 @@ class unit_majaxMediaFFMpegVideoTransformationBuilderTest extends sfPHPUnitBaseT
   public function buildRatioProvider()
   {
     return array(
-      array(3, 1, 1, 1, 1/3),
-      array(1, 3, 1, 1, 1/3),
+      array(3, 1, 1, 1, 1 / 3),
+      array(1, 3, 1, 1, 1 / 3),
       array(1, 1, 3, 1, 3),
       array(1, 1, 1, 3, 3),
       array(200, 100, 10, 10, 0.05),

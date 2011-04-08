@@ -18,22 +18,44 @@ abstract class majaxMediaProcessor
     $this->filename_builder = new $fb_class();
   }
 
+  /**
+   * @param majaxMediaFilenameBuilder $fnb
+   * @return void
+   */
   public function setFilenameBuilder(majaxMediaFilenameBuilder $fnb)
   {
     $this->filename_builder = $fnb;
   }
 
+  /**
+   * @param majaxMediaPathBuilder $pb
+   * @return void
+   */
   public function setPathBuilder(majaxMediaPathBuilder $pb)
   {
     $this->path_builder = $pb;
   }
 
+  /**
+   * @param majaxMediaFileHelper $fh
+   * @return void
+   */
   public function setFileHelper(majaxMediaFileHelper $fh)
   {
     $this->file_helper = $fh;
   }
 
-  public function process(majaxMediaFileInfo $file_info, $new_width, $new_height, $crop_method, $aspect_ratio, $extra_width = 0, $extra_height = 0)
+  /**
+   * @param majaxMediaFileInfoInterface $file_info
+   * @param int $new_width
+   * @param int $new_height
+   * @param string $crop_method
+   * @param string $aspect_ratio
+   * @param int $extra_width
+   * @param int $extra_height
+   * @return string
+   */
+  public function process(majaxMediaFileInfoInterface $file_info, $new_width, $new_height, $crop_method, $aspect_ratio, $extra_width = 0, $extra_height = 0)
   {
     $src_path = $this->ensureSourceFileIsCached($file_info);
 
@@ -51,9 +73,23 @@ abstract class majaxMediaProcessor
     return $file_path;
   }
 
+  /**
+   * @abstract
+   * @param string $src_path
+   * @param int $src_width
+   * @param int $src_height
+   * @param int $new_width
+   * @param int $new_height
+   * @param string $crop_method
+   * @return string
+   */
   abstract protected function execute($src_path, $src_width, $src_height, $new_width, $new_height, $crop_method);
 
-  protected function ensureSourceFileIsCached($file_info)
+  /**
+   * @param majaxMediaFileInfoInterface $file_info
+   * @return string
+   */
+  protected function ensureSourceFileIsCached(majaxMediaFileInfoInterface $file_info)
   {
     $src_path = $this->path_builder->render($file_info);
 

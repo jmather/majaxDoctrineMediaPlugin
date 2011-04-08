@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__).'/../../../../../test/phpunit/bootstrap/unit.php';
+require_once dirname(__FILE__) . '/../../../../../test/phpunit/bootstrap/unit.php';
 
 class unit_majaxMediaDimensionCalculatorTest extends sfPHPUnitBaseTestCase
 {

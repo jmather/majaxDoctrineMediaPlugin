@@ -2,6 +2,7 @@
 class majaxMediaWidgetFormInputFile extends sfWidgetFormInputFileEditable
 {
   protected $oFileInfo = null;
+
   protected function configure($options = array(), $attributes = array())
   {
     parent::configure($options, $attributes);
@@ -18,11 +19,9 @@ class majaxMediaWidgetFormInputFile extends sfWidgetFormInputFileEditable
   public function getFileInfo()
   {
     $file_id = $this->getOption('file_id');
-    if ($file_id > 0 && $this->oFileInfo == null)
-    {
+    if ($file_id > 0 && $this->oFileInfo == null) {
       $file = Doctrine_Query::create()->from('majaxMediaFileInfo fi')->where('fi.id = ?', $file_id)->fetchOne();
-      if ($file)
-      {
+      if ($file) {
         $this->oFileInfo = $file;
       }
     }
@@ -31,8 +30,7 @@ class majaxMediaWidgetFormInputFile extends sfWidgetFormInputFileEditable
 
   public function render($name, $value = null, $attributes = array(), $errors = array())
   {
-    if ($file = $this->getFileInfo())
-    {
+    if ($file = $this->getFileInfo()) {
       $this->setOption('file_src', $file->web_path);
       $this->setOption('edit_mode', true);
     }
@@ -46,13 +44,11 @@ class majaxMediaWidgetFormInputFile extends sfWidgetFormInputFileEditable
     $context = sfContext::getInstance();
     $context->getConfiguration()->loadHelpers(array('majaxMedia'), $context->getModuleName());
 
-    if (!$fi)
-    {
+    if (!$fi) {
       return null;
     }
 
-    if ($fi->isImage())
-    {
+    if ($fi->isImage()) {
       $stuff = array();
       $width = ($this->getOption('width') !== null) ? $this->getOption('width') : 600;
       $height = (($this->getOption('height') !== null) ? $this->getOption('height') : null);
@@ -65,53 +61,51 @@ class majaxMediaWidgetFormInputFile extends sfWidgetFormInputFileEditable
       return $this->renderTag('img', array_merge($stuff, $attributes));
     }
 
-    
-    if ($fi->isVideo())
-    {
+
+    if ($fi->isVideo()) {
       return majaxMedia($fi)->width(600);
       $context = sfContext::getInstance();
       $context->getResponse()->addJavascript('/majaxDoctrineMediaPlugin/js/swfobject.js');
       $id = $this->generateIdString('video_');
       $cont = $this->getFlashRequiredBlock($id, 'video');
       $width = ($this->getOption('width') !== null) ? $this->getOption('width') : $fi->getWidth();
-      $height = (($this->getOption('height') !== null) ? $this->getOption('height') : $fi->getHeight())+$this->getOption('controller_height');
+      $height = (($this->getOption('height') !== null) ? $this->getOption('height') : $fi->getHeight()) + $this->getOption('controller_height');
       $length = ($this->getOption('length') !== null) ? $this->getOption('length') : $fi->getLength();
       $jscont = $this->getPlayerJSBlock($id, $this->getOption('file_src'), $width, $height, $length);
-      $cont .= $this->renderContentTag('script', $jscont, array('type'=>'text/javascript'));
+      $cont .= $this->renderContentTag('script', $jscont, array('type' => 'text/javascript'));
       return $cont;
     }
 
 
-    if ($fi->isAudio())
-    {
+    if ($fi->isAudio()) {
       return majaxMedia($fi)->width(600);
       $context = sfContext::getInstance();
       $context->getResponse()->addJavascript('/majaxDoctrineMediaPlugin/js/swfobject.js');
       $id = $this->generateIdString('audio_');
       $cont = $this->getFlashRequiredBlock($id, 'audio');
       $width = ($this->getOption('width') !== null) ? $this->getOption('width') : 400;
-      $height = (($this->getOption('height') !== null) ? $this->getOption('height') : 0)+$this->getOption('controller_height');
+      $height = (($this->getOption('height') !== null) ? $this->getOption('height') : 0) + $this->getOption('controller_height');
       $length = ($this->getOption('length') !== null) ? $this->getOption('length') : $fi->getLength();
       $jscont = $this->getPlayerJSBlock($id, $this->getOption('file_src'), $width, $height, $length);
-      $cont .= $this->renderContentTag('script', $jscont, array('type'=>'text/javascript'));
+      $cont .= $this->renderContentTag('script', $jscont, array('type' => 'text/javascript'));
       return $cont;
     }
 
 
-    $n = $fi->getName().' ('.$fi->getSizeFormatted().')';
+    $n = $fi->getName() . ' (' . $fi->getSizeFormatted() . ')';
     return $this->renderContentTag('a', $n, array_merge(array('href' => $this->getOption('file_src')), $attributes));
   }
 
-  
+
   protected function getFlashRequiredBlock($id, $class)
   {
-    $cont = '<div id="'.$id.'">Flash is required to view this content.</div>';
+    $cont = '<div id="' . $id . '">Flash is required to view this content.</div>';
     return $cont;
   }
 
   protected function generateIdString($prefix = '')
   {
-    return $prefix.substr(md5(time().'fdjkhdf'.microtime()), 0, 8);
+    return $prefix . substr(md5(time() . 'fdjkhdf' . microtime()), 0, 8);
   }
 
   protected function getPlayerJSBlock($id, $file_src, $width, $height, $length = null)
@@ -122,11 +116,10 @@ if (!players)
 
 (function(){
   var flashvars = {
-    file: \''.$file_src.'\'';
-    if ($length !== null)
-    {
+    file: \'' . $file_src . '\'';
+    if ($length !== null) {
       $jscont .= ',
-    duration: \''.$length.'\'';
+    duration: \'' . $length . '\'';
     }
 
     $jscont .= '
@@ -137,11 +130,11 @@ if (!players)
     allownetworking: \'all\',
     allowscriptaccess: \'always\'
   };
-  players[\''.$id.'\'] = swfobject.embedSWF(
+  players[\'' . $id . '\'] = swfobject.embedSWF(
     \'/majaxDoctrineMediaPlugin/flash/player.swf\',
-    \''.$id.'\',
-    '.$width.',
-    '.$height.',
+    \'' . $id . '\',
+    ' . $width . ',
+    ' . $height . ',
     \'9\',
     \'/majaxDoctrineMediaPlugin/flash/expressInstall.swf\',
     flashvars,

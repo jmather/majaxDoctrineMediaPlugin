@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__).'/../../stub/majaxMediaFileHelperStub.php';
+require_once dirname(__FILE__) . '/../../stub/majaxMediaFileHelperStub.php';
 
 class majaxMediaPHPUnitBaseTestCase extends sfPHPUnitBaseTestCase
 {
@@ -12,21 +12,21 @@ class majaxMediaPHPUnitBaseTestCase extends sfPHPUnitBaseTestCase
   protected function getMockCommandExecutor()
   {
     $exec = $this->getMockBuilder('majaxMediaCommandExecutor')
-                  ->setMethods(array('setExecutable', 'setArguments', 'execute'))
-                  ->setConstructorArgs(array(''))
-                  ->getMock();
+      ->setMethods(array('setExecutable', 'setArguments', 'execute'))
+      ->setConstructorArgs(array(''))
+      ->getMock();
 
     $exec->expects($this->any())
-          ->method('setExecutable')
-          ->with($this->anything());
+      ->method('setExecutable')
+      ->with($this->anything());
 
     $exec->expects($this->any())
-          ->method('setArguments')
-          ->with($this->anything());
+      ->method('setArguments')
+      ->with($this->anything());
 
     $exec->expects($this->any())
-          ->method('execute')
-          ->will($this->returnValue(true));
+      ->method('execute')
+      ->will($this->returnValue(true));
 
     return $exec;
   }

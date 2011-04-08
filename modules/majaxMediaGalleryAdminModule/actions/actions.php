@@ -1,10 +1,10 @@
 <?php
 
-require_once dirname(__FILE__).'/../lib/BasemajaxMediaGalleryAdminModuleActions.class.php';
+require_once dirname(__FILE__) . '/../lib/BasemajaxMediaGalleryAdminModuleActions.class.php';
 
 /**
  * majaxMediaGalleryAdminModule actions.
- * 
+ *
  * @package    majaxDoctrineMediaPlugin
  * @subpackage majaxMediaGalleryAdminModule
  * @author     Jacob Mather
@@ -18,8 +18,7 @@ class majaxMediaGalleryAdminModuleActions extends BasemajaxMediaGalleryAdminModu
     sfConfig::set('sf_web_debug', false);
     $q = Doctrine_Query::create()->from('majaxMediaGallery g')->where('g.id = ?', $request->getParameter('value', null));
     $item = $q->fetchOne();
-    if ($item)
-    {
+    if ($item) {
       $ret = array('status' => 'valid');
       $ret = array_merge($this->objectToArray($item), $ret);
     } else {
@@ -29,17 +28,17 @@ class majaxMediaGalleryAdminModuleActions extends BasemajaxMediaGalleryAdminModu
     exit(0);
     return sfView::NONE;
   }
+
   public function executeLookupMany(sfWebRequest $request)
   {
     sfConfig::set('sf_admin_dash', false);
     sfConfig::set('sf_web_debug', false);
-    $q = Doctrine_Query::create()->from('majaxMediaGallery g')->where('g.id IN ('.implode(',', $request->getParameter('values', array())).')');
+    $q = Doctrine_Query::create()->from('majaxMediaGallery g')->where('g.id IN (' . implode(',', $request->getParameter('values', array())) . ')');
     $items = $q->execute();
-    if ($items)
-    {
+    if ($items) {
       $ret = array('status' => 'valid');
       $ret['results'] = array();
-      foreach($items as $item)
+      foreach ($items as $item)
         $ret['results'][] = $this->objectToArray($item);
     } else {
       $ret = array('status' => 'invalid');
@@ -49,6 +48,7 @@ class majaxMediaGalleryAdminModuleActions extends BasemajaxMediaGalleryAdminModu
     exit(0);
     return sfView::NONE;
   }
+
   public function executeList(sfWebRequest $request)
   {
     sfConfig::set('sf_admin_dash', false);
@@ -67,29 +67,28 @@ class majaxMediaGalleryAdminModuleActions extends BasemajaxMediaGalleryAdminModu
       $exclude[] = $request->getParameter('also_exclude');
 
     if (count($exclude) > 0)
-      $query->where('g.id NOT IN ('.implode(',', $exclude).')');
+      $query->where('g.id NOT IN (' . implode(',', $exclude) . ')');
 
     $filter = trim($request->getParameter('filter', ''));
-    if ($filter != '')
-    {
+    if ($filter != '') {
       $fl = strlen($filter);
-      $query->andWhere('LEFT(g.name, '.$fl.') = ?', $filter);
+      $query->andWhere('LEFT(g.name, ' . $fl . ') = ?', $filter);
     }
 
 
     $sidx = $request->getParameter('sidx');
     $sord = $request->getParameter('sord');
     $sort = 'g.id DESC';
-    switch($sidx)
+    switch ($sidx)
     {
       case 'id':
-        $sort = 'g.id '.$sord;
+        $sort = 'g.id ' . $sord;
         break;
       case 'updated_at':
-        $sort = 'g.updated_at '.$sord;
+        $sort = 'g.updated_at ' . $sord;
         break;
       case 'created_at':
-        $sort = 'g.created_at '.$sord;
+        $sort = 'g.created_at ' . $sord;
         break;
     }
     $total = $query->count();
@@ -98,7 +97,7 @@ class majaxMediaGalleryAdminModuleActions extends BasemajaxMediaGalleryAdminModu
     $query->orderby($sort);
     $items = $query->execute();
     $data = array('objects' => array());
-    foreach($items as $item)
+    foreach ($items as $item)
     {
       $d = $this->objectToArray($item);
       $data['objects'][] = $d;

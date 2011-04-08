@@ -59,9 +59,9 @@ abstract class majaxMediaWrapperManager
   {
     if ($method == null)
       return $this->get('crop_method', 'fit');
-    $allowed = array('fit', 'scale', 'inflate','deflate', 'left' ,'right', 'top', 'bottom', 'center');
+    $allowed = array('fit', 'scale', 'inflate', 'deflate', 'left', 'right', 'top', 'bottom', 'center');
     if (!in_array($method, $allowed))
-      throw new InvalidArgumentException('Crop method "'.$method.'" is invalid. Only fit, scale, inflate, deflate, left, right, top, bottom, or center');
+      throw new InvalidArgumentException('Crop method "' . $method . '" is invalid. Only fit, scale, inflate, deflate, left, right, top, bottom, or center');
     $this->set('crop_method', $method);
     return $this;
   }
@@ -103,7 +103,7 @@ abstract class majaxMediaWrapperManager
     $ffmpeg = new majaxMediaFFMpeg();
 
     $new_path = $ffmpeg->process($this->getVideoFile(), $this->width(), $this->height(), $this->crop_method(), $this->aspect_ratio());
-    $web_path = preg_replace('|^'.preg_quote(sfConfig::get('sf_web_dir')).'|', $new_path);
+    $web_path = preg_replace('|^' . preg_quote(sfConfig::get('sf_web_dir')) . '|', $new_path);
 
     if ($path_only)
       return $web_path;
@@ -120,14 +120,14 @@ abstract class majaxMediaWrapperManager
 
     $new_path = $processor->process($this->getPhotoFile(), null, null, null, null);
 
-    $web_path = preg_replace('|^'.preg_quote(sfConfig::get('sf_web_dir')).'|', $new_path);
+    $web_path = preg_replace('|^' . preg_quote(sfConfig::get('sf_web_dir')) . '|', $new_path);
 
     if ($path_only)
       return $web_path;
 
 
-    $render_class =  sfConfig::get('app_majax_media_audio_render', 'majaxMediaAudioRender');
-    $render  = new $render_class();
+    $render_class = sfConfig::get('app_majax_media_audio_render', 'majaxMediaAudioRender');
+    $render = new $render_class();
     return $render->render($this, $web_path);
   }
 
@@ -136,28 +136,27 @@ abstract class majaxMediaWrapperManager
     $processor = new majaxMediaImageProcessor();
 
     $extra_height = 0;
-    if ($this->getType() == 'Photo' && $ignore_type == false && $this->ignore_type() == false)
-    {
+    if ($this->getType() == 'Photo' && $ignore_type == false && $this->ignore_type() == false) {
       $extra_height = $this->get('controller_height');
     }
 
     $new_path = $processor->process($this->getPhotoFile(), $this->width(), $this->height(), $this->crop_method(), $this->aspect_ratio(), 0, $extra_height);
 
-    $web_path = preg_replace('|^'.preg_quote(sfConfig::get('sf_web_dir')).'|', $new_path);
+    $web_path = preg_replace('|^' . preg_quote(sfConfig::get('sf_web_dir')) . '|', $new_path);
 
     if ($path_only)
       return $web_path;
 
-    $out = '<img src="'.$web_path.'"';
-    foreach($this->get('attributes', array()) as $name => $value)
-      $out .= ' '.$name.'="'.$value.'"';
+    $out = '<img src="' . $web_path . '"';
+    foreach ($this->get('attributes', array()) as $name => $value)
+      $out .= ' ' . $name . '="' . $value . '"';
     $out .= ' />';
     return $out;
   }
 
   public function getLength()
   {
-    switch($this->getType())
+    switch ($this->getType())
     {
       case 'Audio':
         return $this->getAudioLength();
@@ -171,7 +170,7 @@ abstract class majaxMediaWrapperManager
 
   public function getName()
   {
-    switch($this->getType())
+    switch ($this->getType())
     {
       case 'Video':
         return $this->getVideoName();
@@ -184,7 +183,7 @@ abstract class majaxMediaWrapperManager
 
   public function getSize()
   {
-    switch($this->getType())
+    switch ($this->getType())
     {
       case 'Video':
         return $this->getVideoSize();
@@ -201,28 +200,52 @@ abstract class majaxMediaWrapperManager
   }
 
   abstract public function getType();
+
   abstract public function getPhotoName();
+
   abstract public function getPhotoSize();
+
   abstract public function getPhotoMime();
+
   abstract public function getPhotoData();
+
   abstract public function getPhotoSha1();
+
   abstract public function getPhotoFileInfo();
+
   abstract public function getPhotoWidth();
+
   abstract public function getPhotoHeight();
+
   abstract public function getVideoName();
+
   abstract public function getVideoSize();
+
   abstract public function getVideoMime();
+
   abstract public function getVideoData();
+
   abstract public function getVideoSha1();
+
   abstract public function getVideoLength();
+
   abstract public function getVideoWidth();
+
   abstract public function getVideoHeight();
+
   abstract public function getVideoFileInfo();
+
   abstract public function getAudioName();
+
   abstract public function getAudioSize();
+
   abstract public function getAudioMime();
+
   abstract public function getAudioData();
+
   abstract public function getAudioSha1();
+
   abstract public function getAudioLength();
+
   abstract public function getAudioFileInfo();
 }

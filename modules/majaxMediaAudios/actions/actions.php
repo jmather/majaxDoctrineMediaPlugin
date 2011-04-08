@@ -1,7 +1,7 @@
 <?php
 
-require_once dirname(__FILE__).'/../lib/majaxMediaAudiosGeneratorConfiguration.class.php';
-require_once dirname(__FILE__).'/../lib/majaxMediaAudiosGeneratorHelper.class.php';
+require_once dirname(__FILE__) . '/../lib/majaxMediaAudiosGeneratorConfiguration.class.php';
+require_once dirname(__FILE__) . '/../lib/majaxMediaAudiosGeneratorHelper.class.php';
 
 /**
  * majaxMediaAudios actions.

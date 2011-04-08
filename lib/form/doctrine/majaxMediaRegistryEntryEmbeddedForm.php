@@ -17,20 +17,22 @@ class majaxMediaRegistryEntryEmbeddedForm extends majaxMediaRegistryEntryForm
     unset($this['uuid'], $this['video_media'], $this['audio_media'], $this['photo_media'], $this['gallery_media']);
     unset($this['created_at'], $this['updated_at']);
     $gal_widget_opts = array('multiple' => true, 'model' => 'majaxMediaGallery');
-    if ($this->getObject()->getType() == 'Gallery')
-    {
+    if ($this->getObject()->getType() == 'Gallery') {
       $gal_widget_opts['exclude'] = $this->getObject()->getObject()->id;
     }
     $this->setWidget('galleries_list', new majaxMediaWidgetFormGallery($gal_widget_opts));
   }
+
   public function saveEmbeddedForms($con = null, $forms = null)
   {
     $this->saveGalleriesList($con);
   }
+
   public function isValid()
   {
     return true;
   }
+
   public function processValues($values)
   {
     $this->values = parent::processValues($values);

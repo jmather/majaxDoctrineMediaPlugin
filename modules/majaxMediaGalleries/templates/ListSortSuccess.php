@@ -1,5 +1,6 @@
 <div id="sf_admin_container">
   <h1>Sort Gallery Items</h1>
+
   <div id="sf_admin_header">
   </div>
   <div id="sf_admin_content">
@@ -11,7 +12,7 @@
       </fieldset>
       <ul class="sf_admin_actions">
         <li class="sf_admin_action_edit">
-          <?php echo link_to('Edit Gallery', 'galleries/edit?id='.$gallery->id); ?>
+          <?php echo link_to('Edit Gallery', 'galleries/edit?id=' . $gallery->id); ?>
         </li>
         <li class="sf_admin_action_list">
           <?php echo link_to('Back to list', 'galleries/index'); ?>

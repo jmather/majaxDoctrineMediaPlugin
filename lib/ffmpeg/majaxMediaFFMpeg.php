@@ -22,8 +22,7 @@ class majaxMediaFFMpeg extends majaxMediaProcessor
     $dimension_calculator_class = sfConfig::get('app_majax_media_dimension_calculator', 'majaxMediaDimensionCalculator');
     $this->dimension_calculator = new $dimension_calculator_class();
 
-    if ($ffmpeg_path == null)
-    {
+    if ($ffmpeg_path == null) {
       $this->ffmpeg_path = sfConfig::get('app_majax_media_ffmpeg_path', '/usr/local/bin/ffmpeg');
     } else {
       $this->ffmpeg_path = $ffmpeg_path;
@@ -61,7 +60,7 @@ class majaxMediaFFMpeg extends majaxMediaProcessor
 
     // Let's tell it about the size we want it to be...
     $args[] = '-s';
-    $args[] = $new_width.'x'.$new_height;
+    $args[] = $new_width . 'x' . $new_height;
 
 
     // Now let's get our translation commands.
@@ -75,15 +74,13 @@ class majaxMediaFFMpeg extends majaxMediaProcessor
     $args[] = $new_path;
 
 
-    if ($this->ffmpeg_path == false || !$this->file_helper->exists($this->ffmpeg_path))
-    {
+    if ($this->ffmpeg_path == false || !$this->file_helper->exists($this->ffmpeg_path)) {
       trigger_error('FFMPEG Not installed. Video source will not be resized', E_USER_WARNING);
       $new_path = $src_path;
     }
 
 
-    if (($this->ffmpeg_path != false && $this->file_helper->exists($this->ffmpeg_path)) && !$this->file_helper->exists($new_path))
-    {
+    if (($this->ffmpeg_path != false && $this->file_helper->exists($this->ffmpeg_path)) && !$this->file_helper->exists($new_path)) {
       // Let's make sure we have a lock on our destination file, and that there is no lock on our source file
       $count = 0;
       while ($this->file_helper->hasFileLock($src_path, false) || $this->file_helper->hasFileLock($new_path, false))
@@ -94,8 +91,7 @@ class majaxMediaFFMpeg extends majaxMediaProcessor
           break;
       }
 
-      if (!$this->file_helper->hasFileLock($src_path) && $this->file_helper->getFileLock($new_path))
-      {
+      if (!$this->file_helper->hasFileLock($src_path) && $this->file_helper->getFileLock($new_path)) {
         $this->executor->setExecutable($this->ffmpeg_path);
         $this->executor->setArguments($args);
         $this->executor->execute();

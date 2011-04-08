@@ -1,7 +1,7 @@
 <?php
 
-require_once dirname(__FILE__).'/../lib/majaxMediaPhotosGeneratorConfiguration.class.php';
-require_once dirname(__FILE__).'/../lib/majaxMediaPhotosGeneratorHelper.class.php';
+require_once dirname(__FILE__) . '/../lib/majaxMediaPhotosGeneratorConfiguration.class.php';
+require_once dirname(__FILE__) . '/../lib/majaxMediaPhotosGeneratorHelper.class.php';
 
 /**
  * photos actions.

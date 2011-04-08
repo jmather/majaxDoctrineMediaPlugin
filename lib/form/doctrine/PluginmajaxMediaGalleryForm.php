@@ -20,16 +20,15 @@ abstract class PluginmajaxMediaGalleryForm extends BasemajaxMediaGalleryForm
     $this->setWidget('content', new majaxWidgetFormMarkdownEditor(array(), array('style' => 'height: 100px;')));
 
     $context = sfContext::getInstance();
-    if ($context && $context->getUser()->isAuthenticated() && $context->getUser()->getGuardUser()->is_super_admin)
-    {
-      $summary_params = array('jsoptions'=>array('height'=>200,'width'=>680));
+    if ($context && $context->getUser()->isAuthenticated() && $context->getUser()->getGuardUser()->is_super_admin) {
+      $summary_params = array('jsoptions' => array('height' => 200, 'width' => 680));
       $this->setWidget('content_html', new sfWidgetFormCKEditor($summary_params));
     } else {
       unset($this['content_html']);
     }
 
-//    $f = new majaxMediaRegistryEntryEmbeddedForm($this->getObject()->MediaRegistryEntry);
-//    $f->updateDefaultsFromObject();
-//    $this->embedMergeForm('media', $f);
+    //    $f = new majaxMediaRegistryEntryEmbeddedForm($this->getObject()->MediaRegistryEntry);
+    //    $f->updateDefaultsFromObject();
+    //    $this->embedMergeForm('media', $f);
   }
 }

@@ -32,10 +32,10 @@ class majaxMediaWidgetFormMedia extends sfWidgetFormInput
 (function($){
   $(function(){
     var opts = {
-      lookup_url: \''.$lookup_url.'\',
-      fetch_url: \''.$fetch_url.'\',
+      lookup_url: \'' . $lookup_url . '\',
+      fetch_url: \'' . $fetch_url . '\',
     };
-    $(\'#'.$id.'\').majaxmediaselector(opts);
+    $(\'#' . $id . '\').majaxmediaselector(opts);
   });
 })(jQuery);
 </script>

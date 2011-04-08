@@ -1,10 +1,10 @@
 <?php
 
-require_once dirname(__FILE__).'/../lib/BasemajaxMediaGalleryModuleActions.class.php';
+require_once dirname(__FILE__) . '/../lib/BasemajaxMediaGalleryModuleActions.class.php';
 
 /**
  * majaxMediaGalleryModule actions.
- * 
+ *
  * @package    majaxDoctrineMediaPlugin
  * @subpackage majaxMediaGalleryModule
  * @author     Jacob Mather
@@ -15,7 +15,7 @@ class majaxMediaGalleryModuleActions extends BasemajaxMediaGalleryModuleActions
   public function executeList(sfRequest $request)
   {
     $id = $request->getParameter('id');
-    $checksum = md5($id.sfConfig::get('sf_csrf_secret'));
+    $checksum = md5($id . sfConfig::get('sf_csrf_secret'));
     if ($checksum != $request->getParameter('checksum'))
       $this->forward404();
 

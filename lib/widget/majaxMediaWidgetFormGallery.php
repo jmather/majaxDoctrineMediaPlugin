@@ -7,6 +7,7 @@ class majaxMediaWidgetFormGallery extends sfWidgetFormDoctrineChoice
     parent::configure($options, $attributes);
     $this->addOption('exclude', false);
   }
+
   public function render($name, $value = null, $attributes = array(), $errors = array())
   {
     if ($value === null)
@@ -29,23 +30,23 @@ class majaxMediaWidgetFormGallery extends sfWidgetFormDoctrineChoice
 
 
     $out = '';
-    $out .= '<div id="'.$id.'_values">';
-    foreach($value as $idx => $val)
+    $out .= '<div id="' . $id . '_values">';
+    foreach ($value as $idx => $val)
     {
-      $out .= '<input type="hidden" name="'.$name.'['.$val.']" id="'.$id.'_'.$val.'" value="'.$val.'" />';
+      $out .= '<input type="hidden" name="' . $name . '[' . $val . ']" id="' . $id . '_' . $val . '" value="' . $val . '" />';
     }
     $out .= '</div>';
-    $out .= '<div id="'.$id.'">Loading...</div>';
+    $out .= '<div id="' . $id . '">Loading...</div>';
     $out .= '<script type="text/javascript">
 (function($){
   $(function(){
     var opts = {
-      name: \''.$name.'\',
-      exclude: '.var_export($exclude, true).',
-      fetch_url: \''.$fetch_url.'\',
-      lookup_url: \''.$lookup_url.'\'
+      name: \'' . $name . '\',
+      exclude: ' . var_export($exclude, true) . ',
+      fetch_url: \'' . $fetch_url . '\',
+      lookup_url: \'' . $lookup_url . '\'
     }
-    $(\'#'.$id.'\').majaxgalleryselector(opts);
+    $(\'#' . $id . '\').majaxgalleryselector(opts);
   });
 })(jQuery);
 </script>

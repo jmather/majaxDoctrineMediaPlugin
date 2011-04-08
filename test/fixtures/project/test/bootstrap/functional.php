@@ -9,8 +9,7 @@
  */
 
 // guess current application
-if (!isset($app))
-{
+if (!isset($app)) {
   $traces = debug_backtrace();
   $caller = $traces[0];
 
@@ -18,7 +17,7 @@ if (!isset($app))
   $app = array_pop($dirPieces);
 }
 
-require_once dirname(__FILE__).'/../../config/ProjectConfiguration.class.php';
+require_once dirname(__FILE__) . '/../../config/ProjectConfiguration.class.php';
 $configuration = ProjectConfiguration::getApplicationConfiguration($app, 'test', isset($debug) ? $debug : true);
 sfContext::createInstance($configuration);
 

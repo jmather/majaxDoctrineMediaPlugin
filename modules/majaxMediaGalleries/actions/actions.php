@@ -1,7 +1,7 @@
 <?php
 
-require_once dirname(__FILE__).'/../lib/majaxMediaGalleriesGeneratorConfiguration.class.php';
-require_once dirname(__FILE__).'/../lib/majaxMediaGalleriesGeneratorHelper.class.php';
+require_once dirname(__FILE__) . '/../lib/majaxMediaGalleriesGeneratorConfiguration.class.php';
+require_once dirname(__FILE__) . '/../lib/majaxMediaGalleriesGeneratorHelper.class.php';
 
 /**
  * majaxMediaGalleries actions.
@@ -17,6 +17,7 @@ class majaxMediaGalleriesActions extends autoMajaxMediaGalleriesActions
   {
     $this->gallery = $this->getRoute()->getObject();
   }
+
   public function executeReorder($request)
   {
     sfConfig::set('sf_web_debug', false);
@@ -34,7 +35,7 @@ class majaxMediaGalleriesActions extends autoMajaxMediaGalleriesActions
     $q->set('position', '?');
     $q->where('gi.gallery_id = ?');
     $q->andWhere('gi.media_id = ?');
-    foreach($list as $idx => $id)
+    foreach ($list as $idx => $id)
     {
       $q->execute(array(($idx + 1), $gallery_id, $id));
     }

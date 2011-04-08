@@ -22,13 +22,18 @@ class majaxMediaFileHelper
     $this->lock_wait_time = $settings['lock_wait_time'];
   }
 
+  /**
+   * @param string $file
+   * @param string $contents
+   * @param int|null $wait
+   * @return bool
+   */
   public function write($file, $contents, $wait = null)
   {
     $dir = dirname($file);
     $this->ensurePathExists($dir);
 
-    if (!$this->getFileLock($file, $wait))
-    {
+    if (!$this->getFileLock($file, $wait)) {
       return false;
     }
     file_put_contents($file, $contents);
@@ -36,47 +41,60 @@ class majaxMediaFileHelper
     return true;
   }
 
+  /**
+   * @param string $file
+   * @param int|null $wait
+   * @return bool|string
+   */
   public function read($file, $wait = null)
   {
-    if ($this->read_blocking)
-    {
-      if ($this->hasFileLock($file, $wait))
-      {
+    if ($this->read_blocking) {
+      if ($this->hasFileLock($file, $wait)) {
         return false;
       }
     }
     return file_get_contents($file);
   }
 
+  /**
+   * @param string $file
+   * @return string
+   */
   public function getLockFile($file)
   {
-    return $file.'.lock';
+    return $file . '.lock';
   }
 
+  /**
+   * @return int
+   */
   public function getFileLockTimeout()
   {
     return $this->lock_wait_time;
   }
 
+  /**
+   * @param string $file
+   * @param int|null $wait
+   * @return bool
+   */
   public function hasFileLock($file, $wait = null)
   {
     $wait = ($wait === null) ? $this->write_lock_wait : $wait;
     $lock = $this->getLockFile($file);
 
-    if (file_exists($lock))
-    {
+    if (file_exists($lock)) {
       $mtime = filemtime($lock);
       $elapse = $this->getFileLockTimeout();
       $wait_limit = time() + $elapse;
 
-      while($wait === true && time() < $wait_limit)
+      while ($wait === true && time() < $wait_limit)
       {
         $limit = time() - $elapse;
         if (!file_exists($lock))
           $wait = false;
       }
-      if (file_exists($lock))
-      {
+      if (file_exists($lock)) {
         return false;
       }
       unlink($lock);
@@ -85,12 +103,16 @@ class majaxMediaFileHelper
     return false;
   }
 
+  /**
+   * @param string $file
+   * @param int|null $wait
+   * @return bool
+   */
   public function getFileLock($file, $wait = null)
   {
     $lock = $this->getLockFile($file);
 
-    if ($this->hasFileLock($file, $wait))
-    {
+    if ($this->hasFileLock($file, $wait)) {
       return false;
     }
 
@@ -98,17 +120,29 @@ class majaxMediaFileHelper
     return true;
   }
 
+  /**
+   * @param string $file
+   * @return void
+   */
   public function removeFileLock($file)
   {
     $lock = $this->getLockFile($file);
     unlink($lock);
   }
 
+  /**
+   * @param string $path
+   * @return bool
+   */
   public function exists($path)
   {
     return file_exists($path);
   }
 
+  /**
+   * @param string $path
+   * @return bool
+   */
   public function is_file($path)
   {
     if (file_exists($path) && !is_dir($path))
@@ -116,6 +150,10 @@ class majaxMediaFileHelper
     return false;
   }
 
+  /**
+   * @param string $path
+   * @return bool
+   */
   public function is_dir($path)
   {
     if (file_exists($path) && is_dir($path))
@@ -127,11 +165,9 @@ class majaxMediaFileHelper
    * @param $path
    * @return void
    */
-
   protected function ensurePathExists($path)
   {
-    if (file_exists($path) && is_dir($path))
-    {
+    if (file_exists($path) && is_dir($path)) {
       return true;
     }
 
@@ -139,8 +175,7 @@ class majaxMediaFileHelper
     @mkdir($path, 01777, true);
     umask($oldumask);
 
-    if (file_exists($path) && is_dir($path))
-    {
+    if (file_exists($path) && is_dir($path)) {
       return true;
     }
     return false;

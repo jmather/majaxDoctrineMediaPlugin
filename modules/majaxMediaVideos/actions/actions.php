@@ -1,7 +1,7 @@
 <?php
 
-require_once dirname(__FILE__).'/../lib/majaxMediaVideosGeneratorConfiguration.class.php';
-require_once dirname(__FILE__).'/../lib/majaxMediaVideosGeneratorHelper.class.php';
+require_once dirname(__FILE__) . '/../lib/majaxMediaVideosGeneratorConfiguration.class.php';
+require_once dirname(__FILE__) . '/../lib/majaxMediaVideosGeneratorHelper.class.php';
 
 /**
  * majaxMediaVideos actions.

@@ -2,13 +2,13 @@
 $arr = array(
   'status' => 'success',
   'results' => array(
-    'page'=> $data['page'],
+    'page' => $data['page'],
     'total' => $data['total_pages'],
     'records' => $data['total'],
     'data' => array(),
   )
 );
-foreach($data['objects'] as $idx => $obj)
+foreach ($data['objects'] as $idx => $obj)
 {
   $arr['results']['data'][] = array(
     'id' => $obj['id'],
